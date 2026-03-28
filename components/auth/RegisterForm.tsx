@@ -33,10 +33,14 @@ export function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [acceptDataUsage, setAcceptDataUsage] = useState(false);
   const [errors, setErrors] = useState<{
     email?: string;
     password?: string;
     confirm?: string;
+    terms?: string;
+    dataUsage?: string;
   }>({});
   const [authError, setAuthError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
@@ -50,8 +54,18 @@ export function RegisterForm() {
     const passErr = validatePassword(password);
     let confirmErr: string | undefined;
     if (password !== confirm) confirmErr = "Hasła muszą być takie same.";
-    setErrors({ email: emailErr, password: passErr, confirm: confirmErr });
-    if (emailErr || passErr || confirmErr) return;
+    const termsErr = acceptTerms ? undefined : "Musisz zaakceptować regulamin.";
+    const dataUsageErr = acceptDataUsage
+      ? undefined
+      : "Wymagana jest zgoda na przetwarzanie danych w celu poprawy działania serwisu.";
+    setErrors({
+      email: emailErr,
+      password: passErr,
+      confirm: confirmErr,
+      terms: termsErr,
+      dataUsage: dataUsageErr,
+    });
+    if (emailErr || passErr || confirmErr || termsErr || dataUsageErr) return;
 
     if (!isSupabaseConfigured()) {
       setAuthError(
@@ -63,12 +77,16 @@ export function RegisterForm() {
     setSubmitting(true);
     try {
       const supabase = createClient();
+      const acceptedAt = new Date().toISOString();
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
         options: {
           data: {
             account_type: accountKind === "business" ? "business" : "private",
+            terms_accepted_at: acceptedAt,
+            service_improvement_consent: true,
+            service_improvement_consent_at: acceptedAt,
           },
         },
       });
@@ -227,6 +245,78 @@ export function RegisterForm() {
           {errors.confirm && (
             <p className="mt-1.5 text-sm font-medium text-red-600" role="alert">
               {errors.confirm}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-4 rounded-lg border border-outline-variant/40 bg-surface-low/80 p-4">
+          <label className="flex cursor-pointer gap-3 text-sm leading-snug text-on-surface">
+            <input
+              type="checkbox"
+              checked={acceptTerms}
+              onChange={(ev) => {
+                setAcceptTerms(ev.target.checked);
+                if (errors.terms) setErrors((s) => ({ ...s, terms: undefined }));
+              }}
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-outline text-on-tertiary-container focus:ring-tertiary-fixed"
+              aria-invalid={!!errors.terms}
+              aria-describedby={errors.terms ? "register-terms-error" : undefined}
+            />
+            <span>
+              Oświadczam, że zapoznałem(-am) się z{" "}
+              <Link
+                href="/regulamin"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-primary underline underline-offset-2"
+              >
+                regulaminem serwisu
+              </Link>{" "}
+              i akceptuję jego postanowienia.{" "}
+              <span className="text-red-600" aria-hidden>
+                *
+              </span>
+            </span>
+          </label>
+          {errors.terms && (
+            <p id="register-terms-error" className="text-sm font-medium text-red-600" role="alert">
+              {errors.terms}
+            </p>
+          )}
+
+          <label className="flex cursor-pointer gap-3 text-sm leading-snug text-on-surface">
+            <input
+              type="checkbox"
+              checked={acceptDataUsage}
+              onChange={(ev) => {
+                setAcceptDataUsage(ev.target.checked);
+                if (errors.dataUsage) setErrors((s) => ({ ...s, dataUsage: undefined }));
+              }}
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-outline text-on-tertiary-container focus:ring-tertiary-fixed"
+              aria-invalid={!!errors.dataUsage}
+              aria-describedby={errors.dataUsage ? "register-data-error" : undefined}
+            />
+            <span>
+              Wyrażam zgodę na przetwarzanie i wykorzystywanie moich danych (w tym danych o sposobie
+              korzystania z serwisu) w celach analizy, rozwoju oraz poprawy działania FairDom, zgodnie
+              z{" "}
+              <Link
+                href="/polityka-prywatnosci"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-primary underline underline-offset-2"
+              >
+                polityką prywatności
+              </Link>
+              .{" "}
+              <span className="text-red-600" aria-hidden>
+                *
+              </span>
+            </span>
+          </label>
+          {errors.dataUsage && (
+            <p id="register-data-error" className="text-sm font-medium text-red-600" role="alert">
+              {errors.dataUsage}
             </p>
           )}
         </div>

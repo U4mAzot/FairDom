@@ -1,5 +1,17 @@
 import Link from "next/link";
 
+const platform = [
+  { href: "/o-nas", label: "O nas" },
+  { href: "/kariera", label: "Kariera" },
+];
+
+const legal = [
+  { href: "/polityka-prywatnosci", label: "Polityka prywatności" },
+  { href: "/regulamin", label: "Regulamin" },
+];
+
+const support = [{ href: "/kontakt", label: "Kontakt i pomoc" }];
+
 export function WizardFooter() {
   return (
     <footer className="w-full bg-slate-100 px-6 py-12">
@@ -13,48 +25,39 @@ export function WizardFooter() {
           </p>
         </div>
         <div>
-          <h5 className="mb-4 font-bold text-slate-900">Platform</h5>
+          <h5 className="mb-4 font-bold text-slate-900">Platforma</h5>
           <ul className="space-y-2 text-slate-500">
-            <li>
-              <Link href="#" className="transition hover:text-emerald-500">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="transition hover:text-emerald-500">
-                Careers
-              </Link>
-            </li>
+            {platform.map((item) => (
+              <li key={item.href + item.label}>
+                <Link href={item.href} className="transition hover:text-emerald-600">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div>
-          <h5 className="mb-4 font-bold text-slate-900">Legal</h5>
+          <h5 className="mb-4 font-bold text-slate-900">Prawne</h5>
           <ul className="space-y-2 text-slate-500">
-            <li>
-              <Link href="#" className="transition hover:text-emerald-500">
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="transition hover:text-emerald-500">
-                Terms of Service
-              </Link>
-            </li>
+            {legal.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="transition hover:text-emerald-600">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div>
-          <h5 className="mb-4 font-bold text-slate-900">Support</h5>
+          <h5 className="mb-4 font-bold text-slate-900">Wsparcie</h5>
           <ul className="space-y-2 text-slate-500">
-            <li>
-              <Link href="#" className="transition hover:text-emerald-500">
-                Contact Support
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="font-semibold text-emerald-500">
-                Help Center
-              </Link>
-            </li>
+            {support.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="transition hover:text-emerald-600">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

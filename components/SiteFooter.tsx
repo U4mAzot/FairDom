@@ -6,20 +6,21 @@ import { ArrowRight, Globe, Mail, Share2 } from "lucide-react";
 
 const platform = [
   { href: "/search", label: "Szukaj" },
-  { href: "#listings", label: "Oferty" },
+  { href: "/#listings", label: "Oferty" },
   { href: "/add-listing", label: "Dodaj ogłoszenie" },
-  { href: "#pricing", label: "Cennik" },
+  { href: "/cennik", label: "Cennik" },
 ];
 
 const company = [
-  { href: "#about", label: "About Us" },
-  { href: "#careers", label: "Careers" },
-  { href: "#support", label: "Contact Support" },
+  { href: "/o-nas", label: "O nas" },
+  { href: "/kariera", label: "Kariera" },
+  { href: "/kontakt", label: "Kontakt" },
 ];
 
 const legal = [
-  { href: "#privacy", label: "Privacy Policy" },
-  { href: "#terms", label: "Terms of Service" },
+  { href: "/polityka-prywatnosci", label: "Polityka prywatności" },
+  { href: "/regulamin", label: "Regulamin" },
+  { href: "/polityka-cookies", label: "Polityka cookies" },
 ];
 
 export function SiteFooter() {
@@ -45,7 +46,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h4 className="mb-6 font-headline font-bold text-on-surface">Platform</h4>
+          <h4 className="mb-6 font-headline font-bold text-on-surface">Platforma</h4>
           <ul className="space-y-3">
             {platform.map((item) => (
               <li key={item.href}>
@@ -61,7 +62,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h4 className="mb-6 font-headline font-bold text-on-surface">Company</h4>
+          <h4 className="mb-6 font-headline font-bold text-on-surface">Firma</h4>
           <ul className="space-y-3">
             {company.map((item) => (
               <li key={item.href}>
@@ -77,7 +78,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h4 className="mb-6 font-headline font-bold text-on-surface">Legal</h4>
+          <h4 className="mb-6 font-headline font-bold text-on-surface">Prawne</h4>
           <ul className="space-y-3">
             {legal.map((item) => (
               <li key={item.href}>
@@ -125,12 +126,10 @@ export function SiteFooter() {
         <p className="text-sm text-on-surface-variant">
           © {new Date().getFullYear()} FairDom Real Estate. All rights reserved.
         </p>
-        <div className="flex items-center gap-4 text-sm">
-          <Link href="#" className="font-semibold text-on-tertiary-container">
-            English (US)
-          </Link>
-          <span className="text-on-surface-variant">|</span>
-          <span className="text-on-surface-variant">USD</span>
+        <div className="flex items-center gap-4 text-sm text-on-surface-variant">
+          <span>Polski (PL)</span>
+          <span className="text-outline-variant">|</span>
+          <span>PLN</span>
         </div>
       </div>
     </motion.footer>

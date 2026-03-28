@@ -1,5 +1,17 @@
 import Link from "next/link";
 
+const platform = [
+  { href: "/search", label: "Szukaj" },
+  { href: "/o-nas", label: "O nas" },
+  { href: "/kontakt", label: "Kontakt" },
+];
+
+const legal = [
+  { href: "/polityka-prywatnosci", label: "Polityka prywatności" },
+  { href: "/regulamin", label: "Regulamin" },
+  { href: "/polityka-cookies", label: "Polityka cookies" },
+];
+
 export function AuthFooter() {
   return (
     <footer className="w-full bg-gray-100 px-6 py-12">
@@ -15,60 +27,49 @@ export function AuthFooter() {
         </div>
         <div>
           <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-900">
-            Platform
+            Platforma
           </h4>
           <ul className="space-y-2 text-sm text-gray-500">
-            <li>
-              <Link href="/#about" className="transition hover:text-emerald-500">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link href="/#careers" className="transition hover:text-emerald-500">
-                Careers
-              </Link>
-            </li>
-            <li>
-              <Link href="/#support" className="transition hover:text-emerald-500">
-                Contact Support
-              </Link>
-            </li>
+            {platform.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="transition hover:text-emerald-600">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div>
-          <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-900">Legal</h4>
+          <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-900">Prawne</h4>
           <ul className="space-y-2 text-sm text-gray-500">
-            <li>
-              <Link href="/#privacy" className="transition hover:text-emerald-500">
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link href="/#terms" className="transition hover:text-emerald-500">
-                Terms of Service
-              </Link>
-            </li>
+            {legal.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="transition hover:text-emerald-600">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div>
           <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-900">
-            Join the Market
+            Newsletter
           </h4>
           <div className="flex items-center gap-2 rounded-lg border border-outline-variant/30 bg-white p-1">
             <label htmlFor="auth-footer-email" className="sr-only">
-              Email address
+              Adres e-mail
             </label>
             <input
               id="auth-footer-email"
               type="email"
-              placeholder="Email address"
+              placeholder="Adres e-mail"
               className="min-w-0 flex-1 border-0 bg-transparent px-3 py-2 text-xs text-on-surface focus:outline-none focus:ring-0"
             />
             <button
               type="button"
               className="shrink-0 rounded bg-primary px-3 py-2 text-xs font-bold uppercase tracking-tight text-white transition hover:opacity-90"
             >
-              Join
+              Zapisz się
             </button>
           </div>
         </div>
