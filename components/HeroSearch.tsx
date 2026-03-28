@@ -1,9 +1,11 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { BedDouble, ChevronDown, MapPin, Search, Wallet } from "lucide-react";
 import { motion } from "framer-motion";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { buildSearchPathFromHero } from "@/lib/searchUrl";
 
 const CITIES = [
   "Austin, TX",
@@ -103,6 +105,7 @@ function DropdownPanel({
 }
 
 export function HeroSearch() {
+  const router = useRouter();
   const [city, setCity] = useState("");
   const [price, setPrice] = useState(PRICE_OPTIONS[2]);
   const [bedsBaths, setBedsBaths] = useState(BEDS_BATHS_OPTIONS[0]);
@@ -126,6 +129,16 @@ export function HeroSearch() {
     if (!q) return CITIES.slice(0, 5);
     return CITIES.filter((c) => c.toLowerCase().includes(q)).slice(0, 6);
   }, [city]);
+
+  const submitSearch = () => {
+    router.push(
+      buildSearchPathFromHero({
+        city,
+        priceLabel: price,
+        bedsLabel: bedsBaths,
+      }),
+    );
+  };
 
   return (
     <motion.div
@@ -210,6 +223,7 @@ export function HeroSearch() {
         type="button"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
+        onClick={submitSearch}
         className="flex items-center justify-center gap-2 rounded-xl bg-tertiary-fixed-dim px-8 py-4 font-headline font-bold text-on-tertiary-fixed transition hover:bg-tertiary-fixed md:min-w-[140px]"
       >
         <Search className="h-5 w-5" aria-hidden />

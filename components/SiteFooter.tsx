@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { ArrowRight, Globe, Mail, Share2 } from "lucide-react";
 
 const platform = [
-  { href: "#search", label: "Szukaj" },
+  { href: "/search", label: "Szukaj" },
   { href: "#listings", label: "Oferty" },
-  { href: "#add", label: "Dodaj ogłoszenie" },
+  { href: "/add-listing", label: "Dodaj ogłoszenie" },
   { href: "#pricing", label: "Cennik" },
 ];
 

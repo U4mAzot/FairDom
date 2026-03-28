@@ -76,19 +76,35 @@ export const MOCK_LISTINGS: SearchListing[] = [
   },
 ];
 
-export type PriceFilter = "any" | "under2m" | "2to3m" | "over3m";
-export type BedsFilter = "any" | "3" | "4" | "5";
+export type PriceFilter =
+  | "any"
+  | "under500k"
+  | "500k-1m"
+  | "1m-1.5m"
+  | "1.5m-2m"
+  | "under2m"
+  | "2to3m"
+  | "over3m"
+  | "2m-plus";
+export type BedsFilter = "any" | "1" | "2" | "3" | "4" | "5";
 export type SortOption = "newest" | "price-asc" | "price-desc";
 
 export const PRICE_FILTER_LABELS: Record<PriceFilter, string> = {
   any: "Price Range",
+  under500k: "Under $500k",
+  "500k-1m": "$500k – $1M",
+  "1m-1.5m": "$1M – $1.5M",
+  "1.5m-2m": "$1.5M – $2M",
   under2m: "Under $2M",
   "2to3m": "$2M – $3M",
   over3m: "Over $3M",
+  "2m-plus": "$2M+",
 };
 
 export const BEDS_FILTER_LABELS: Record<BedsFilter, string> = {
   any: "Beds & Baths",
+  "1": "1+ beds",
+  "2": "2+ beds",
   "3": "3+ beds",
   "4": "4+ beds",
   "5": "5+ beds",

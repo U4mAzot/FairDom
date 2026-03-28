@@ -18,7 +18,7 @@ export function PropertyDetailHeader() {
             Search
           </Link>
           <Link
-            href="/add-listing/step-3"
+            href="/add-listing"
             className="border-b-2 border-emerald-500 pb-1 font-headline text-sm font-bold text-slate-900"
           >
             Add Listing
@@ -30,7 +30,7 @@ export function PropertyDetailHeader() {
             Login
           </Link>
           <Link
-            href="/#register"
+            href="/register"
             className="font-headline text-sm font-medium text-slate-500 transition hover:text-slate-900"
           >
             Register

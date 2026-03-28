@@ -3,17 +3,17 @@ import { Suspense } from "react";
 import { AuthHeader } from "@/components/auth/AuthHeader";
 import { AuthFooter } from "@/components/auth/AuthFooter";
 import { LoginBrandingPanel } from "@/components/auth/LoginBrandingPanel";
-import { LoginForm } from "@/components/auth/LoginForm";
+import { RegisterForm } from "@/components/auth/RegisterForm";
 
 export const metadata: Metadata = {
-  title: "Login | FairDom",
-  description: "Sign in to your FairDom account.",
+  title: "Rejestracja | FairDom",
+  description: "Załóż konto FairDom — osoba prywatna lub firma.",
 };
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div className="flex min-h-screen flex-col bg-surface">
-      <AuthHeader activeHref="/login" />
+      <AuthHeader activeHref="/register" />
       <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-4 pb-12 pt-28">
         <div
           className="pointer-events-none absolute -right-[5%] -top-[10%] h-[40rem] w-[40rem] rounded-full bg-secondary-fixed/30 blur-[120px]"
@@ -33,7 +33,7 @@ export default function LoginPage() {
               </div>
             }
           >
-            <LoginForm />
+            <RegisterForm />
           </Suspense>
         </div>
       </main>

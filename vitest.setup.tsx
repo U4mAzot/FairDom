@@ -7,6 +7,39 @@ afterEach(() => {
   cleanup();
 });
 
+const stableEmptySearchParams = new URLSearchParams();
+
+vi.mock("@/lib/supabase/env", () => ({
+  isSupabaseConfigured: () => true,
+  getSupabaseUrl: () => "http://127.0.0.1:54321",
+  getSupabaseAnonKey: () => "test-anon-key",
+}));
+
+vi.mock("@/lib/supabase/client", () => ({
+  createClient: () => ({
+    auth: {
+      getSession: vi.fn().mockResolvedValue({ data: { session: null } }),
+      getUser: vi.fn().mockResolvedValue({ data: { user: null } }),
+      onAuthStateChange: vi.fn(() => ({
+        data: { subscription: { unsubscribe: vi.fn() } },
+      })),
+      signOut: vi.fn().mockResolvedValue(undefined),
+      signInWithPassword: vi.fn().mockResolvedValue({ error: null }),
+      signUp: vi.fn().mockResolvedValue({ data: { session: null, user: null }, error: null }),
+    },
+  }),
+}));
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: () => "/",
+  useSearchParams: () => stableEmptySearchParams,
+}));
+
 vi.mock("next/image", () => {
   function MockImage({
     src,

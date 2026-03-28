@@ -1,13 +1,18 @@
 import Link from "next/link";
 
-const links: { href: string; label: string; active?: boolean }[] = [
-  { href: "/#search", label: "Search" },
-  { href: "/#add", label: "Add Listing" },
-  { href: "/login", label: "Login", active: true },
-  { href: "/#register", label: "Register" },
+const links: { href: string; label: string }[] = [
+  { href: "/search", label: "Search" },
+  { href: "/add-listing", label: "Add Listing" },
+  { href: "/login", label: "Login" },
+  { href: "/register", label: "Register" },
 ];
 
-export function AuthHeader() {
+type AuthHeaderProps = {
+  /** Highlights the active nav link (e.g. login vs register). */
+  activeHref?: string;
+};
+
+export function AuthHeader({ activeHref }: AuthHeaderProps) {
   return (
     <header className="fixed top-0 z-50 w-full border-b border-white/50 bg-white/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -23,7 +28,7 @@ export function AuthHeader() {
               key={item.href}
               href={item.href}
               className={
-                item.active
+                activeHref === item.href
                   ? "border-b-2 border-emerald-500 pb-1 font-semibold text-gray-900"
                   : "font-medium text-gray-500 transition hover:text-gray-900"
               }

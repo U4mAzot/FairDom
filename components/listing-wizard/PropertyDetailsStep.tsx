@@ -1,8 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { ArrowLeft, ArrowRight, Headphones, Pin } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useClientSession } from "@/hooks/useClientSession";
+import { loadPropertyDetailsDraft, savePropertyDetailsDraft } from "@/lib/localListingDrafts";
 import type { LatLng } from "@/components/listing-wizard/PropertyMap";
 import {
   DEFAULT_COMPETITOR_AVG_EUR,
@@ -10,6 +13,7 @@ import {
 } from "@/components/listing-wizard/listingFeeUtils";
 import { WizardFooter } from "@/components/listing-wizard/WizardFooter";
 import { WizardHeader } from "@/components/listing-wizard/WizardHeader";
+import { WizardProgress } from "@/components/listing-wizard/WizardProgress";
 
 const POTSDAMER_DEFAULT: LatLng = [52.509669, 13.376294];
 
@@ -36,6 +40,8 @@ const PropertyMap = dynamic(
 );
 
 export function PropertyDetailsStep() {
+  const { session, ready } = useClientSession();
+  const [draftHydrated, setDraftHydrated] = useState(false);
   const [totalArea, setTotalArea] = useState("0.00");
   const [rooms, setRooms] = useState<(typeof ROOM_OPTIONS)[number]>("1");
   const [floorLevel, setFloorLevel] = useState<string>("Ground Floor");
@@ -44,6 +50,52 @@ export function PropertyDetailsStep() {
   const [locationPicking, setLocationPicking] = useState(false);
   const [addressPrimary, setAddressPrimary] = useState("Potsdamer Platz 1");
   const [addressSecondary, setAddressSecondary] = useState("10117 Berlin, Germany");
+
+  useEffect(() => {
+    if (!ready || !session?.userId) {
+      setDraftHydrated(true);
+      return;
+    }
+    const d = loadPropertyDetailsDraft(session.userId);
+    if (d) {
+      setTotalArea(d.totalArea);
+      const r = d.rooms as (typeof ROOM_OPTIONS)[number];
+      if (ROOM_OPTIONS.includes(r)) setRooms(r);
+      setFloorLevel(d.floorLevel);
+      setYearBuilt(d.yearBuilt);
+      setMapPosition([d.mapLat, d.mapLng]);
+      setAddressPrimary(d.addressPrimary);
+      setAddressSecondary(d.addressSecondary);
+    }
+    setDraftHydrated(true);
+  }, [ready, session?.userId]);
+
+  useEffect(() => {
+    if (!draftHydrated || !session?.userId) return;
+    const id = window.setTimeout(() => {
+      savePropertyDetailsDraft(session.userId, {
+        totalArea,
+        rooms,
+        floorLevel,
+        yearBuilt,
+        mapLat: mapPosition[0],
+        mapLng: mapPosition[1],
+        addressPrimary,
+        addressSecondary,
+      });
+    }, 500);
+    return () => window.clearTimeout(id);
+  }, [
+    draftHydrated,
+    session?.userId,
+    totalArea,
+    rooms,
+    floorLevel,
+    yearBuilt,
+    mapPosition,
+    addressPrimary,
+    addressSecondary,
+  ]);
 
   const fairdomListingFee = useMemo(() => {
     const area = parseFloat(totalArea.replace(",", ".")) || 0;
@@ -73,20 +125,7 @@ export function PropertyDetailsStep() {
     <div className="min-h-screen bg-slate-50 text-on-surface">
       <WizardHeader />
       <main className="mx-auto max-w-5xl px-4 pb-20 pt-24 md:px-6 lg:max-w-6xl">
-        <div className="mb-12">
-          <div className="mb-4 flex justify-between gap-4">
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary md:text-sm">
-              Step 3 of 5: Property Details
-            </span>
-            <span className="text-xs font-bold text-on-tertiary-container md:text-sm">60% Complete</span>
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-low">
-            <div
-              className="h-full bg-gradient-to-r from-primary to-tertiary-fixed-dim transition-all duration-500"
-              style={{ width: "60%" }}
-            />
-          </div>
-        </div>
+        <WizardProgress step={3} title="Property Details" />
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
           <div className="space-y-8 lg:col-span-8">
@@ -97,6 +136,10 @@ export function PropertyDetailsStep() {
               <p className="text-lg text-on-surface-variant">
                 Provide precise information to help potential buyers find your listing through
                 filters.
+              </p>
+              <p className="text-sm text-on-tertiary-container">
+                Szkic tego kroku jest zapisywany tylko w Twojej przeglądarce (localStorage), nie w
+                chmurze.
               </p>
             </div>
 
@@ -223,20 +266,20 @@ export function PropertyDetailsStep() {
             </div>
 
             <div className="flex flex-col items-stretch justify-between gap-4 border-t border-outline-variant/20 pt-8 sm:flex-row sm:items-center">
-              <button
-                type="button"
+              <Link
+                href="/add-listing/step-2"
                 className="flex items-center justify-center gap-2 rounded-md px-6 py-3 font-bold text-primary transition hover:bg-surface-low sm:justify-start"
               >
                 <ArrowLeft className="h-5 w-5" aria-hidden />
                 Back
-              </button>
-              <button
-                type="button"
+              </Link>
+              <Link
+                href="/add-listing/step-4"
                 className="flex items-center justify-center gap-3 rounded-md bg-gradient-to-br from-primary to-primary-container px-10 py-4 font-bold text-white shadow-sm transition hover:opacity-90 active:scale-[0.99]"
               >
                 Continue to Media
                 <ArrowRight className="h-5 w-5" aria-hidden />
-              </button>
+              </Link>
             </div>
           </div>
 

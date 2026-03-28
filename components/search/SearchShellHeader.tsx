@@ -16,7 +16,7 @@ export function SearchShellHeader() {
               Search
             </span>
             <Link
-              href="/add-listing/step-3"
+              href="/add-listing"
               className="font-headline text-sm font-medium text-slate-500 transition hover:text-slate-900"
             >
               Add Listing
@@ -31,7 +31,7 @@ export function SearchShellHeader() {
             Login
           </Link>
           <Link
-            href="/#register"
+            href="/register"
             className="rounded-md bg-gradient-to-br from-primary to-primary-container px-5 py-2 font-headline text-sm font-bold text-white transition hover:opacity-90"
           >
             Register

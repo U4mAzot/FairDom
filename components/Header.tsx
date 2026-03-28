@@ -6,8 +6,8 @@ import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 
 const nav = [
-  { href: "#search", label: "Szukaj" },
-  { href: "#add", label: "Dodaj ogłoszenie" },
+  { href: "/search", label: "Szukaj" },
+  { href: "/add-listing", label: "Dodaj ogłoszenie" },
   { href: "/login", label: "Logowanie" },
 ];
 
@@ -40,7 +40,7 @@ export function Header() {
             </Link>
           ))}
           <Link
-            href="#register"
+            href="/register"
             className="rounded-xl bg-gradient-to-br from-primary to-primary-container px-6 py-2.5 font-headline text-sm font-bold text-white shadow-sm transition hover:opacity-90"
           >
             Zarejestruj
@@ -76,7 +76,7 @@ export function Header() {
               </Link>
             ))}
             <Link
-              href="#register"
+              href="/register"
               onClick={() => setOpen(false)}
               className="rounded-xl bg-primary py-3 text-center font-headline font-bold text-white"
             >

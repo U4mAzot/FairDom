@@ -142,10 +142,10 @@ export function AgentDashboardClient() {
             FAIRDOM
           </Link>
           <nav className="hidden items-center gap-8 md:flex">
-            <Link href="/#search" className="font-medium text-gray-500 transition hover:text-gray-900">
+            <Link href="/search" className="font-medium text-gray-500 transition hover:text-gray-900">
               Search
             </Link>
-            <Link href="/#add" className="font-medium text-gray-500 transition hover:text-gray-900">
+            <Link href="/add-listing" className="font-medium text-gray-500 transition hover:text-gray-900">
               Add Listing
             </Link>
             <span className="border-b-2 border-emerald-400 pb-1 font-bold text-gray-900">
@@ -339,7 +339,7 @@ export function AgentDashboardClient() {
             <h4 className="mb-4 font-bold text-primary">Platform</h4>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
-                <Link href="/#search" className="hover:text-emerald-500">
+                <Link href="/search" className="hover:text-emerald-500">
                   Search Houses
                 </Link>
               </li>

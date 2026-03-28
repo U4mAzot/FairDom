@@ -10,7 +10,9 @@ import {
   SlidersHorizontal,
   Wallet,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { parseSearchFiltersFromParams } from "@/lib/searchUrl";
 import {
   BEDS_FILTER_LABELS,
   MOCK_LISTINGS,
@@ -64,13 +66,20 @@ function useClickOutside(
 
 const PRICE_OPTIONS: { value: PriceFilter; label: string }[] = [
   { value: "any", label: "Any price" },
+  { value: "under500k", label: "Under $500k" },
+  { value: "500k-1m", label: "$500k – $1M" },
+  { value: "1m-1.5m", label: "$1M – $1.5M" },
+  { value: "1.5m-2m", label: "$1.5M – $2M" },
   { value: "under2m", label: "Under $2M" },
   { value: "2to3m", label: "$2M – $3M" },
   { value: "over3m", label: "Over $3M" },
+  { value: "2m-plus", label: "$2M+" },
 ];
 
 const BEDS_OPTIONS: { value: BedsFilter; label: string }[] = [
   { value: "any", label: "Any" },
+  { value: "1", label: "1+ beds" },
+  { value: "2", label: "2+ beds" },
   { value: "3", label: "3+ beds" },
   { value: "4", label: "4+ beds" },
   { value: "5", label: "5+ beds" },
@@ -83,6 +92,7 @@ const SORT_LABELS: Record<SortOption, string> = {
 };
 
 export function SearchResultsView() {
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("any");
   const [bedsFilter, setBedsFilter] = useState<BedsFilter>("any");
@@ -99,6 +109,13 @@ export function SearchResultsView() {
   const closeBeds = useCallback(() => setBedsOpen(false), []);
   useClickOutside(priceRef, priceOpen, closePrice);
   useClickOutside(bedsRef, bedsOpen, closeBeds);
+
+  useEffect(() => {
+    const parsed = parseSearchFiltersFromParams(searchParams);
+    setSearchQuery(parsed.q);
+    setPriceFilter(parsed.price);
+    setBedsFilter(parsed.beds);
+  }, [searchParams]);
 
   const filtered = useFilteredListings(searchQuery, priceFilter, bedsFilter, sortBy);
 

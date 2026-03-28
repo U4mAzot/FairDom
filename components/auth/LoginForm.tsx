@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
 import { SocialIconButtons } from "@/components/auth/SocialIconButtons";
-import { writeSession } from "@/lib/clientSession";
-
-export type UserType = "private" | "business";
+import { createClient } from "@/lib/supabase/client";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 function validateEmail(value: string): string | undefined {
   const v = value.trim();
@@ -23,32 +22,56 @@ function validatePassword(value: string): string | undefined {
 
 export function LoginForm() {
   const router = useRouter();
-  const [userType, setUserType] = useState<UserType>("private");
+  const searchParams = useSearchParams();
+  const registerHref = useMemo(() => {
+    const q = searchParams.toString();
+    return q ? `/register?${q}` : "/register";
+  }, [searchParams]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [keepLoggedIn, setKeepLoggedIn] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setAuthError(null);
     const emailErr = validateEmail(email);
     const passErr = validatePassword(password);
     setErrors({ email: emailErr, password: passErr });
     if (emailErr || passErr) return;
 
-    const accountType = userType === "business" ? "business" : "private";
-    writeSession({ email: email.trim(), accountType });
+    if (!isSupabaseConfigured()) {
+      setAuthError(
+        "Brak konfiguracji Supabase. Ustaw NEXT_PUBLIC_SUPABASE_URL i NEXT_PUBLIC_SUPABASE_ANON_KEY w .env.local.",
+      );
+      return;
+    }
 
-    const params = new URLSearchParams(
-      typeof window !== "undefined" ? window.location.search : "",
-    );
-    const returnUrl = params.get("returnUrl");
-    const safe =
-      returnUrl && returnUrl.startsWith("/") && !returnUrl.startsWith("//")
-        ? returnUrl
-        : "/";
-    router.push(safe);
-    router.refresh();
+    setSubmitting(true);
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (error) {
+        setAuthError(error.message);
+        return;
+      }
+
+      const params = new URLSearchParams(
+        typeof window !== "undefined" ? window.location.search : "",
+      );
+      const returnUrl = params.get("returnUrl");
+      const safe =
+        returnUrl && returnUrl.startsWith("/") && !returnUrl.startsWith("//") ? returnUrl : "/";
+      router.push(safe);
+      router.refresh();
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -61,32 +84,13 @@ export function LoginForm() {
         </p>
       </div>
 
-      <div className="mb-8 flex rounded-full bg-surface-low p-1">
-        <button
-          type="button"
-          onClick={() => setUserType("private")}
-          className={`flex-1 rounded-full py-2.5 px-4 text-sm font-semibold transition-all duration-300 ${
-            userType === "private"
-              ? "bg-white text-primary shadow-sm"
-              : "text-on-surface-variant hover:text-primary"
-          }`}
-        >
-          Osoba prywatna
-        </button>
-        <button
-          type="button"
-          onClick={() => setUserType("business")}
-          className={`flex-1 rounded-full py-2.5 px-4 text-sm font-semibold transition-all duration-300 ${
-            userType === "business"
-              ? "bg-white text-primary shadow-sm"
-              : "text-on-surface-variant hover:text-primary"
-          }`}
-        >
-          Firma
-        </button>
-      </div>
-
       <form className="space-y-6" onSubmit={handleSubmit} noValidate>
+        {authError && (
+          <p className="rounded-lg bg-red-50 px-4 py-3 text-sm font-medium text-red-700" role="alert">
+            {authError}
+          </p>
+        )}
+
         <div>
           <label
             htmlFor="login-email"
@@ -182,21 +186,20 @@ export function LoginForm() {
           </label>
         </div>
 
-        <input type="hidden" name="userType" value={userType} readOnly aria-hidden />
-
         <button
           type="submit"
-          className="w-full rounded-lg bg-gradient-to-br from-primary to-primary-container py-4 font-bold text-white shadow-md transition hover:opacity-90 active:scale-[0.99]"
+          disabled={submitting}
+          className="w-full rounded-lg bg-gradient-to-br from-primary to-primary-container py-4 font-bold text-white shadow-md transition hover:opacity-90 active:scale-[0.99] disabled:opacity-70"
         >
-          Zaloguj się
+          {submitting ? "Logowanie…" : "Zaloguj się"}
         </button>
       </form>
 
       <div className="mt-8 border-t border-gray-200 pt-8 text-center">
         <p className="text-sm text-on-surface-variant">
-          New to FairDom?{" "}
-          <Link href="/#register" className="ml-1 font-bold text-primary hover:underline">
-            Create an account
+          Nie masz konta?{" "}
+          <Link href={registerHref} className="ml-1 font-bold text-primary hover:underline">
+            Zarejestruj się
           </Link>
         </p>
       </div>

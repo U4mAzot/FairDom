@@ -12,7 +12,7 @@ export function WizardHeader() {
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
           <Link
-            href="/#search"
+            href="/search"
             className="font-headline text-sm font-medium text-slate-500 transition hover:text-slate-900"
           >
             Search
@@ -27,7 +27,7 @@ export function WizardHeader() {
             Login
           </Link>
           <Link
-            href="/#register"
+            href="/register"
             className="rounded-md bg-gradient-to-br from-primary to-primary-container px-6 py-2 font-headline text-sm font-bold text-white transition hover:opacity-90"
           >
             Register
