@@ -22,15 +22,15 @@ export function ValuePropositions() {
         >
           <div className="max-w-2xl">
             <span className="text-sm font-bold uppercase tracking-widest text-on-tertiary-container">
-              Transparency first
+              Przejrzystość przede wszystkim
             </span>
             <h2 className="mt-4 font-headline text-3xl font-extrabold text-primary md:text-4xl lg:text-5xl">
-              Lower costs, higher returns.
+              Niższe koszty, wyższy zwrot.
             </h2>
           </div>
           <p className="mb-0 max-w-sm text-on-surface-variant">
-            Traditional brokers charge up to 6%. We believe you should keep your equity.
-            That&apos;s the FairDom promise.
+            Tradycyjni pośrednicy często biorą do 6%. Uważamy, że kapitał powinien zostać u
+            właściciela — to obietnica FairDom.
           </p>
         </motion.div>
 
@@ -45,11 +45,11 @@ export function ValuePropositions() {
                 <PiggyBank className="h-6 w-6 text-primary" strokeWidth={2} />
               </div>
               <h3 className="mb-4 font-headline text-xl font-bold text-primary md:text-2xl">
-                Save an average of $22,400
+                Średnio ok. 85 000 zł oszczędności
               </h3>
               <p className="leading-relaxed text-on-surface-variant">
-                By capping our commission and leveraging advanced digital automation, we pass
-                every cent of savings directly back to the homeowner.
+                Ograniczamy prowizję i automatyzujemy proces — całą różnicę oddajemy sprzedającemu,
+                bez ukrytych dopłat.
               </p>
             </div>
             <div className="mt-8">
@@ -57,7 +57,7 @@ export function ValuePropositions() {
                 href="#savings"
                 className="group inline-flex items-center font-headline font-bold text-on-tertiary-container"
               >
-                Calculate your savings
+                Oblicz swoje oszczędności
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
@@ -72,10 +72,10 @@ export function ValuePropositions() {
               <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-container">
                 <Bolt className="h-6 w-6 text-tertiary-fixed" strokeWidth={2} />
               </div>
-              <h3 className="mb-4 font-headline text-xl font-bold md:text-2xl">List in 24h</h3>
+              <h3 className="mb-4 font-headline text-xl font-bold md:text-2xl">Ogłoszenie w 24 h</h3>
               <p className="leading-relaxed text-primary-fixed-dim">
-                Our streamlined verification process gets your home in front of buyers faster
-                than anyone else.
+                Weryfikacja i publikacja trwają krócej niż u klasycznych biur — Twoja oferta szybciej
+                trafia do kupujących.
               </p>
             </div>
           </motion.article>
@@ -90,10 +90,11 @@ export function ValuePropositions() {
                 <ShieldCheck className="h-6 w-6 text-white" strokeWidth={2} />
               </div>
               <h3 className="mb-4 font-headline text-xl font-bold text-on-tertiary-fixed md:text-2xl">
-                Verified Buyers
+                Zweryfikowani kupujący
               </h3>
               <p className="leading-relaxed text-on-tertiary-fixed-variant">
-                No tire kickers. Every lead is pre-vetted by our financial security layer.
+                Każde zapytanie przechodzi przez warstwę wiarygodności finansowej — mniej strat
+                czasu.
               </p>
             </div>
           </motion.article>
@@ -105,11 +106,11 @@ export function ValuePropositions() {
           >
             <div className="flex-1">
               <h3 className="mb-4 font-headline text-xl font-bold text-primary md:text-2xl">
-                No Hidden Junk Fees
+                Bez ukrytych opłat
               </h3>
               <p className="leading-relaxed text-on-surface-variant">
-                What you see is what you pay. No administrative surcharges, no marketing upsells,
-                no surprises at closing.
+                Płacisz tyle, ile widzisz w umowie — bez dopłat administracyjnych, pakietów
+                marketingowych ani niespodzianek przy finalizacji.
               </p>
             </div>
             <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-surface-low md:w-1/3">

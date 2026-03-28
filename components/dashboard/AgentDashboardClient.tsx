@@ -31,10 +31,10 @@ import {
 } from "@/components/dashboard/mockData";
 
 const sidebarItems: { key: SidebarKey; label: string; icon: typeof LayoutDashboard }[] = [
-  { key: "overview", label: "Overview", icon: LayoutDashboard },
-  { key: "performance", label: "Performance", icon: BarChart3 },
-  { key: "messages", label: "Messages", icon: MessageSquare },
-  { key: "settings", label: "Settings", icon: Settings },
+  { key: "overview", label: "Przegląd", icon: LayoutDashboard },
+  { key: "performance", label: "Wyniki", icon: BarChart3 },
+  { key: "messages", label: "Wiadomości", icon: MessageSquare },
+  { key: "settings", label: "Ustawienia", icon: Settings },
 ];
 
 function LinkedInIcon({ className }: { className?: string }) {
@@ -80,15 +80,25 @@ function ListingCard({ listing }: { listing: AgentListing }) {
           <div className="mt-4 flex flex-wrap gap-4 text-xs font-medium text-secondary">
             <span className="flex items-center gap-1">
               <Bed className="h-4 w-4" aria-hidden />
-              {listing.beds} Beds
+              {listing.beds}{" "}
+              {listing.beds === 1
+                ? "sypialnia"
+                : listing.beds >= 2 && listing.beds <= 4
+                  ? "sypialnie"
+                  : "sypialni"}
             </span>
             <span className="flex items-center gap-1">
               <Bath className="h-4 w-4" aria-hidden />
-              {listing.baths} Baths
+              {listing.baths}{" "}
+              {listing.baths === 1
+                ? "łazienka"
+                : listing.baths >= 2 && listing.baths <= 4
+                  ? "łazienki"
+                  : "łazienek"}
             </span>
             <span className="flex items-center gap-1">
               <Square className="h-4 w-4" aria-hidden />
-              {listing.sqft} sqft
+              {listing.areaSqm} m²
             </span>
           </div>
         </div>
@@ -109,14 +119,14 @@ function ListingCard({ listing }: { listing: AgentListing }) {
             }`}
           >
             <Rocket className="h-4 w-4" aria-hidden />
-            Boost
+            Promuj
           </button>
           <button
             type="button"
             className="ml-auto flex items-center gap-2 text-sm font-semibold text-on-surface-variant transition hover:text-error md:ml-0"
           >
             <Trash2 className="h-4 w-4" aria-hidden />
-            Delete
+            Usuń
           </button>
         </div>
       </div>
@@ -143,20 +153,20 @@ export function AgentDashboardClient() {
           </Link>
           <nav className="hidden items-center gap-8 md:flex">
             <Link href="/search" className="font-medium text-gray-500 transition hover:text-gray-900">
-              Search
+              Szukaj
             </Link>
             <Link href="/add-listing" className="font-medium text-gray-500 transition hover:text-gray-900">
-              Add Listing
+              Dodaj ogłoszenie
             </Link>
             <span className="border-b-2 border-emerald-400 pb-1 font-bold text-gray-900">
-              Dashboard
+              Panel
             </span>
           </nav>
           <div className="flex items-center gap-3">
             <button
               type="button"
               className="relative rounded-full p-2 text-on-surface-variant transition hover:bg-surface-low"
-              aria-label="Notifications"
+              aria-label="Powiadomienia"
             >
               <Bell className="h-5 w-5" />
               <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
@@ -220,7 +230,7 @@ export function AgentDashboardClient() {
                   className="flex w-full items-center justify-center gap-2 rounded-lg border border-red-200 bg-white py-3 font-semibold text-error transition hover:bg-error-container/30"
                 >
                   <LogOut className="h-4 w-4" aria-hidden />
-                  Logout
+                  Wyloguj
                 </Link>
               </div>
             </div>
@@ -274,16 +284,16 @@ export function AgentDashboardClient() {
               <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                 <div>
                   <h1 className="font-headline text-3xl font-black tracking-tight text-primary">
-                    Your Listings
+                    Twoje ogłoszenia
                   </h1>
                   <p className="text-on-surface-variant">
-                    Manage and monitor your property portfolio.
+                    Zarządzaj ofertami i śledź zainteresowanie klientów.
                   </p>
                 </div>
                 <div
                   className="flex gap-1 rounded-full bg-surface-low p-1"
                   role="tablist"
-                  aria-label="Listing filter"
+                  aria-label="Filtr ogłoszeń"
                 >
                   <button
                     type="button"
@@ -296,7 +306,7 @@ export function AgentDashboardClient() {
                         : "font-medium text-on-surface-variant hover:text-primary"
                     }`}
                   >
-                    Active ({LISTING_COUNTS.active})
+                    Aktywne ({LISTING_COUNTS.active})
                   </button>
                   <button
                     type="button"
@@ -309,7 +319,7 @@ export function AgentDashboardClient() {
                         : "font-medium text-on-surface-variant hover:text-primary"
                     }`}
                   >
-                    Archived ({LISTING_COUNTS.archived})
+                    Archiwum ({LISTING_COUNTS.archived})
                   </button>
                 </div>
               </div>
@@ -398,7 +408,7 @@ export function AgentDashboardClient() {
         </div>
         <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-outline-variant/30 pt-8 md:flex-row">
           <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} FairDom Real Estate. All rights reserved.
+            © {new Date().getFullYear()} FairDom. Wszelkie prawa zastrzeżone.
           </p>
           <div className="flex gap-6 text-gray-400">
             <button type="button" className="transition hover:text-primary" aria-label="LinkedIn">

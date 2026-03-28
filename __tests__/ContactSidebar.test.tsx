@@ -20,16 +20,16 @@ vi.mock("@/hooks/useClientSession", () => ({
 describe("ContactSidebar", () => {
   it("renders agent and investment summary", () => {
     render(<ContactSidebar />);
-    expect(screen.getByText(/Julian Thorne/i)).toBeInTheDocument();
+    expect(screen.getByText(/Julian Kowalski/i)).toBeInTheDocument();
     expect(screen.getByText(/Investment Summary/i)).toBeInTheDocument();
-    expect(screen.getByText(/5\.8% p\.a\./i)).toBeInTheDocument();
+    expect(screen.getByText(/5,8% w skali roku/i)).toBeInTheDocument();
   });
 
   it("reveals phone number after clicking show phone", async () => {
     const user = userEvent.setup();
     render(<ContactSidebar />);
     await user.click(screen.getByRole("button", { name: /Pokaż numer telefonu/i }));
-    expect(screen.getByRole("button", { name: /\+1 \(555\) 010-0199/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /\+48 22 555 01 99/i })).toBeInTheDocument();
   });
 
   it("submits inquiry form with mock confirmation", async () => {

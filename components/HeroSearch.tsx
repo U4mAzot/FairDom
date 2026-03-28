@@ -8,23 +8,28 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 import { buildSearchPathFromHero } from "@/lib/searchUrl";
 
 const CITIES = [
-  "Austin, TX",
-  "Boulder, CO",
-  "New York, NY",
-  "Los Angeles, CA",
-  "Chicago, IL",
-  "Miami, FL",
-  "Seattle, WA",
-  "Denver, CO",
+  "Warszawa",
+  "Kraków",
+  "Gdańsk",
+  "Wrocław",
+  "Poznań",
+  "Sopot",
+  "Zakopane",
+  "Konstancin-Jeziorna",
+  "Łódź",
+  "Katowice",
+  "Szczecin",
+  "Lublin",
 ];
 
 const PRICE_OPTIONS = [
   "Dowolny",
-  "do $500k",
-  "$500k – $1M",
-  "$1M – $1.5M",
-  "$1.5M – $2M",
-  "$2M+",
+  "do 5 mln zł",
+  "5 – 10 mln zł",
+  "10 – 15 mln zł",
+  "15 – 25 mln zł",
+  "25 – 40 mln zł",
+  "powyżej 40 mln zł",
 ];
 
 const BEDS_BATHS_OPTIONS = [
@@ -107,7 +112,7 @@ function DropdownPanel({
 export function HeroSearch() {
   const router = useRouter();
   const [city, setCity] = useState("");
-  const [price, setPrice] = useState(PRICE_OPTIONS[2]);
+  const [price, setPrice] = useState(PRICE_OPTIONS[0]);
   const [bedsBaths, setBedsBaths] = useState(BEDS_BATHS_OPTIONS[0]);
   const [panel, setPanel] = useState<Panel>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);

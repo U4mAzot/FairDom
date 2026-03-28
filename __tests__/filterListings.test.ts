@@ -9,26 +9,26 @@ describe("filterAndSortListings", () => {
   });
 
   it("filters by text query on title", () => {
-    const out = filterAndSortListings(MOCK_LISTINGS, "Glass", "any", "any", "newest");
-    expect(out).toHaveLength(1);
-    expect(out[0]!.id).toBe("glass-house");
+    const out = filterAndSortListings(MOCK_LISTINGS, "Warszawa", "any", "any", "newest");
+    expect(out.length).toBeGreaterThan(0);
+    expect(out.every((l) => l.title.toLowerCase().includes("warszawa") || l.address.toLowerCase().includes("warszawa"))).toBe(
+      true,
+    );
   });
 
-  it("filters by price under $2M", () => {
-    const out = filterAndSortListings(MOCK_LISTINGS, "", "under2m", "any", "newest");
-    expect(out.every((l) => l.price < 2_000_000)).toBe(true);
-    expect(out.some((l) => l.id === "mews")).toBe(true);
+  it("filters by price under 5M PLN", () => {
+    const out = filterAndSortListings(MOCK_LISTINGS, "", "under5m", "any", "newest");
+    expect(out.every((l) => l.price < 5_000_000)).toBe(true);
   });
 
-  it("filters 2M–3M band", () => {
-    const out = filterAndSortListings(MOCK_LISTINGS, "", "2to3m", "any", "newest");
-    expect(out.every((l) => l.price >= 2_000_000 && l.price <= 3_000_000)).toBe(true);
+  it("filters 15M–25M PLN band", () => {
+    const out = filterAndSortListings(MOCK_LISTINGS, "", "15m-25m", "any", "newest");
+    expect(out.every((l) => l.price >= 15_000_000 && l.price < 25_000_000)).toBe(true);
   });
 
-  it("filters over $3M", () => {
-    const out = filterAndSortListings(MOCK_LISTINGS, "", "over3m", "any", "newest");
-    expect(out).toHaveLength(1);
-    expect(out[0]!.id).toBe("chelsea");
+  it("filters over 40M PLN", () => {
+    const out = filterAndSortListings(MOCK_LISTINGS, "", "over40m", "any", "newest");
+    expect(out.every((l) => l.price > 40_000_000)).toBe(true);
   });
 
   it("filters minimum 5 beds", () => {

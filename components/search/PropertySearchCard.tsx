@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Bath, Bed, Heart, MapPin, Square, TrendingUp } from "lucide-react";
+import { ListingViewCountLine } from "@/components/listing/ListingViewCountLine";
 import type { SearchListing } from "@/components/search/mockListings";
 
 type PropertySearchCardProps = {
@@ -19,18 +21,22 @@ export function PropertySearchCard({
   onLeave,
 }: PropertySearchCardProps) {
   return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+    <Link
+      href={`/properties/${listing.id}`}
+      className={`group block no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary-fixed focus-visible:ring-offset-2 ${
+        isHighlighted ? "ring-2 ring-tertiary-fixed ring-offset-2 ring-offset-surface-low rounded-xl" : ""
+      }`}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
-      className={`group flex cursor-pointer flex-col overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md md:flex-row ${
-        isHighlighted ? "ring-2 ring-tertiary-fixed ring-offset-2 ring-offset-surface-low" : ""
-      }`}
     >
+      <motion.article
+        layout
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+        className="flex cursor-pointer flex-col overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md md:flex-row"
+      >
       <div className="relative h-48 w-full shrink-0 overflow-hidden md:h-auto md:w-64">
         <Image
           src={listing.image}
@@ -41,21 +47,32 @@ export function PropertySearchCard({
         />
         {listing.badge === "new" && (
           <span className="absolute left-4 top-4 rounded-full bg-tertiary-fixed px-3 py-1 text-xs font-bold uppercase tracking-wider text-on-tertiary-fixed">
-            New Listing
+            Nowa oferta
           </span>
         )}
         {listing.badge === "reduced" && (
           <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
-            Price Reduced
+            Obniżona cena
           </span>
         )}
-        <button
-          type="button"
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-primary shadow-sm backdrop-blur-md transition hover:text-error"
-          aria-label="Save listing"
+        <span
+          role="button"
+          tabIndex={0}
+          className="absolute right-4 top-4 z-10 flex h-8 w-8 cursor-default items-center justify-center rounded-full bg-white/80 text-primary shadow-sm backdrop-blur-md transition hover:text-error"
+          aria-label="Zapisz ofertę (demo)"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
         >
           <Heart className="h-4 w-4" />
-        </button>
+        </span>
       </div>
       <div className="flex flex-1 flex-col justify-between p-6">
         <div>
@@ -84,18 +101,20 @@ export function PropertySearchCard({
         <div className="mt-6 flex flex-wrap items-center gap-6 border-t border-surface-low pt-4 text-on-surface-variant">
           <span className="flex items-center gap-2 text-sm font-medium">
             <Bed className="h-5 w-5" aria-hidden />
-            {listing.beds} Beds
+            {listing.beds} syp.
           </span>
           <span className="flex items-center gap-2 text-sm font-medium">
             <Bath className="h-5 w-5" aria-hidden />
-            {listing.baths} Baths
+            {listing.baths} łaz.
           </span>
           <span className="flex items-center gap-2 text-sm font-medium">
             <Square className="h-5 w-5" aria-hidden />
-            {listing.sqft.toLocaleString()} sqft
+            {listing.areaSqm.toLocaleString("pl-PL")} m²
           </span>
         </div>
+        <ListingViewCountLine count={listing.viewCount} className="mt-3 text-on-surface-variant/90" />
       </div>
     </motion.article>
+    </Link>
   );
 }

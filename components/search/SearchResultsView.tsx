@@ -19,6 +19,7 @@ import {
   PRICE_FILTER_LABELS,
   type BedsFilter,
   type PriceFilter,
+  type SearchListing,
   type SortOption,
 } from "@/components/search/mockListings";
 import { filterAndSortListings } from "@/components/search/filterListings";
@@ -31,21 +32,22 @@ const SearchMap = dynamic(
     ssr: false,
     loading: () => (
       <div className="flex h-full min-h-[320px] items-center justify-center bg-slate-900 text-sm text-slate-400">
-        Loading map…
+        Ładowanie mapy…
       </div>
     ),
   },
 );
 
 function useFilteredListings(
+  listings: SearchListing[],
   query: string,
   price: PriceFilter,
   beds: BedsFilter,
   sort: SortOption,
 ) {
   return useMemo(
-    () => filterAndSortListings(MOCK_LISTINGS, query, price, beds, sort),
-    [query, price, beds, sort],
+    () => filterAndSortListings(listings, query, price, beds, sort),
+    [listings, query, price, beds, sort],
   );
 }
 
@@ -65,33 +67,31 @@ function useClickOutside(
 }
 
 const PRICE_OPTIONS: { value: PriceFilter; label: string }[] = [
-  { value: "any", label: "Any price" },
-  { value: "under500k", label: "Under $500k" },
-  { value: "500k-1m", label: "$500k – $1M" },
-  { value: "1m-1.5m", label: "$1M – $1.5M" },
-  { value: "1.5m-2m", label: "$1.5M – $2M" },
-  { value: "under2m", label: "Under $2M" },
-  { value: "2to3m", label: "$2M – $3M" },
-  { value: "over3m", label: "Over $3M" },
-  { value: "2m-plus", label: "$2M+" },
+  { value: "any", label: "Dowolna cena" },
+  { value: "under5m", label: "do 5 mln zł" },
+  { value: "5m-10m", label: "5 – 10 mln zł" },
+  { value: "10m-15m", label: "10 – 15 mln zł" },
+  { value: "15m-25m", label: "15 – 25 mln zł" },
+  { value: "25m-40m", label: "25 – 40 mln zł" },
+  { value: "over40m", label: "powyżej 40 mln zł" },
 ];
 
 const BEDS_OPTIONS: { value: BedsFilter; label: string }[] = [
-  { value: "any", label: "Any" },
-  { value: "1", label: "1+ beds" },
-  { value: "2", label: "2+ beds" },
-  { value: "3", label: "3+ beds" },
-  { value: "4", label: "4+ beds" },
-  { value: "5", label: "5+ beds" },
+  { value: "any", label: "Dowolnie" },
+  { value: "1", label: "1+ sypialni" },
+  { value: "2", label: "2+ sypialni" },
+  { value: "3", label: "3+ sypialni" },
+  { value: "4", label: "4+ sypialni" },
+  { value: "5", label: "5+ sypialni" },
 ];
 
 const SORT_LABELS: Record<SortOption, string> = {
-  newest: "Newest First",
-  "price-asc": "Price: Low to High",
-  "price-desc": "Price: High to Low",
+  newest: "Od najnowszych",
+  "price-asc": "Cena: od najniższej",
+  "price-desc": "Cena: od najwyższej",
 };
 
-export function SearchResultsView() {
+export function SearchResultsView({ viewCounts = {} }: { viewCounts?: Record<string, number> }) {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("any");
@@ -100,6 +100,7 @@ export function SearchResultsView() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [priceOpen, setPriceOpen] = useState(false);
   const [bedsOpen, setBedsOpen] = useState(false);
+  const [filtersModalOpen, setFiltersModalOpen] = useState(false);
   const [areaToast, setAreaToast] = useState(false);
 
   const priceRef = useRef<HTMLDivElement>(null);
@@ -111,13 +112,32 @@ export function SearchResultsView() {
   useClickOutside(bedsRef, bedsOpen, closeBeds);
 
   useEffect(() => {
+    if (!filtersModalOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setFiltersModalOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [filtersModalOpen]);
+
+  useEffect(() => {
     const parsed = parseSearchFiltersFromParams(searchParams);
     setSearchQuery(parsed.q);
     setPriceFilter(parsed.price);
     setBedsFilter(parsed.beds);
   }, [searchParams]);
 
-  const filtered = useFilteredListings(searchQuery, priceFilter, bedsFilter, sortBy);
+  const listingsWithViews = useMemo(
+    () => MOCK_LISTINGS.map((l) => ({ ...l, viewCount: viewCounts[l.id] ?? 0 })),
+    [viewCounts],
+  );
+
+  const filtered = useFilteredListings(listingsWithViews, searchQuery, priceFilter, bedsFilter, sortBy);
 
   const resultsLabel = useMemo(() => {
     if (
@@ -126,9 +146,9 @@ export function SearchResultsView() {
       bedsFilter === "any" &&
       sortBy === "newest"
     ) {
-      return "342 results in London, UK";
+      return "50 luksusowych ofert w Polsce";
     }
-    return `${filtered.length} result${filtered.length === 1 ? "" : "s"} in London, UK`;
+    return `${filtered.length} ${filtered.length === 1 ? "wynik" : "wyników"} w Polsce`;
   }, [searchQuery, priceFilter, bedsFilter, sortBy, filtered.length]);
 
   const searchThisArea = () => {
@@ -149,7 +169,7 @@ export function SearchResultsView() {
                   type="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search neighborhoods, cities..."
+                  placeholder="Szukaj miasta, dzielnicy, adresu…"
                   className="w-full rounded-xl border-0 bg-white py-3 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
                 />
               </div>
@@ -220,17 +240,24 @@ export function SearchResultsView() {
                 </div>
                 <button
                   type="button"
-                  className="flex items-center gap-2 rounded-xl bg-tertiary px-4 py-3 font-medium text-white transition active:scale-[0.98]"
+                  onClick={() => {
+                    setFiltersModalOpen(true);
+                    setPriceOpen(false);
+                    setBedsOpen(false);
+                  }}
+                  className="flex items-center gap-2 rounded-xl bg-tertiary px-4 py-3 font-medium text-white transition hover:opacity-95 active:scale-[0.98]"
+                  aria-expanded={filtersModalOpen}
+                  aria-haspopup="dialog"
                 >
                   <SlidersHorizontal className="h-5 w-5" aria-hidden />
-                  Filters
+                  Filtry
                 </button>
               </div>
             </div>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="font-headline text-lg font-bold text-on-surface">{resultsLabel}</h2>
               <div className="flex items-center gap-2 text-sm font-medium text-on-surface-variant">
-                <span>Sort by:</span>
+                <span>Sortuj:</span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
@@ -260,10 +287,117 @@ export function SearchResultsView() {
             </AnimatePresence>
             {filtered.length === 0 && (
               <p className="py-12 text-center text-on-surface-variant">
-                No properties match your filters. Try adjusting search or filters.
+                Brak ofert spełniających kryteria. Zmień wyszukiwanie lub filtry.
               </p>
             )}
           </div>
+
+          {filtersModalOpen && (
+            <div className="fixed inset-0 z-[200] flex items-end justify-center sm:items-center" role="presentation">
+              <button
+                type="button"
+                className="absolute inset-0 bg-black/45 backdrop-blur-[1px]"
+                aria-label="Zamknij filtry"
+                onClick={() => setFiltersModalOpen(false)}
+              />
+              <div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="search-filters-title"
+                className="relative z-10 flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-2xl bg-white shadow-2xl sm:rounded-2xl"
+              >
+                <div className="border-b border-outline-variant/20 px-6 py-4">
+                  <h2 id="search-filters-title" className="font-headline text-xl font-bold text-primary">
+                    Filtry
+                  </h2>
+                  <p className="mt-1 text-sm text-on-surface-variant">
+                    Cena, sypialnie i sortowanie — to samo co powyżej, w jednym miejscu.
+                  </p>
+                </div>
+                <div className="space-y-6 overflow-y-auto px-6 py-5">
+                  <div>
+                    <p className="mb-3 text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+                      Przedział ceny
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {PRICE_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setPriceFilter(opt.value)}
+                          className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+                            priceFilter === opt.value
+                              ? "bg-primary text-white"
+                              : "bg-surface-low text-on-surface hover:bg-surface-lowest"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <p className="mb-3 text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+                      Beds
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {BEDS_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setBedsFilter(opt.value)}
+                          className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+                            bedsFilter === opt.value
+                              ? "bg-primary text-white"
+                              : "bg-surface-low text-on-surface hover:bg-surface-lowest"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="filters-sort" className="mb-3 block text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+                      Sortowanie
+                    </label>
+                    <select
+                      id="filters-sort"
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value as SortOption)}
+                      className="w-full rounded-xl border border-outline-variant/30 bg-surface-low px-4 py-3 font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                    >
+                      {(Object.keys(SORT_LABELS) as SortOption[]).map((k) => (
+                        <option key={k} value={k}>
+                          {SORT_LABELS[k]}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="flex gap-3 border-t border-outline-variant/20 px-6 py-4">
+                  <button
+                    type="button"
+                    className="flex-1 rounded-xl border-2 border-outline-variant py-3 font-headline font-bold text-on-surface transition hover:bg-surface-low"
+                    onClick={() => {
+                      setPriceFilter("any");
+                      setBedsFilter("any");
+                      setSortBy("newest");
+                    }}
+                  >
+                    Wyczyść
+                  </button>
+                  <button
+                    type="button"
+                    className="flex-1 rounded-xl bg-primary py-3 font-headline font-bold text-white shadow-sm transition hover:opacity-90"
+                    onClick={() => setFiltersModalOpen(false)}
+                  >
+                    Zastosuj
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
         <section className="relative hidden min-h-0 flex-1 border-l border-outline-variant/15 lg:block">
@@ -281,12 +415,12 @@ export function SearchResultsView() {
               className="pointer-events-auto flex items-center gap-2 rounded-full border border-white/80 bg-white/85 px-6 py-2.5 font-bold text-primary shadow-lg backdrop-blur-md transition hover:bg-white"
             >
               <RefreshCw className="h-5 w-5" aria-hidden />
-              Search this area
+              Szukaj w tym obszarze
             </button>
           </div>
           {areaToast && (
             <div className="pointer-events-none absolute bottom-24 left-1/2 z-[700] -translate-x-1/2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-lg">
-              Refining results for visible map…
+              Dopasowuję wyniki do widocznej mapy…
             </div>
           )}
         </section>

@@ -15,18 +15,16 @@ export function filterAndSortListings(
         l.title.toLowerCase().includes(q) || l.address.toLowerCase().includes(q),
     );
   }
-  if (price === "under500k") out = out.filter((l) => l.price < 500_000);
-  if (price === "500k-1m")
-    out = out.filter((l) => l.price >= 500_000 && l.price < 1_000_000);
-  if (price === "1m-1.5m")
-    out = out.filter((l) => l.price >= 1_000_000 && l.price < 1_500_000);
-  if (price === "1.5m-2m")
-    out = out.filter((l) => l.price >= 1_500_000 && l.price < 2_000_000);
-  if (price === "under2m") out = out.filter((l) => l.price < 2_000_000);
-  if (price === "2to3m")
-    out = out.filter((l) => l.price >= 2_000_000 && l.price <= 3_000_000);
-  if (price === "over3m") out = out.filter((l) => l.price > 3_000_000);
-  if (price === "2m-plus") out = out.filter((l) => l.price >= 2_000_000);
+  if (price === "under5m") out = out.filter((l) => l.price < 5_000_000);
+  if (price === "5m-10m")
+    out = out.filter((l) => l.price >= 5_000_000 && l.price < 10_000_000);
+  if (price === "10m-15m")
+    out = out.filter((l) => l.price >= 10_000_000 && l.price < 15_000_000);
+  if (price === "15m-25m")
+    out = out.filter((l) => l.price >= 15_000_000 && l.price < 25_000_000);
+  if (price === "25m-40m")
+    out = out.filter((l) => l.price >= 25_000_000 && l.price <= 40_000_000);
+  if (price === "over40m") out = out.filter((l) => l.price > 40_000_000);
   if (beds !== "any") {
     const min = Number.parseInt(beds, 10);
     if (!Number.isNaN(min)) out = out.filter((l) => l.beds >= min);

@@ -16,28 +16,28 @@ describe("searchUrl", () => {
 
     expect(
       buildSearchPathFromHero({
-        city: "  Austin, TX  ",
+        city: "  Kraków  ",
         priceLabel: "Dowolny",
         bedsLabel: "Dowolnie",
       }),
-    ).toBe("/search?q=Austin%2C+TX");
+    ).toBe("/search?q=Krak%C3%B3w");
   });
 
   it("buildSearchPathFromHero encodes price and beds from hero labels", () => {
     expect(
       buildSearchPathFromHero({
-        city: "New York, NY",
-        priceLabel: "$1M – $1.5M",
+        city: "Warszawa",
+        priceLabel: "10 – 15 mln zł",
         bedsLabel: "3+ syp. / 2+ łaz.",
       }),
-    ).toBe("/search?q=New+York%2C+NY&price=1m-1.5m&beds=3");
+    ).toBe("/search?q=Warszawa&price=10m-15m&beds=3");
   });
 
   it("parseSearchFiltersFromParams reads q, price, beds", () => {
-    const sp = new URLSearchParams("q=Glass&price=2to3m&beds=4");
+    const sp = new URLSearchParams("q=Gdańsk&price=5m-10m&beds=4");
     expect(parseSearchFiltersFromParams(sp)).toEqual({
-      q: "Glass",
-      price: "2to3m",
+      q: "Gdańsk",
+      price: "5m-10m",
       beds: "4",
     });
   });
@@ -55,9 +55,9 @@ describe("searchUrl", () => {
     expect(
       buildSearchPathFromHero({
         city: "X",
-        priceLabel: "$500k - $1M",
+        priceLabel: "5 - 10 mln zł",
         bedsLabel: "Dowolnie",
       }),
-    ).toBe("/search?q=X&price=500k-1m");
+    ).toBe("/search?q=X&price=5m-10m");
   });
 });

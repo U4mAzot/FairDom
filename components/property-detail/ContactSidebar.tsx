@@ -8,7 +8,22 @@ import { LineChart, Lock, Phone, Send } from "lucide-react";
 import { useClientSession } from "@/hooks/useClientSession";
 import { PROPERTY } from "@/components/property-detail/mockProperty";
 
-export function ContactSidebar() {
+export type ContactSidebarProps = {
+  seller?: {
+    name: string;
+    title: string;
+    avatar: string;
+    phone: string;
+  };
+  messageDefault?: string;
+  investment?: { yield: string; tax: string };
+};
+
+export function ContactSidebar({
+  seller = PROPERTY.seller,
+  messageDefault = PROPERTY.messageDefault,
+  investment = PROPERTY.investment,
+}: ContactSidebarProps = {}) {
   const pathname = usePathname();
   const { session, ready } = useClientSession();
   const loggedIn = !!session;
@@ -16,7 +31,7 @@ export function ContactSidebar() {
   const [phoneVisible, setPhoneVisible] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState<string>(PROPERTY.messageDefault);
+  const [message, setMessage] = useState<string>(messageDefault);
   const [status, setStatus] = useState<"idle" | "sent">("idle");
 
   const loginHref = `/login?returnUrl=${encodeURIComponent(pathname || "/")}`;
@@ -24,6 +39,10 @@ export function ContactSidebar() {
   useEffect(() => {
     if (session?.email) setEmail((e) => e || session.email);
   }, [session?.email]);
+
+  useEffect(() => {
+    setMessage(messageDefault);
+  }, [messageDefault]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +57,7 @@ export function ContactSidebar() {
           <div className="mb-8 flex items-center gap-4">
             <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full">
               <Image
-                src={PROPERTY.seller.avatar}
+                src={seller.avatar}
                 alt=""
                 fill
                 className="object-cover"
@@ -46,8 +65,8 @@ export function ContactSidebar() {
               />
             </div>
             <div>
-              <h3 className="font-headline text-xl font-bold text-primary">{PROPERTY.seller.name}</h3>
-              <p className="text-sm text-on-surface-variant">{PROPERTY.seller.title}</p>
+              <h3 className="font-headline text-xl font-bold text-primary">{seller.name}</h3>
+              <p className="text-sm text-on-surface-variant">{seller.title}</p>
             </div>
           </div>
           <div className="space-y-4">
@@ -69,7 +88,7 @@ export function ContactSidebar() {
               {loggedIn ? (
                 <>
                   <Phone className="h-5 w-5" aria-hidden />
-                  {phoneVisible ? PROPERTY.seller.phone : "Pokaż numer telefonu"}
+                  {phoneVisible ? seller.phone : "Pokaż numer telefonu"}
                 </>
               ) : (
                 <>
@@ -180,11 +199,11 @@ export function ContactSidebar() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <div className="text-xs font-bold uppercase tracking-tighter opacity-70">Yield Potential</div>
-              <div className="text-lg font-bold">{PROPERTY.investment.yield}</div>
+              <div className="text-lg font-bold">{investment.yield}</div>
             </div>
             <div>
               <div className="text-xs font-bold uppercase tracking-tighter opacity-70">Tax Est.</div>
-              <div className="text-lg font-bold">{PROPERTY.investment.tax}</div>
+              <div className="text-lg font-bold">{investment.tax}</div>
             </div>
           </div>
         </div>

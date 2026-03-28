@@ -2,11 +2,12 @@ import type { BedsFilter, PriceFilter } from "@/components/search/mockListings";
 
 const HERO_PRICE_TO_PARAM: Record<string, PriceFilter> = {
   Dowolny: "any",
-  "do $500k": "under500k",
-  "$500k – $1M": "500k-1m",
-  "$1M – $1.5M": "1m-1.5m",
-  "$1.5M – $2M": "1.5m-2m",
-  "$2M+": "2m-plus",
+  "do 5 mln zł": "under5m",
+  "5 – 10 mln zł": "5m-10m",
+  "10 – 15 mln zł": "10m-15m",
+  "15 – 25 mln zł": "15m-25m",
+  "25 – 40 mln zł": "25m-40m",
+  "powyżej 40 mln zł": "over40m",
 };
 
 const HERO_BEDS_TO_PARAM: Record<string, BedsFilter> = {
@@ -47,14 +48,12 @@ function lookupHeroBeds(label: string): BedsFilter {
 
 const PRICE_PARAM_VALUES = new Set<string>([
   "any",
-  "under500k",
-  "500k-1m",
-  "1m-1.5m",
-  "1.5m-2m",
-  "under2m",
-  "2to3m",
-  "over3m",
-  "2m-plus",
+  "under5m",
+  "5m-10m",
+  "10m-15m",
+  "15m-25m",
+  "25m-40m",
+  "over40m",
 ]);
 
 const BEDS_PARAM_VALUES = new Set<string>(["any", "1", "2", "3", "4", "5"]);

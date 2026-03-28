@@ -16,9 +16,9 @@ describe("HeroSearch (landing)", () => {
     const user = userEvent.setup();
     render(<HeroSearch />);
     const input = screen.getByPlaceholderText(/Gdzie szukasz/i);
-    await user.type(input, "Aus");
+    await user.type(input, "War");
     expect(screen.getByRole("listbox")).toBeInTheDocument();
-    expect(screen.getByText(/Austin, TX/i)).toBeInTheDocument();
+    expect(screen.getByText(/Warszawa/i)).toBeInTheDocument();
   });
 
   it("renders search submit button", () => {
@@ -30,8 +30,8 @@ describe("HeroSearch (landing)", () => {
     const user = userEvent.setup();
     mockPush.mockClear();
     render(<HeroSearch />);
-    await user.type(screen.getByPlaceholderText(/Gdzie szukasz/i), "Miami, FL");
+    await user.type(screen.getByPlaceholderText(/Gdzie szukasz/i), "Gdańsk");
     await user.click(screen.getByRole("button", { name: /Szukaj/i }));
-    expect(mockPush).toHaveBeenCalledWith("/search?q=Miami%2C+FL&price=500k-1m");
+    expect(mockPush).toHaveBeenCalledWith("/search?q=Gda%C5%84sk");
   });
 });

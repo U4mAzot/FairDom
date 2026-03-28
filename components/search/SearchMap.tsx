@@ -1,11 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useMemo, useRef, type RefObject } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import type { Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Crosshair, Minus, Plus } from "lucide-react";
-import { LONDON_CENTER, type SearchListing } from "@/components/search/mockListings";
+import { POLAND_MAP_CENTER, type SearchListing } from "@/components/search/mockListings";
 import { createPricePillIcon } from "@/components/search/pricePillIcon";
 
 type SearchMapProps = {
@@ -57,6 +58,7 @@ function MapChrome({ mapRef }: { mapRef: RefObject<LeafletMap | null> }) {
 }
 
 export function SearchMap({ listings, hoveredId, setHoveredId }: SearchMapProps) {
+  const router = useRouter();
   const mapRef = useRef<LeafletMap | null>(null);
 
   const icons = useMemo(() => {
@@ -74,8 +76,8 @@ export function SearchMap({ listings, hoveredId, setHoveredId }: SearchMapProps)
     <div className="relative h-full min-h-[320px] w-full bg-slate-900">
       <MapContainer
         ref={mapRef}
-        center={LONDON_CENTER}
-        zoom={12}
+        center={POLAND_MAP_CENTER}
+        zoom={6}
         className="absolute inset-0 z-0 h-full w-full rounded-none"
         style={{ height: "100%", width: "100%" }}
         scrollWheelZoom
@@ -93,6 +95,7 @@ export function SearchMap({ listings, hoveredId, setHoveredId }: SearchMapProps)
             eventHandlers={{
               mouseover: () => setHoveredId(p.id),
               mouseout: () => setHoveredId(null),
+              click: () => router.push(`/properties/${p.id}`),
             }}
           />
         ))}

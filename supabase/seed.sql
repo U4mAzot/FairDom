@@ -1,0 +1,1 @@
+-- Opcjonalne dane startowe (lokalny `supabase db reset`). Obecnie puste.

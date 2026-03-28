@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { GALLERY_IMAGES, LIGHTBOX_IMAGES, PROPERTY } from "@/components/property-detail/mockProperty";
 
 describe("property-detail mock data", () => {
-  it("defines Obsidian Penthouse core fields", () => {
-    expect(PROPERTY.title).toBe("The Obsidian Penthouse");
-    expect(PROPERTY.priceDisplay).toBe("$2,450,000");
-    expect(PROPERTY.address).toContain("Architect Boulevard");
+  it("defines Penthouse Obsydian core fields", () => {
+    expect(PROPERTY.title).toBe("Penthouse Obsydian — Złota 44");
+    expect(PROPERTY.priceDisplay).toBe("28 500 000 zł");
+    expect(PROPERTY.address).toContain("Złota 44");
   });
 
   it("exposes four gallery tiles", () => {

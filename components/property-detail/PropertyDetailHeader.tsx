@@ -15,25 +15,25 @@ export function PropertyDetailHeader() {
             href="/search"
             className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
           >
-            Search
+            Wyszukiwarka
           </Link>
           <Link
             href="/add-listing"
             className="border-b-2 border-emerald-500 pb-0.5 font-headline text-xs font-bold text-slate-900 sm:text-sm"
           >
-            Add Listing
+            Dodaj ogłoszenie
           </Link>
           <Link
             href="/login"
             className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
           >
-            Login
+            Zaloguj
           </Link>
           <Link
             href="/register"
             className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
           >
-            Register
+            Rejestracja
           </Link>
         </div>
       </nav>

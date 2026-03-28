@@ -6,15 +6,15 @@ import { AgentDashboardClient } from "@/components/dashboard/AgentDashboardClien
 describe("AgentDashboardClient", () => {
   it("renders agent name and KPI labels", () => {
     render(<AgentDashboardClient />);
-    expect(screen.getByText(/Alexander Thorne/i)).toBeInTheDocument();
-    expect(screen.getByText(/Total Views/i)).toBeInTheDocument();
-    expect(screen.getByText(/Your Listings/i)).toBeInTheDocument();
+    expect(screen.getByText(/Julian Kowalski/i)).toBeInTheDocument();
+    expect(screen.getByText(/Wyświetlenia łącznie/i)).toBeInTheDocument();
+    expect(screen.getByText(/Twoje ogłoszenia/i)).toBeInTheDocument();
   });
 
   it("switches sidebar section when menu clicked", async () => {
     const user = userEvent.setup();
     render(<AgentDashboardClient />);
-    const perf = screen.getByRole("button", { name: /^Performance$/i });
+    const perf = screen.getByRole("button", { name: /^Wyniki$/i });
     await user.click(perf);
     expect(perf.className).toMatch(/bg-primary/);
   });
@@ -22,10 +22,10 @@ describe("AgentDashboardClient", () => {
   it("toggles Active vs Archived listings", async () => {
     const user = userEvent.setup();
     render(<AgentDashboardClient />);
-    expect(screen.getByText(/Modernist Glass Pavilion/i)).toBeInTheDocument();
-    const archived = screen.getByRole("tab", { name: /Archived/i });
+    expect(screen.getByText(/Rezydencja Szklana/i)).toBeInTheDocument();
+    const archived = screen.getByRole("tab", { name: /Archiwum/i });
     await user.click(archived);
-    expect(screen.getByText(/Urban Loft Studio/i)).toBeInTheDocument();
-    expect(screen.queryByText(/Modernist Glass Pavilion/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/Apartament loft/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Rezydencja Szklana/i)).not.toBeInTheDocument();
   });
 });

@@ -3,15 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:clean": "node scripts/clean-next.js && next dev",
+    "dev": "next dev --turbopack",
+    "dev:webpack": "next dev",
+    "dev:clean": "node scripts/clean-next.js && next dev --turbopack",
     "clean": "node scripts/clean-next.js",
     "build": "next build",
     "rebuild": "npm run clean && npm run build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "supabase:login": "npx supabase login",
+    "supabase:link": "npx supabase link --project-ref cagjrxcfgreoodyrkzwc",
+    "supabase:push": "npx supabase db push --yes",
+    "verify:supabase": "node scripts/verify-supabase.mjs",
+    "verify:supabase:read": "node scripts/verify-supabase.mjs --read-only"
   },
   "dependencies": {
     "@supabase/ssr": "^0.9.0",
