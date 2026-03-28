@@ -5,6 +5,9 @@ import { AuthFooter } from "@/components/auth/AuthFooter";
 import { LoginBrandingPanel } from "@/components/auth/LoginBrandingPanel";
 import { LoginForm } from "@/components/auth/LoginForm";
 
+/** Unikamy zbyt agresywnego cache HTML (stary UI po deployu). */
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Login | FairDom",
   description: "Sign in to your FairDom account.",

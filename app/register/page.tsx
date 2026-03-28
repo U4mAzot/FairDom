@@ -5,6 +5,8 @@ import { AuthFooter } from "@/components/auth/AuthFooter";
 import { LoginBrandingPanel } from "@/components/auth/LoginBrandingPanel";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Rejestracja | FairDom",
   description: "Załóż konto FairDom — osoba prywatna lub firma.",
