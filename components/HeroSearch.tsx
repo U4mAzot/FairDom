@@ -130,22 +130,28 @@ export function HeroSearch() {
     return CITIES.filter((c) => c.toLowerCase().includes(q)).slice(0, 6);
   }, [city]);
 
-  const submitSearch = () => {
-    router.push(
+  const searchHref = useMemo(
+    () =>
       buildSearchPathFromHero({
         city,
         priceLabel: price,
         bedsLabel: bedsBaths,
       }),
-    );
+    [city, price, bedsBaths],
+  );
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push(searchHref);
   };
 
   return (
-    <motion.div
+    <motion.form
       id="search"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.15, duration: 0.5 }}
+      onSubmit={handleSubmit}
       className="flex max-w-4xl flex-col gap-2 rounded-2xl bg-white p-2 shadow-xl shadow-on-surface/5 md:flex-row md:items-stretch"
     >
       <div ref={cityWrapRef} className="relative flex-1">
@@ -219,16 +225,13 @@ export function HeroSearch() {
         containerRef={bedsRef}
       />
 
-      <motion.button
-        type="button"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={submitSearch}
-        className="flex items-center justify-center gap-2 rounded-xl bg-tertiary-fixed-dim px-8 py-4 font-headline font-bold text-on-tertiary-fixed transition hover:bg-tertiary-fixed md:min-w-[140px]"
+      <button
+        type="submit"
+        className="flex items-center justify-center gap-2 rounded-xl bg-tertiary-fixed-dim px-8 py-4 font-headline font-bold text-on-tertiary-fixed transition hover:bg-tertiary-fixed active:scale-[0.98] md:min-w-[140px]"
       >
         <Search className="h-5 w-5" aria-hidden />
         Szukaj
-      </motion.button>
-    </motion.div>
+      </button>
+    </motion.form>
   );
 }

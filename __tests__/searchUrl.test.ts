@@ -50,4 +50,14 @@ describe("searchUrl", () => {
       beds: "any",
     });
   });
+
+  it("buildSearchPathFromHero maps price when dash character differs", () => {
+    expect(
+      buildSearchPathFromHero({
+        city: "X",
+        priceLabel: "$500k - $1M",
+        bedsLabel: "Dowolnie",
+      }),
+    ).toBe("/search?q=X&price=500k-1m");
+  });
 });

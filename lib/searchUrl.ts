@@ -17,6 +17,34 @@ const HERO_BEDS_TO_PARAM: Record<string, BedsFilter> = {
   "4+ syp. / 3+ łaz.": "4",
 };
 
+/** Ujednolicenie myślników / spacji — inaczej mapowanie z UI może paść na innym znaku niż w kluczu. */
+function normalizeHeroLabel(s: string): string {
+  return s
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/[-\u2010\u2011\u2012\u2013\u2014\u2015\u2212]/g, "–");
+}
+
+function lookupHeroPrice(label: string): PriceFilter {
+  const direct = HERO_PRICE_TO_PARAM[label];
+  if (direct) return direct;
+  const n = normalizeHeroLabel(label);
+  for (const [k, v] of Object.entries(HERO_PRICE_TO_PARAM)) {
+    if (normalizeHeroLabel(k) === n) return v;
+  }
+  return "any";
+}
+
+function lookupHeroBeds(label: string): BedsFilter {
+  const direct = HERO_BEDS_TO_PARAM[label];
+  if (direct) return direct;
+  const n = normalizeHeroLabel(label);
+  for (const [k, v] of Object.entries(HERO_BEDS_TO_PARAM)) {
+    if (normalizeHeroLabel(k) === n) return v;
+  }
+  return "any";
+}
+
 const PRICE_PARAM_VALUES = new Set<string>([
   "any",
   "under500k",
@@ -37,8 +65,8 @@ export function buildSearchPathFromHero(params: {
   bedsLabel: string;
 }): string {
   const q = params.city.trim();
-  const price = HERO_PRICE_TO_PARAM[params.priceLabel] ?? "any";
-  const beds = HERO_BEDS_TO_PARAM[params.bedsLabel] ?? "any";
+  const price = lookupHeroPrice(params.priceLabel);
+  const beds = lookupHeroBeds(params.bedsLabel);
 
   const sp = new URLSearchParams();
   if (q) sp.set("q", q);
