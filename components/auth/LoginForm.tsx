@@ -1,0 +1,207 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SocialIconButtons } from "@/components/auth/SocialIconButtons";
+import { writeSession } from "@/lib/clientSession";
+
+export type UserType = "private" | "business";
+
+function validateEmail(value: string): string | undefined {
+  const v = value.trim();
+  if (!v) return "Email is required.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return "Enter a valid email address.";
+  return undefined;
+}
+
+function validatePassword(value: string): string | undefined {
+  if (!value) return "Password is required.";
+  if (value.length < 8) return "Password must be at least 8 characters.";
+  return undefined;
+}
+
+export function LoginForm() {
+  const router = useRouter();
+  const [userType, setUserType] = useState<UserType>("private");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const emailErr = validateEmail(email);
+    const passErr = validatePassword(password);
+    setErrors({ email: emailErr, password: passErr });
+    if (emailErr || passErr) return;
+
+    const accountType = userType === "business" ? "business" : "private";
+    writeSession({ email: email.trim(), accountType });
+
+    const params = new URLSearchParams(
+      typeof window !== "undefined" ? window.location.search : "",
+    );
+    const returnUrl = params.get("returnUrl");
+    const safe =
+      returnUrl && returnUrl.startsWith("/") && !returnUrl.startsWith("//")
+        ? returnUrl
+        : "/";
+    router.push(safe);
+    router.refresh();
+  };
+
+  return (
+    <div className="flex flex-col justify-center p-8 md:p-12">
+      <div className="mb-8">
+        <h2 className="font-headline text-2xl font-bold text-primary">Welcome Back</h2>
+        <p className="mt-2 text-on-surface-variant">
+          Zaloguj się, aby pisać do sprzedających i zarządzać ogłoszeniami. Przeglądanie ofert jest
+          dostępne bez konta.
+        </p>
+      </div>
+
+      <div className="mb-8 flex rounded-full bg-surface-low p-1">
+        <button
+          type="button"
+          onClick={() => setUserType("private")}
+          className={`flex-1 rounded-full py-2.5 px-4 text-sm font-semibold transition-all duration-300 ${
+            userType === "private"
+              ? "bg-white text-primary shadow-sm"
+              : "text-on-surface-variant hover:text-primary"
+          }`}
+        >
+          Osoba prywatna
+        </button>
+        <button
+          type="button"
+          onClick={() => setUserType("business")}
+          className={`flex-1 rounded-full py-2.5 px-4 text-sm font-semibold transition-all duration-300 ${
+            userType === "business"
+              ? "bg-white text-primary shadow-sm"
+              : "text-on-surface-variant hover:text-primary"
+          }`}
+        >
+          Firma
+        </button>
+      </div>
+
+      <form className="space-y-6" onSubmit={handleSubmit} noValidate>
+        <div>
+          <label
+            htmlFor="login-email"
+            className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+          >
+            Email Address
+          </label>
+          <input
+            id="login-email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={(ev) => {
+              setEmail(ev.target.value);
+              if (errors.email) setErrors((s) => ({ ...s, email: undefined }));
+            }}
+            onBlur={() =>
+              setErrors((s) => {
+                const e = validateEmail(email);
+                return { ...s, ...(e ? { email: e } : { email: undefined }) };
+              })
+            }
+            placeholder="name@company.com"
+            className="w-full rounded-lg border-0 bg-surface-low px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? "login-email-error" : undefined}
+          />
+          {errors.email && (
+            <p id="login-email-error" className="mt-1.5 text-sm font-medium text-red-600" role="alert">
+              {errors.email}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <label
+              htmlFor="login-password"
+              className="font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+            >
+              Password
+            </label>
+            <Link
+              href="#forgot"
+              className="text-xs font-semibold text-primary transition hover:text-on-tertiary-container"
+            >
+              Forgot password?
+            </Link>
+          </div>
+          <input
+            id="login-password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(ev) => {
+              setPassword(ev.target.value);
+              if (errors.password) setErrors((s) => ({ ...s, password: undefined }));
+            }}
+            onBlur={() =>
+              setErrors((s) => {
+                const p = validatePassword(password);
+                return { ...s, ...(p ? { password: p } : { password: undefined }) };
+              })
+            }
+            placeholder="••••••••"
+            className="w-full rounded-lg border-0 bg-surface-low px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+            aria-invalid={!!errors.password}
+            aria-describedby={errors.password ? "login-password-error" : undefined}
+          />
+          {errors.password && (
+            <p
+              id="login-password-error"
+              className="mt-1.5 text-sm font-medium text-red-600"
+              role="alert"
+            >
+              {errors.password}
+            </p>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input
+            id="keep-logged-in"
+            type="checkbox"
+            checked={keepLoggedIn}
+            onChange={(e) => setKeepLoggedIn(e.target.checked)}
+            className="h-4 w-4 rounded border-outline-variant text-primary focus:ring-tertiary-fixed"
+          />
+          <label htmlFor="keep-logged-in" className="text-sm text-on-surface-variant">
+            Keep me logged in for 30 days
+          </label>
+        </div>
+
+        <input type="hidden" name="userType" value={userType} readOnly aria-hidden />
+
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-gradient-to-br from-primary to-primary-container py-4 font-bold text-white shadow-md transition hover:opacity-90 active:scale-[0.99]"
+        >
+          Zaloguj się
+        </button>
+      </form>
+
+      <div className="mt-8 border-t border-gray-200 pt-8 text-center">
+        <p className="text-sm text-on-surface-variant">
+          New to FairDom?{" "}
+          <Link href="/#register" className="ml-1 font-bold text-primary hover:underline">
+            Create an account
+          </Link>
+        </p>
+      </div>
+
+      <SocialIconButtons />
+    </div>
+  );
+}

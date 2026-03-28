@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FairDom - Add Listing Wizard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-container": "#dde3ed",
+                        "tertiary": "#001a08",
+                        "secondary": "#595f67",
+                        "surface-container": "#eceef0",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#003115",
+                        "on-secondary-fixed-variant": "#41474f",
+                        "surface": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "on-primary-container": "#8192a7",
+                        "primary": "#041627",
+                        "secondary-fixed-dim": "#c1c7d1",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-tint": "#4f6073",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed-dim": "#b7c8de",
+                        "inverse-primary": "#b7c8de",
+                        "tertiary-fixed": "#6bfe9c",
+                        "surface-dim": "#d8dadc",
+                        "on-surface-variant": "#44474c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#161c23",
+                        "on-tertiary-fixed": "#00210c",
+                        "on-primary-fixed": "#0b1d2d",
+                        "outline-variant": "#c4c6cd",
+                        "on-primary-fixed-variant": "#38485a",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#74777d",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed": "#d2e4fb",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary-fixed-variant": "#005228",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#5f656d",
+                        "surface-bright": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "primary-container": "#1a2b3c",
+                        "on-tertiary-container": "#00a656",
+                        "tertiary-fixed-dim": "#4ae183",
+                        "secondary-fixed": "#dde3ed",
+                        "on-error-container": "#93000a"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        .step-active {
+            width: 100%;
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Top Navigation Bar -->
+<header class="bg-white/80 dark:bg-slate-950/80 backdrop-blur-md fixed top-0 z-50 w-full transition-all duration-300">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter font-headline">
+                FairDom
+            </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300 hover:opacity-80 font-manrope tracking-tight" href="#">Search</a>
+<a class="text-slate-900 dark:text-white font-bold border-b-2 border-emerald-400 pb-1 font-manrope tracking-tight" href="#">Add Listing</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300 hover:opacity-80 font-manrope tracking-tight" href="#">Login</a>
+<a class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2 rounded-md font-bold transition-all duration-300 hover:opacity-90 active:scale-95" href="#">Register</a>
+</nav>
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-20 px-4 md:px-6 max-w-5xl mx-auto">
+<!-- Progress Indicator -->
+<div class="mb-12">
+<div class="flex justify-between mb-4">
+<span class="text-label-md font-semibold text-primary uppercase tracking-wider">Step 3 of 5: Property Details</span>
+<span class="text-label-md font-bold text-on-tertiary-container">60% Complete</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-tertiary-fixed-dim" style="width: 60%;"></div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Form Canvas -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Section Header -->
+<div class="space-y-2">
+<h1 class="text-4xl font-extrabold font-headline tracking-tight text-primary">Enter property details</h1>
+<p class="text-on-surface-variant text-lg">Provide precise information to help potential buyers find your listing through filters.</p>
+</div>
+<!-- Bento Grid Style Form Fields -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Area Input -->
+<div class="bg-surface-container-lowest p-6 rounded-xl transition-transform duration-300 hover:-translate-y-1">
+<label class="block text-sm font-semibold text-on-surface-variant mb-2 uppercase tracking-tight">Total Area</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-md px-4 py-3 focus:ring-2 focus:ring-tertiary-fixed text-lg font-bold text-primary" placeholder="0.00" type="number"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-medium">sqm</span>
+</div>
+</div>
+<!-- Rooms Input -->
+<div class="bg-surface-container-lowest p-6 rounded-xl transition-transform duration-300 hover:-translate-y-1">
+<label class="block text-sm font-semibold text-on-surface-variant mb-2 uppercase tracking-tight">Number of Rooms</label>
+<div class="flex gap-2">
+<button class="flex-1 py-3 rounded-md bg-primary text-on-primary font-bold">1</button>
+<button class="flex-1 py-3 rounded-md bg-surface-container-low text-primary font-bold hover:bg-secondary-container transition-colors">2</button>
+<button class="flex-1 py-3 rounded-md bg-surface-container-low text-primary font-bold hover:bg-secondary-container transition-colors">3</button>
+<button class="flex-1 py-3 rounded-md bg-surface-container-low text-primary font-bold hover:bg-secondary-container transition-colors">4+</button>
+</div>
+</div>
+<!-- Floor Input -->
+<div class="bg-surface-container-lowest p-6 rounded-xl transition-transform duration-300 hover:-translate-y-1">
+<label class="block text-sm font-semibold text-on-surface-variant mb-2 uppercase tracking-tight">Floor Level</label>
+<select class="w-full bg-surface-container-low border-none rounded-md px-4 py-3 focus:ring-2 focus:ring-tertiary-fixed text-primary font-medium appearance-none">
+<option>Ground Floor</option>
+<option>1st Floor</option>
+<option>2nd Floor</option>
+<option>3rd Floor</option>
+<option>Top Floor / Penthouse</option>
+</select>
+</div>
+<!-- Construction Year -->
+<div class="bg-surface-container-lowest p-6 rounded-xl transition-transform duration-300 hover:-translate-y-1">
+<label class="block text-sm font-semibold text-on-surface-variant mb-2 uppercase tracking-tight">Year Built</label>
+<input class="w-full bg-surface-container-low border-none rounded-md px-4 py-3 focus:ring-2 focus:ring-tertiary-fixed text-primary font-medium" placeholder="e.g. 2024" type="text"/>
+</div>
+</div>
+<!-- Map Integration (Simulated) -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden aspect-video relative group">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 transition-opacity duration-700" data-alt="clean minimal grayscale map interface with a single vibrant green location pin on a city street" data-location="Berlin" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvxUS_3HjXDna1cPgeAm0VwfZRQs8uAdfawWMBMZSxJiqJzf3xpFELhpodOQMd_-jxGGBCeVvqqAOpuM4IyiqfCkq64rclyaCSGbyD3vBV9nXdxd9rNEa6RgxEYDT_1tL62jpx0xOMm0yJ1fNMe4mHnadqulcaFOMMiJvnZn11-S0TCjjACp4NfZwf9Iwmib67sNX9w0u8CKeT3C2aT55V_5M4rdf3qwKUwV6T68nC2CcAkHk5vCvjl5VHvG-xPKSojwXEFoziGFQ"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+<span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md p-4 rounded-lg flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">pin_drop</span>
+<div>
+<p class="text-sm font-bold text-primary leading-none">Potsdamer Platz 1</p>
+<p class="text-xs text-on-surface-variant">10117 Berlin, Germany</p>
+</div>
+</div>
+<button class="text-xs font-bold text-primary border-b border-primary uppercase tracking-widest">Edit Location</button>
+</div>
+</div>
+<!-- Navigation Controls -->
+<div class="flex items-center justify-between pt-8 border-t border-outline-variant/15">
+<button class="flex items-center gap-2 px-6 py-3 rounded-md font-bold text-primary hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+                        Back
+                    </button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-10 py-4 rounded-md font-bold shadow-sm flex items-center gap-3 hover:opacity-90 transition-all active:scale-95">
+                        Continue to Media
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Sidebar Context / Comparisons -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Value Card -->
+<div class="bg-primary text-on-primary p-8 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<span class="bg-tertiary-fixed text-tertiary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4 inline-block">Pro Tip</span>
+<h3 class="text-xl font-bold font-headline mb-4">Why choose FairDom?</h3>
+<p class="text-primary-fixed-dim text-sm leading-relaxed mb-6">Our algorithm estimates that accurate details increase listing visibility by 45%.</p>
+<div class="space-y-4 pt-6 border-t border-primary-container">
+<div class="flex justify-between items-end">
+<span class="text-xs uppercase tracking-tighter opacity-70">Listing Fee</span>
+<div class="text-right">
+<span class="text-tertiary-fixed text-2xl font-black">€0.00</span>
+<p class="text-[10px] opacity-60">Competitor avg: €49.99</p>
+</div>
+</div>
+<div class="h-1 bg-primary-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-fixed w-1/12"></div>
+</div>
+</div>
+</div>
+<!-- Decorative element -->
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-tertiary-fixed/5 rounded-full blur-3xl"></div>
+</div>
+<!-- Help Box -->
+<div class="bg-surface-container-low p-6 rounded-xl">
+<h4 class="font-bold text-primary mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">support_agent</span>
+                        Need assistance?
+                    </h4>
+<p class="text-sm text-on-surface-variant mb-4">Our agents are available 24/7 to help you finalize your listing details.</p>
+<button class="w-full py-3 border border-outline-variant/30 rounded-md text-sm font-bold text-primary hover:bg-surface-container-high transition-colors">
+                        Open Live Chat
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-900 full-width py-12 px-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto font-inter text-sm antialiased">
+<div class="space-y-4">
+<div class="text-xl font-bold text-slate-900 dark:text-slate-100 font-headline uppercase tracking-tighter">FairDom</div>
+<p class="text-slate-500 dark:text-slate-400">Revolutionizing real estate through transparency and architectural excellence.</p>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-slate-100 mb-4">Platform</h5>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">About Us</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Careers</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-slate-100 mb-4">Legal</h5>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-slate-100 mb-4">Support</h5>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Contact Support</a></li>
+<li><a class="text-emerald-500 font-semibold" href="#">Help Center</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center">
+<p class="text-slate-500 dark:text-slate-400">© 2024 FairDom Real Estate. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

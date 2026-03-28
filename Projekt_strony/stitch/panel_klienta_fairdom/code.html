@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FairDom User Dashboard | Manage Listings</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#dde3ed",
+              "tertiary": "#001a08",
+              "secondary": "#595f67",
+              "surface-container": "#eceef0",
+              "on-primary": "#ffffff",
+              "tertiary-container": "#003115",
+              "on-secondary-fixed-variant": "#41474f",
+              "surface": "#f7f9fb",
+              "on-background": "#191c1e",
+              "on-error": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "background": "#f7f9fb",
+              "on-primary-container": "#8192a7",
+              "primary": "#041627",
+              "secondary-fixed-dim": "#c1c7d1",
+              "surface-container-highest": "#e0e3e5",
+              "surface-tint": "#4f6073",
+              "surface-container-high": "#e6e8ea",
+              "primary-fixed-dim": "#b7c8de",
+              "inverse-primary": "#b7c8de",
+              "tertiary-fixed": "#6bfe9c",
+              "surface-dim": "#d8dadc",
+              "on-surface-variant": "#44474c",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed": "#161c23",
+              "on-tertiary-fixed": "#00210c",
+              "on-primary-fixed": "#0b1d2d",
+              "outline-variant": "#c4c6cd",
+              "on-primary-fixed-variant": "#38485a",
+              "error-container": "#ffdad6",
+              "inverse-surface": "#2d3133",
+              "outline": "#74777d",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed": "#d2e4fb",
+              "surface-variant": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "on-tertiary-fixed-variant": "#005228",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "on-secondary-container": "#5f656d",
+              "surface-bright": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "primary-container": "#1a2b3c",
+              "on-tertiary-container": "#00a656",
+              "tertiary-fixed-dim": "#4ae183",
+              "secondary-fixed": "#dde3ed",
+              "on-error-container": "#93000a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<nav class="bg-white/80 dark:bg-slate-950/80 backdrop-blur-md fixed w-full z-50 top-0">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">FairDom</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300" href="#">Search</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300" href="#">Add Listing</a>
+<a class="text-slate-900 dark:text-white font-bold border-b-2 border-emerald-400 pb-1" href="#">Dashboard</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">notifications</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+<img class="w-full h-full object-cover" data-alt="professional headshot of a real estate agent in a dark suit with a warm confident smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmuiGbmnhoSg_YdysoV_J3vnBzoc_k4r7SwyOhfr9ZUraugClV-FqMx9Khy9O5-DDgfLgsWZxsRJzLzDjN5jvwdNCL1TvyjEWdelrg2OijQqpZ05WwCnVeTzrghYOoRuFIw0Exzk34VmF6BKzrClYvr0GmNPAvHjHEVcljoOaq1o1EfKV_EyzZhWi9BwfuJblJOjOIbU_1sy5l7nsGFWkd5Wa_HZGQWGNaPeIumJgFQEqkBE36RWD6VF40slmkh_Eumlpis_hz-IE"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-12 px-6 max-w-7xl mx-auto min-h-screen">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Sidebar: Profile Management -->
+<aside class="lg:col-span-3 space-y-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl space-y-6">
+<div class="text-center">
+<div class="w-24 h-24 rounded-full mx-auto overflow-hidden ring-4 ring-tertiary-fixed/30 mb-4">
+<img class="w-full h-full object-cover" data-alt="close up profile photo of a male real estate professional against a clean architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCecpQfC-YhUFMzH0s4qAXTGvpYiCWFYOMQeOPnhoqQ4fGaaCmsjf60tX7RD_uRtwoaazCUDJDLKEYq0-i8bnmOD_eEMmQisFllCoV9moLbzsMNytSMwK8WOUISuCE4YVDM_rmxpGhrJ7W9cm0sFa6JRrXRqh1-3K_iRsAL-DBp7UAN980EyflFvhPXFMa8nw3sZrai5r2b8_48cFGtndg4eQ3iqfYICP9H1KeeHPZZyTIq9Q0RZP6tZKtDZlj-UoxYY1sxofqR-UQ"/>
+</div>
+<h2 class="text-xl font-extrabold text-primary">Alexander Thorne</h2>
+<p class="text-sm text-on-surface-variant">Senior Broker</p>
+</div>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 bg-primary text-on-primary rounded-lg font-medium transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                            Overview
+                        </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg font-medium transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                            Performance
+                        </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg font-medium transition-all" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+                            Messages
+                        </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg font-medium transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+                            Settings
+                        </a>
+</div>
+<div class="pt-6 border-t border-outline-variant/20">
+<button class="w-full py-3 px-4 border border-outline-variant text-error font-semibold rounded-lg hover:bg-error-container/20 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">logout</span>
+                            Logout
+                        </button>
+</div>
+</div>
+<!-- Growth Insight Card -->
+<div class="bg-gradient-to-br from-primary to-primary-container p-6 rounded-xl text-on-primary">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-tertiary-fixed">trending_up</span>
+<span class="text-xs uppercase tracking-widest font-bold">Growth Tip</span>
+</div>
+<p class="text-sm leading-relaxed mb-4">Properties with 3D virtual tours receive <span class="text-tertiary-fixed font-bold">45% more leads</span> in their first week.</p>
+<button class="w-full py-2 bg-tertiary-fixed text-tertiary font-bold rounded-md hover:bg-tertiary-fixed-dim transition-all text-sm">Update Listings</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="lg:col-span-9 space-y-8">
+<!-- Statistics Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col justify-between">
+<span class="text-on-surface-variant text-sm font-semibold">Total Views</span>
+<div class="mt-4 flex items-end justify-between">
+<span class="text-3xl font-black text-primary">12,842</span>
+<span class="text-on-tertiary-container bg-tertiary-fixed/20 px-2 py-1 rounded text-xs font-bold">+12%</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col justify-between">
+<span class="text-on-surface-variant text-sm font-semibold">Active Leads</span>
+<div class="mt-4 flex items-end justify-between">
+<span class="text-3xl font-black text-primary">48</span>
+<span class="text-on-tertiary-container bg-tertiary-fixed/20 px-2 py-1 rounded text-xs font-bold">+5%</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col justify-between">
+<span class="text-on-surface-variant text-sm font-semibold">Avg. Time to Close</span>
+<div class="mt-4 flex items-end justify-between">
+<span class="text-3xl font-black text-primary">18d</span>
+<span class="text-error bg-error-container/30 px-2 py-1 rounded text-xs font-bold">-2d</span>
+</div>
+</div>
+</section>
+<!-- Listing Management Section -->
+<section class="space-y-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-3xl font-black tracking-tight text-primary">Your Listings</h1>
+<p class="text-on-surface-variant">Manage and monitor your property portfolio.</p>
+</div>
+<div class="flex gap-2 bg-surface-container-low p-1 rounded-full">
+<button class="px-6 py-2 bg-surface-container-lowest shadow-sm text-primary font-bold rounded-full text-sm">Active (3)</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary font-medium rounded-full text-sm">Archived (12)</button>
+</div>
+</div>
+<!-- Listing Cards -->
+<div class="space-y-4">
+<!-- Listing Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col md:flex-row transition-all duration-300 hover:-translate-y-1">
+<div class="w-full md:w-64 h-48 md:h-auto shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="luxurious modern villa with glass walls and a clean pool at dusk with interior warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWM2WJ8PPWH6gZY7ngz8FCs6krUGmbmU79Rg0cFmP3TI6vlF8Tsza8lIciKSL6tPZQP9mVD--afdiNcF2QOJUBAp3xid6aCE5xKMb31JKvrIS1xbmPmOh8RY7gAn4T6fHvLa7_ig2JuhvPWdbZiVXh7hxOHxgohEohrRBqq4uGuSzRYhKCCRjx6JKmlsEBJBHdQaO30TxA-V-bfGL51ALf0lEcLvHJ5IeXryHc8QxWPA57PaP4SCx-2-VHEd_vtrrygYSSw1aWJ28"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary-fixed text-tertiary text-[10px] font-black uppercase px-2 py-1 rounded tracking-widest shadow-sm">Featured</span>
+</div>
+</div>
+<div class="p-6 flex-grow flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="text-xl font-bold text-primary">Modernist Glass Pavilion</h3>
+<span class="text-2xl font-black text-primary">$4,250,000</span>
+</div>
+<p class="text-on-surface-variant text-sm mt-1">128 Architects Way, Beverly Hills</p>
+<div class="flex gap-4 mt-4 text-xs font-medium text-secondary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">bed</span> 4 Beds</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">bathtub</span> 5 Baths</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">square_foot</span> 4,500 sqft</span>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-surface-container flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-md text-sm font-bold hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">edit</span> Edit
+                                    </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-tertiary-fixed text-on-tertiary-container bg-tertiary-fixed/10 rounded-md text-sm font-bold hover:bg-tertiary-fixed/20 transition-all">
+<span class="material-symbols-outlined text-sm">rocket_launch</span> Boost
+                                    </button>
+<button class="flex items-center gap-2 px-4 py-2 text-on-surface-variant hover:text-error transition-colors text-sm font-semibold ml-auto">
+<span class="material-symbols-outlined text-sm">delete</span> Delete
+                                    </button>
+</div>
+</div>
+</div>
+<!-- Listing Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden flex flex-col md:flex-row transition-all duration-300 hover:-translate-y-1">
+<div class="w-full md:w-64 h-48 md:h-auto shrink-0">
+<img class="w-full h-full object-cover" data-alt="expansive coastal estate with manicured gardens and white architecture overlooking a blue ocean" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTUWjQjqaQKV_CySRqLAt6aRZj7ZnHRrCAsFD9VAi8dTHNQALzqvI61050FrHT49maxqk9xphxKD0ZbTWdUAKvOzpQmFAjvLs-j-fVK1EmJnlee6VFymYlqfxSJLS5dB_7X0xU68q8uLEJz2PpYtHZxRwyXduThrZqUo7O-KTyBLgn26GA1Hr1QUiKl6UDqcWK-H_kCO_s1TkOENJW6lfldsiZorO3NnJRDa6FtpQ-pVGRBJh88fx7UDXXDLIALiNfgiaSOIjF2YM"/>
+</div>
+<div class="p-6 flex-grow flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="text-xl font-bold text-primary">Coastal Zen Retreat</h3>
+<span class="text-2xl font-black text-primary">$2,800,000</span>
+</div>
+<p class="text-on-surface-variant text-sm mt-1">45 Ocean Breeze Dr, Malibu</p>
+<div class="flex gap-4 mt-4 text-xs font-medium text-secondary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">bed</span> 3 Beds</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">bathtub</span> 3 Baths</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">square_foot</span> 3,200 sqft</span>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-surface-container flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-md text-sm font-bold hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">edit</span> Edit
+                                    </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline text-on-surface-variant rounded-md text-sm font-bold hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-sm">rocket_launch</span> Boost
+                                    </button>
+<button class="flex items-center gap-2 px-4 py-2 text-on-surface-variant hover:text-error transition-colors text-sm font-semibold ml-auto">
+<span class="material-symbols-outlined text-sm">delete</span> Delete
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-900 full-width py-12 px-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="space-y-4">
+<div class="text-xl font-bold text-slate-900 dark:text-slate-100 uppercase tracking-tighter">FairDom</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Architecting the future of real estate through transparency and institutional-grade tools.</p>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-primary">Platform</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Search Houses</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Market Insights</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Mortgage Tool</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-primary">Company</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">About Us</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Careers</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-primary">Support</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Contact Support</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Help Center</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">API Docs</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-500 dark:text-slate-400 text-sm">© 2024 FairDom Real Estate. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">social_leaderboard</span>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">brand_awareness</span>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">podcasts</span>
+</div>
+</div>
+</footer>
+<!-- FAB (Suppressed on Dashboard per rules, but included if contextual action was required. Here we prioritize the "Add Listing" button in header) -->
+</body></html>

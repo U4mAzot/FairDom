@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#dde3ed",
+              "tertiary": "#001a08",
+              "secondary": "#595f67",
+              "surface-container": "#eceef0",
+              "on-primary": "#ffffff",
+              "tertiary-container": "#003115",
+              "on-secondary-fixed-variant": "#41474f",
+              "surface": "#f7f9fb",
+              "on-background": "#191c1e",
+              "on-error": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "background": "#f7f9fb",
+              "on-primary-container": "#8192a7",
+              "primary": "#041627",
+              "secondary-fixed-dim": "#c1c7d1",
+              "surface-container-highest": "#e0e3e5",
+              "surface-tint": "#4f6073",
+              "surface-container-high": "#e6e8ea",
+              "primary-fixed-dim": "#b7c8de",
+              "inverse-primary": "#b7c8de",
+              "tertiary-fixed": "#6bfe9c",
+              "surface-dim": "#d8dadc",
+              "on-surface-variant": "#44474c",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed": "#161c23",
+              "on-tertiary-fixed": "#00210c",
+              "on-primary-fixed": "#0b1d2d",
+              "outline-variant": "#c4c6cd",
+              "on-primary-fixed-variant": "#38485a",
+              "error-container": "#ffdad6",
+              "inverse-surface": "#2d3133",
+              "outline": "#74777d",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed": "#d2e4fb",
+              "surface-variant": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "on-tertiary-fixed-variant": "#005228",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "on-secondary-container": "#5f656d",
+              "surface-bright": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "primary-container": "#1a2b3c",
+              "on-tertiary-container": "#00a656",
+              "tertiary-fixed-dim": "#4ae183",
+              "secondary-fixed": "#dde3ed",
+              "on-error-container": "#93000a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 z-50 w-full glass-nav">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter font-headline">FairDom</div>
+<div class="hidden md:flex items-center space-gap-8 gap-8">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300 hover:opacity-80" href="#">Search</a>
+<a class="text-slate-900 dark:text-white font-bold border-b-2 border-emerald-400 pb-1 transition-all duration-300 hover:opacity-80" href="#">Add Listing</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300 hover:opacity-80" href="#">Login</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300 hover:opacity-80" href="#">Register</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined md:hidden text-primary">menu</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-16 max-w-7xl mx-auto px-6">
+<!-- Header Section -->
+<header class="mb-10">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<nav class="flex items-center gap-2 mb-4 text-on-surface-variant text-sm font-medium">
+<span class="hover:text-primary cursor-pointer">Properties</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="hover:text-primary cursor-pointer">Residential</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-bold">The Obsidian Penthouse</span>
+</nav>
+<h1 class="text-4xl md:text-5xl font-extrabold font-headline text-primary tracking-tight mb-2">The Obsidian Penthouse</h1>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-xl">location_on</span>
+<span class="font-medium">42 Architect Boulevard, Sky District, Metropolis</span>
+</div>
+</div>
+<div class="text-right">
+<div class="text-primary font-headline text-4xl font-bold mb-1">$2,450,000</div>
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed font-bold text-sm rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<span>+4.2% Growth Est.</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Bento Grid Gallery -->
+<section class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-[600px] mb-12 overflow-hidden rounded-xl">
+<div class="md:col-span-2 md:row-span-2 relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="ultra-modern luxury penthouse living room with floor-to-ceiling windows, minimalist dark furniture, and panoramic city sunset views" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRx8N7O1le6aLz88rBkytp-YRbk5sXfLkqf74Jh9MeFJ3fWvFGcF5AvYMIQVn7pnceNIi5i9jRLmfsu9NJoVsGNz7nOCFj-fBUfO3D1k5uHafbdq_i3Wt-jgLKdZibo4Vxd20QKo2Aa6cqjmAcWsyq5aNC7h1xBFLxxsQmM4q5zBd89E5cpyHEHExVKRhhUboxd7ysgHbo20HouioSBRpnpDC5jVa_mq-EzYvFFVTi_4Ba7AdNRIcG-Xf0tSRQYeojimasX1e9MXg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+</div>
+<div class="md:col-span-2 md:row-span-1 relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="sleek charcoal marble kitchen island with high-end designer appliances and dramatic linear lighting in a modern interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH9KS8JL13s7C_JLODRRkTK0d9LeLJcwUSlMoKP4wDkbd1VUZ5TWKqNPN-iI3W20bcSYcmpB4WQry_T-U8ANkK7CPHrVCr8BPjWdM2Mrf26Gqt88EJYVISWFFnnIIsa72QF1SKMR23MzS8nL324g9jf_yaINwnd48d_ycycaOjDZD3t5hRL_txA8mOfwxI1T1r_fXO8YEKnHzgY-xahE54t82oYa9onAZkVtqvnq70x_jRvbK4rGnfpb8lsA33A_cIc6bfEQPkGNQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+</div>
+<div class="relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="serene master bedroom with navy textured walls, king-sized bed, and soft ambient morning light through sheer curtains" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNfhcZcQwAEwFAgupk2Ml51iScBcvN1A1KlbnHNpCXN0Wu3hAae0OGxguOmf3IBlWcbc5sq8m0hU5bwQD7YvfvvRiu1nFw7Jio3Mxc1E9EeZ7ZVmW6ncB0f6TSPmN-_jt9nPeTS6Pr1qYDkqOCZRvoYhWNFt-HozsevpRzS43ngB_vDYuGjgf44s9fOs_xQFjPl-mBooG8YiTIQjgfIAdX5HLueWoe-e4Ma0SMKHfpKy3qJjMBL4KMheKyHzoynU88XWKrvtRNXQE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+</div>
+<div class="relative group overflow-hidden">
+<div class="absolute inset-0 bg-primary/60 flex flex-col items-center justify-center text-white z-10 cursor-pointer hover:bg-primary/70 transition-colors">
+<span class="material-symbols-outlined text-4xl mb-2">grid_view</span>
+<span class="font-bold">View 24+ Photos</span>
+</div>
+<img class="w-full h-full object-cover" data-alt="architectural shot of a modern glass skyscraper corner reflecting the blue sky at twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCizgrNUPx3C8TvCjJs0q-ZOeeL3on0mOp_yaz22jnMq3TW48RK0iSFiBFkfh6eg5nlkfAqcN4afCRnRJiat_pu7FlZFgoqVQ4v1ge5MgA_E7oROSzJfoBWT5IZ-qsDzc7tGQdP_61BC_TOj2XqwInzclofgkqocOo0iz2B7aZ__8ntE1fE0CKLEQedDCiklNu3IYpqpF7ocrBC9flqLQMsEElM-kQvUFYjg01wJBCvyTuMDSeUgDpaYag9p1ixDGZwh1U-5zLWKr0"/>
+</div>
+</section>
+<!-- Content Layout: 60/40 Split -->
+<div class="flex flex-col lg:flex-row gap-12">
+<!-- Left Column: Details -->
+<div class="flex-1 space-y-12">
+<!-- Key Parameters -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4 p-8 bg-surface-container-low rounded-xl">
+<div class="flex flex-col items-center justify-center text-center p-4">
+<span class="material-symbols-outlined text-3xl text-primary mb-3">square_foot</span>
+<span class="text-on-surface-variant text-sm mb-1 uppercase tracking-wider font-semibold">Area</span>
+<span class="text-primary font-headline font-bold text-xl">342 m²</span>
+</div>
+<div class="flex flex-col items-center justify-center text-center p-4">
+<span class="material-symbols-outlined text-3xl text-primary mb-3">bed</span>
+<span class="text-on-surface-variant text-sm mb-1 uppercase tracking-wider font-semibold">Rooms</span>
+<span class="text-primary font-headline font-bold text-xl">4.5</span>
+</div>
+<div class="flex flex-col items-center justify-center text-center p-4">
+<span class="material-symbols-outlined text-3xl text-primary mb-3">layers</span>
+<span class="text-on-surface-variant text-sm mb-1 uppercase tracking-wider font-semibold">Floor</span>
+<span class="text-primary font-headline font-bold text-xl">28 / 32</span>
+</div>
+<div class="flex flex-col items-center justify-center text-center p-4">
+<span class="material-symbols-outlined text-3xl text-primary mb-3">calendar_today</span>
+<span class="text-on-surface-variant text-sm mb-1 uppercase tracking-wider font-semibold">Year</span>
+<span class="text-primary font-headline font-bold text-xl">2023</span>
+</div>
+</section>
+<!-- Description -->
+<section>
+<h2 class="text-2xl font-extrabold font-headline text-primary mb-6">Architectural Vision</h2>
+<div class="prose prose-slate max-w-none text-on-surface-variant leading-relaxed space-y-4">
+<p>Experience the pinnacle of urban luxury in this masterfully crafted Obsidian Penthouse. Every inch of this 342-square-meter residence has been designed with an uncompromising eye for detail, featuring custom basalt stone flooring and floor-to-ceiling high-performance glazing that frames the city like a living piece of art.</p>
+<p>The open-concept layout flows seamlessly from the professional-grade kitchen—outfitted with integrated Gaggenau appliances—into a double-height living salon. Designed for the connoisseur of modern living, the space offers both expansive areas for entertaining and intimate private suites for tranquility.</p>
+</div>
+</section>
+<!-- Interactive Map -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-extrabold font-headline text-primary">Location Intelligence</h2>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-xs font-bold rounded-md">98 Walk Score</span>
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-xs font-bold rounded-md">A+ Transit</span>
+</div>
+</div>
+<div class="h-[400px] w-full rounded-xl overflow-hidden relative shadow-inner">
+<img class="w-full h-full object-cover grayscale" data-alt="grayscale minimalist street map of a metropolitan downtown area with subtle blue highlights" data-location="Chicago" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc3cXOFCSbtQk_4TeLvTg37uMiZLFDYisgTt_CBOmrdf1vNW2UcgNjOyMommMPWjgt5Fd9SMOoum_I7pOkENW09giSiQhYo5KQpUttgzPGnK9wzoU-D56zYXMeDJDc7g8xuwL1V6kL4XgYII59-ObyXgY7-secEEGulKXx8UOZWRKJZJCmJqq8b7O4araXFbeAWiHX68LEo9-oyanSP5JO_tUvOsRIFt2qYS-99sRpJaXkefhSpkGJnIRiPA8Hc3LL-G4cO3EQATI"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl animate-bounce">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-4 right-4 flex flex-col gap-2">
+<button class="w-10 h-10 bg-white/90 backdrop-blur-md rounded-lg flex items-center justify-center text-primary shadow-lg border border-white/20">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-10 h-10 bg-white/90 backdrop-blur-md rounded-lg flex items-center justify-center text-primary shadow-lg border border-white/20">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Contact Sidebar -->
+<aside class="w-full lg:w-[400px]">
+<div class="sticky top-24 space-y-6">
+<!-- Contact Card -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-16 h-16 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional real estate agent portrait with a friendly smile, neutral background, high-end corporate style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6EIlfi-rhcTEXl03nKiuPk-bdDSaEBW6VpH_ZO32rnAUNVlFbLXIfcP2S6vfnm4gIDvGwQD6f1nhT_WZrckGYjw5T4BtwSDkCACNcnpykLzFcr5JOvqUNHcdvfhMLxmhY7xL8gQgzqgIHjvULLTSFeKT4bUyIisZH6BFzE8FLDbjpDjq2GoL8dfWz-4qPcXHhKlR-eLhkVEHBahk7SMSvbL5CYvXsdZKud37QP01IaRBxyMsVnPNASpj35qigR9-5VnwnAAeEscA"/>
+</div>
+<div>
+<h3 class="text-xl font-bold font-headline text-primary">Julian Thorne</h3>
+<p class="text-on-surface-variant text-sm">Senior Listing Partner</p>
+</div>
+</div>
+<div class="space-y-4">
+<button class="w-full py-4 bg-[#2ECC71] text-white font-bold rounded-lg flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-md">
+<span class="material-symbols-outlined">call</span>
+                                Show phone number
+                            </button>
+<form class="space-y-4 pt-4 border-t border-surface-container">
+<div>
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Your Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-md px-4 py-3 focus:ring-2 focus:ring-tertiary-fixed placeholder:text-slate-400" placeholder="Full Name" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Email Address</label>
+<input class="w-full bg-surface-container-low border-none rounded-md px-4 py-3 focus:ring-2 focus:ring-tertiary-fixed placeholder:text-slate-400" placeholder="email@example.com" type="email"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">Message</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-md px-4 py-3 focus:ring-2 focus:ring-tertiary-fixed placeholder:text-slate-400" rows="4">I am interested in scheduling a private viewing of The Obsidian Penthouse.</textarea>
+</div>
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-sm" type="submit">
+<span class="material-symbols-outlined">send</span>
+                                    Send Inquiry
+                                </button>
+</form>
+</div>
+</div>
+<!-- Market Insights Mini-Card -->
+<div class="bg-primary p-6 rounded-xl text-white">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-tertiary-fixed">insights</span>
+<span class="font-bold font-headline">Investment Summary</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="text-xs opacity-60 uppercase font-bold tracking-tighter">Yield Potential</div>
+<div class="text-lg font-bold">5.8% p.a.</div>
+</div>
+<div>
+<div class="text-xs opacity-60 uppercase font-bold tracking-tighter">Tax Est.</div>
+<div class="text-lg font-bold">$12k/yr</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-900 full-width py-12 px-6 mt-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 font-headline uppercase tracking-tighter">FairDom</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4 leading-relaxed">Defining the next generation of architectural real estate through transparency and curated design.</p>
+</div>
+<div>
+<h4 class="font-bold text-primary mb-4">Properties</h4>
+<ul class="space-y-2 text-sm">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Penthouse Collection</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Modern Estates</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Urban Lofts</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-primary mb-4">Company</h4>
+<ul class="space-y-2 text-sm font-inter antialiased">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">About Us</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-primary mb-4">Support</h4>
+<ul class="space-y-2 text-sm">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Contact Support</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-emerald-400 transition-colors" href="#">Careers</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto border-t border-slate-200 dark:border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-500 dark:text-slate-400 text-sm">© 2024 FairDom Real Estate. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors">public</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors">chat_bubble</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors">share</span>
+</div>
+</div>
+</footer>
+</body></html>

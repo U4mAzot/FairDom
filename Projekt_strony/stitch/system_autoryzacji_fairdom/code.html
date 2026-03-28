@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FairDom - Professional Authentication</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#dde3ed",
+              "tertiary": "#001a08",
+              "secondary": "#595f67",
+              "surface-container": "#eceef0",
+              "on-primary": "#ffffff",
+              "tertiary-container": "#003115",
+              "on-secondary-fixed-variant": "#41474f",
+              "surface": "#f7f9fb",
+              "on-background": "#191c1e",
+              "on-error": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "background": "#f7f9fb",
+              "on-primary-container": "#8192a7",
+              "primary": "#041627",
+              "secondary-fixed-dim": "#c1c7d1",
+              "surface-container-highest": "#e0e3e5",
+              "surface-tint": "#4f6073",
+              "surface-container-high": "#e6e8ea",
+              "primary-fixed-dim": "#b7c8de",
+              "inverse-primary": "#b7c8de",
+              "tertiary-fixed": "#6bfe9c",
+              "surface-dim": "#d8dadc",
+              "on-surface-variant": "#44474c",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed": "#161c23",
+              "on-tertiary-fixed": "#00210c",
+              "on-primary-fixed": "#0b1d2d",
+              "outline-variant": "#c4c6cd",
+              "on-primary-fixed-variant": "#38485a",
+              "error-container": "#ffdad6",
+              "inverse-surface": "#2d3133",
+              "outline": "#74777d",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed": "#d2e4fb",
+              "surface-variant": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "on-tertiary-fixed-variant": "#005228",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "on-secondary-container": "#5f656d",
+              "surface-bright": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "primary-container": "#1a2b3c",
+              "on-tertiary-container": "#00a656",
+              "tertiary-fixed-dim": "#4ae183",
+              "secondary-fixed": "#dde3ed",
+              "on-error-container": "#93000a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .auth-glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<nav class="bg-white/80 dark:bg-slate-950/80 backdrop-blur-md fixed top-0 z-50 w-full transition-all duration-300">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter font-headline">
+                FairDom
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300" href="#">Search</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300" href="#">Add Listing</a>
+<a class="text-slate-900 dark:text-white font-bold border-b-2 border-emerald-400 pb-1 transition-all duration-300" href="#">Login</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white transition-all duration-300" href="#">Register</a>
+</div>
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary cursor-pointer">menu</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center pt-24 pb-12 px-4 relative overflow-hidden">
+<!-- Abstract Decorative Background Elements -->
+<div class="absolute top-[-10%] right-[-5%] w-[40rem] h-[40rem] bg-secondary-fixed/30 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-[35rem] h-[35rem] bg-tertiary-fixed/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="w-full max-w-5xl grid md:grid-cols-2 bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden relative z-10">
+<!-- Left Side: Editorial Content -->
+<div class="hidden md:flex flex-col justify-between p-12 bg-primary text-on-primary relative overflow-hidden">
+<div class="relative z-10">
+<h1 class="font-headline text-4xl font-extrabold tracking-tight leading-tight mb-6">
+                        Unlock the Door to Your <span class="text-tertiary-fixed">Dream Home.</span>
+</h1>
+<p class="text-on-primary-container text-lg leading-relaxed max-w-md">
+                        Experience a transparent real estate ecosystem designed for clarity, speed, and absolute trust.
+                    </p>
+</div>
+<div class="relative z-10 mt-12">
+<div class="flex flex-col gap-6">
+<div class="flex items-start gap-4">
+<div class="bg-primary-container p-2 rounded-lg">
+<span class="material-symbols-outlined text-tertiary-fixed">verified_user</span>
+</div>
+<div>
+<h3 class="font-bold text-white">Verified Listings</h3>
+<p class="text-sm text-on-primary-container">Every property is vetted by our architectural integrity team.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-primary-container p-2 rounded-lg">
+<span class="material-symbols-outlined text-tertiary-fixed">insights</span>
+</div>
+<div>
+<h3 class="font-bold text-white">Market Intelligence</h3>
+<p class="text-sm text-on-primary-container">Data-driven insights to ensure your investment is sound.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Background Image Aspect for Left Panel -->
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<img class="w-full h-full object-cover" data-alt="Modern architectural interior with clean lines, minimalist furniture, and large windows looking out to a garden at twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrsPllQNlv3IBzY3CtMXKa1R1vJX5iW0TApqfIHiVh4i5rIYpLsKQdbbvhf1S-zO0qDSGUxryttaOGfkm-vJfCBqb41qdnj2zXPINTvMXSFu11FhzyM1iBiy59HOCksf6nGF1TY-yUlxL4Nv1qukviWQLO4JnmOia6kO72E1yLw5hes4mS6T6nGMFv-VKFKEWVkBiC9lFzmu4X7SC_MktsHkGain1rlScL_1oQF4P5YOAmsF256fE57aC65FjZ_VT54dM2NwA9cgo"/>
+</div>
+</div>
+<!-- Right Side: Auth Form -->
+<div class="p-8 md:p-12 flex flex-col justify-center">
+<div class="mb-8">
+<h2 class="font-headline text-2xl font-bold text-primary">Welcome Back</h2>
+<p class="text-on-surface-variant mt-2">Enter your credentials to access your dashboard</p>
+</div>
+<!-- Role Toggle Switch -->
+<div class="bg-surface-container-low p-1 rounded-full flex mb-8">
+<button class="flex-1 py-2 px-4 rounded-full text-sm font-semibold transition-all duration-300 bg-surface-container-lowest text-primary shadow-sm">
+                        Private User
+                    </button>
+<button class="flex-1 py-2 px-4 rounded-full text-sm font-medium transition-all duration-300 text-on-surface-variant hover:text-primary">
+                        Agent / Agency
+                    </button>
+</div>
+<!-- Minimalist Form -->
+<form class="space-y-6">
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2 font-label">Email Address</label>
+<input class="w-full bg-surface-container-low border-none rounded-md px-4 py-3 focus:ring-2 focus:ring-tertiary-fixed transition-all text-on-surface placeholder:text-outline/50" placeholder="name@company.com" type="email"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label">Password</label>
+<a class="text-xs font-semibold text-primary hover:text-on-tertiary-container transition-colors" href="#">Forgot password?</a>
+</div>
+<input class="w-full bg-surface-container-low border-none rounded-md px-4 py-3 focus:ring-2 focus:ring-tertiary-fixed transition-all text-on-surface placeholder:text-outline/50" placeholder="••••••••" type="password"/>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-tertiary-fixed" id="remember" type="checkbox"/>
+<label class="text-sm text-on-surface-variant" for="remember">Keep me logged in for 30 days</label>
+</div>
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold py-4 rounded-md shadow-md hover:opacity-90 transition-all active:scale-95 duration-200" type="submit">
+                        Sign In to FairDom
+                    </button>
+</form>
+<div class="mt-8 pt-8 border-t border-surface-container-high text-center">
+<p class="text-sm text-on-surface-variant">
+                        New to FairDom? 
+                        <a class="font-bold text-primary hover:underline ml-1" href="#">Create an account</a>
+</p>
+</div>
+<div class="mt-8 flex flex-col gap-3">
+<p class="text-[10px] text-center uppercase tracking-[0.2em] text-outline font-bold">Or continue with</p>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 border border-outline-variant/30 py-3 rounded-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">google</span>
+<span class="text-sm font-semibold">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 border border-outline-variant/30 py-3 rounded-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">ios</span>
+<span class="text-sm font-semibold">Apple</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Section -->
+<footer class="bg-slate-100 dark:bg-slate-900 w-full py-12 px-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 font-headline uppercase tracking-tight">FairDom</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Elevating the real estate experience through architectural passion and digital innovation.
+                </p>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-slate-100 mb-4 text-sm uppercase tracking-wider">Platform</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">About Us</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Careers</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-slate-100 mb-4 text-sm uppercase tracking-wider">Legal</h4>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 text-sm hover:text-emerald-400 transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-bold text-slate-900 dark:text-slate-100 mb-4 text-sm uppercase tracking-wider">Join the Market</h4>
+<div class="flex items-center gap-2 bg-white dark:bg-slate-800 p-1 rounded-md border border-outline-variant/20">
+<input class="bg-transparent border-none text-xs flex-grow focus:ring-0" placeholder="Email address" type="text"/>
+<button class="bg-primary text-on-primary px-3 py-1 rounded text-xs font-bold uppercase tracking-tighter transition-all hover:opacity-90">Join</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-inter antialiased">
+                © 2024 FairDom Real Estate. All rights reserved.
+            </p>
+</div>
+</footer>
+</body></html>
