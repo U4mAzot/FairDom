@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FAIRDOM_SESSION_KEY, type FairdomSession } from "@/lib/clientSession";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { ensureProfileRow } from "@/lib/profileSync";
 import { fairdomSessionFromUser } from "@/lib/sessionFromUser";
 
 export function useClientSession() {
@@ -19,6 +20,9 @@ export function useClientSession() {
       return;
     }
     setSession(fairdomSessionFromUser(next));
+    void ensureProfileRow(next).then(({ error }) => {
+      if (error) console.warn("[FairDom] ensureProfileRow:", error);
+    });
   }, []);
 
   const sync = useCallback(async () => {

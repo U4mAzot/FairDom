@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { SocialIconButtons } from "@/components/auth/SocialIconButtons";
+import { upsertProfileFromUser } from "@/lib/profileSync";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { digitsOnlyNip, isValidPolishNip } from "@/lib/validation/nip";
 
 export type AccountKind = "private" | "business";
 
@@ -22,6 +24,30 @@ function validatePassword(value: string): string | undefined {
   return undefined;
 }
 
+function normalizePostalCode(value: string): string {
+  const d = value.replace(/\D/g, "");
+  if (d.length !== 5) return value.trim();
+  return `${d.slice(0, 2)}-${d.slice(2, 5)}`;
+}
+
+function validatePostalPl(value: string): string | undefined {
+  const d = value.replace(/\D/g, "");
+  if (d.length !== 5) return "Podaj kod pocztowy (np. 00-950).";
+  return undefined;
+}
+
+function validateRegonOptional(value: string): string | undefined {
+  const d = value.replace(/\D/g, "");
+  if (!d) return undefined;
+  if (d.length !== 9 && d.length !== 14) return "REGON to 9 lub 14 cyfr.";
+  return undefined;
+}
+
+function requiredTrim(value: string, label: string): string | undefined {
+  if (!value.trim()) return `Pole „${label}” jest wymagane.`;
+  return undefined;
+}
+
 export function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,12 +61,31 @@ export function RegisterForm() {
   const [confirm, setConfirm] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [acceptDataUsage, setAcceptDataUsage] = useState(false);
+
+  const [companyLegalName, setCompanyLegalName] = useState("");
+  const [nip, setNip] = useState("");
+  const [regon, setRegon] = useState("");
+  const [registeredStreet, setRegisteredStreet] = useState("");
+  const [registeredBuildingNo, setRegisteredBuildingNo] = useState("");
+  const [registeredApartment, setRegisteredApartment] = useState("");
+  const [registeredPostalCode, setRegisteredPostalCode] = useState("");
+  const [registeredCity, setRegisteredCity] = useState("");
+  const [registeredVoivodeship, setRegisteredVoivodeship] = useState("");
+  const [registeredCountry, setRegisteredCountry] = useState("Polska");
+
   const [errors, setErrors] = useState<{
     email?: string;
     password?: string;
     confirm?: string;
     terms?: string;
     dataUsage?: string;
+    companyLegalName?: string;
+    nip?: string;
+    regon?: string;
+    registeredStreet?: string;
+    registeredBuildingNo?: string;
+    registeredPostalCode?: string;
+    registeredCity?: string;
   }>({});
   const [authError, setAuthError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
@@ -58,14 +103,58 @@ export function RegisterForm() {
     const dataUsageErr = acceptDataUsage
       ? undefined
       : "Wymagana jest zgoda na przetwarzanie danych w celu poprawy działania serwisu.";
+
+    let companyLegalNameErr: string | undefined;
+    let nipErr: string | undefined;
+    let regonErr: string | undefined;
+    let streetErr: string | undefined;
+    let buildingErr: string | undefined;
+    let postalErr: string | undefined;
+    let cityErr: string | undefined;
+
+    if (accountKind === "business") {
+      companyLegalNameErr = requiredTrim(companyLegalName, "Pełna nazwa firmy");
+      const nipDigits = digitsOnlyNip(nip);
+      if (!nipDigits) nipErr = "Podaj NIP.";
+      else if (!isValidPolishNip(nipDigits)) nipErr = "Nieprawidłowy numer NIP.";
+      regonErr = validateRegonOptional(regon);
+      streetErr = requiredTrim(registeredStreet, "Ulica");
+      buildingErr = requiredTrim(registeredBuildingNo, "Numer budynku");
+      postalErr = validatePostalPl(registeredPostalCode);
+      cityErr = requiredTrim(registeredCity, "Miejscowość");
+    }
+
     setErrors({
       email: emailErr,
       password: passErr,
       confirm: confirmErr,
       terms: termsErr,
       dataUsage: dataUsageErr,
+      companyLegalName: companyLegalNameErr,
+      nip: nipErr,
+      regon: regonErr,
+      registeredStreet: streetErr,
+      registeredBuildingNo: buildingErr,
+      registeredPostalCode: postalErr,
+      registeredCity: cityErr,
     });
-    if (emailErr || passErr || confirmErr || termsErr || dataUsageErr) return;
+
+    if (
+      emailErr ||
+      passErr ||
+      confirmErr ||
+      termsErr ||
+      dataUsageErr ||
+      companyLegalNameErr ||
+      nipErr ||
+      regonErr ||
+      streetErr ||
+      buildingErr ||
+      postalErr ||
+      cityErr
+    ) {
+      return;
+    }
 
     if (!isSupabaseConfigured()) {
       setAuthError(
@@ -78,22 +167,51 @@ export function RegisterForm() {
     try {
       const supabase = createClient();
       const acceptedAt = new Date().toISOString();
+      const nipDigits = accountKind === "business" ? digitsOnlyNip(nip) : "";
+      const regonDigits = regon.replace(/\D/g, "");
+
+      const userData: Record<string, unknown> = {
+        account_type: accountKind === "business" ? "business" : "private",
+        terms_accepted_at: acceptedAt,
+        service_improvement_consent: true,
+        service_improvement_consent_at: acceptedAt,
+      };
+
+      if (accountKind === "business") {
+        userData.company_legal_name = companyLegalName.trim();
+        userData.nip = nipDigits;
+        userData.regon = regonDigits || null;
+        userData.registered_street = registeredStreet.trim();
+        userData.registered_building_no = registeredBuildingNo.trim();
+        userData.registered_apartment = registeredApartment.trim() || null;
+        userData.registered_postal_code = normalizePostalCode(registeredPostalCode);
+        userData.registered_city = registeredCity.trim();
+        userData.registered_voivodeship = registeredVoivodeship.trim() || null;
+        userData.registered_country = registeredCountry.trim() || "Polska";
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
         options: {
-          data: {
-            account_type: accountKind === "business" ? "business" : "private",
-            terms_accepted_at: acceptedAt,
-            service_improvement_consent: true,
-            service_improvement_consent_at: acceptedAt,
-          },
+          data: userData,
         },
       });
 
       if (error) {
         setAuthError(error.message);
         return;
+      }
+
+      if (data.user && data.session) {
+        const { error: profileErr } = await upsertProfileFromUser(data.user);
+        if (profileErr) {
+          setAuthError(
+            profileErr.message ||
+              "Konto utworzono, ale zapis profilu w bazie nie powiódł się. Uruchom migrację SQL dla tabeli profiles w Supabase.",
+          );
+          return;
+        }
       }
 
       const params = new URLSearchParams(
@@ -122,8 +240,8 @@ export function RegisterForm() {
       <div className="mb-8">
         <h2 className="font-headline text-2xl font-bold text-primary">Załóż konto</h2>
         <p className="mt-2 text-on-surface-variant">
-          Typ konta (osoba prywatna / firma) zapisujemy w profilu Supabase. Przy logowaniu nie
-          wybierasz typu — jest wczytywany z konta.
+          Konto firmowe wymaga NIP-u i adresu siedziby zgodnego z CEIDG/KRS — dane trafiają do tabeli{" "}
+          <code className="rounded bg-surface-low px-1 text-xs">profiles</code> w Supabase.
         </p>
       </div>
 
@@ -162,6 +280,253 @@ export function RegisterForm() {
           <p className="rounded-lg bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800" role="status">
             {info}
           </p>
+        )}
+
+        {accountKind === "business" && (
+          <div className="space-y-4 rounded-xl border border-outline-variant/40 bg-surface-low/60 p-4 md:p-5">
+            <p className="font-headline text-sm font-bold text-primary">Dane firmy i siedziba</p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="md:col-span-2">
+                <label
+                  htmlFor="company-legal-name"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Pełna nazwa firmy
+                </label>
+                <input
+                  id="company-legal-name"
+                  name="companyLegalName"
+                  type="text"
+                  autoComplete="organization"
+                  value={companyLegalName}
+                  onChange={(ev) => {
+                    setCompanyLegalName(ev.target.value);
+                    if (errors.companyLegalName) setErrors((s) => ({ ...s, companyLegalName: undefined }));
+                  }}
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                  aria-invalid={!!errors.companyLegalName}
+                />
+                {errors.companyLegalName && (
+                  <p className="mt-1.5 text-sm font-medium text-red-600" role="alert">
+                    {errors.companyLegalName}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="company-nip"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  NIP
+                </label>
+                <input
+                  id="company-nip"
+                  name="nip"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  value={nip}
+                  onChange={(ev) => {
+                    setNip(ev.target.value);
+                    if (errors.nip) setErrors((s) => ({ ...s, nip: undefined }));
+                  }}
+                  placeholder="10 cyfr"
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                  aria-invalid={!!errors.nip}
+                />
+                {errors.nip && (
+                  <p className="mt-1.5 text-sm font-medium text-red-600" role="alert">
+                    {errors.nip}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="company-regon"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  REGON (opcjonalnie)
+                </label>
+                <input
+                  id="company-regon"
+                  name="regon"
+                  inputMode="numeric"
+                  value={regon}
+                  onChange={(ev) => {
+                    setRegon(ev.target.value);
+                    if (errors.regon) setErrors((s) => ({ ...s, regon: undefined }));
+                  }}
+                  placeholder="9 lub 14 cyfr"
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                  aria-invalid={!!errors.regon}
+                />
+                {errors.regon && (
+                  <p className="mt-1.5 text-sm font-medium text-red-600" role="alert">
+                    {errors.regon}
+                  </p>
+                )}
+              </div>
+              <div className="md:col-span-2">
+                <label
+                  htmlFor="reg-street"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Ulica
+                </label>
+                <input
+                  id="reg-street"
+                  name="registeredStreet"
+                  type="text"
+                  autoComplete="street-address"
+                  value={registeredStreet}
+                  onChange={(ev) => {
+                    setRegisteredStreet(ev.target.value);
+                    if (errors.registeredStreet) setErrors((s) => ({ ...s, registeredStreet: undefined }));
+                  }}
+                  placeholder="np. Marszałkowska"
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                  aria-invalid={!!errors.registeredStreet}
+                />
+                {errors.registeredStreet && (
+                  <p className="mt-1.5 text-sm font-medium text-red-600" role="alert">
+                    {errors.registeredStreet}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="reg-building"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Nr budynku
+                </label>
+                <input
+                  id="reg-building"
+                  name="registeredBuildingNo"
+                  type="text"
+                  value={registeredBuildingNo}
+                  onChange={(ev) => {
+                    setRegisteredBuildingNo(ev.target.value);
+                    if (errors.registeredBuildingNo)
+                      setErrors((s) => ({ ...s, registeredBuildingNo: undefined }));
+                  }}
+                  placeholder="np. 12A"
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                  aria-invalid={!!errors.registeredBuildingNo}
+                />
+                {errors.registeredBuildingNo && (
+                  <p className="mt-1.5 text-sm font-medium text-red-600" role="alert">
+                    {errors.registeredBuildingNo}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="reg-apt"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Nr lokalu
+                </label>
+                <input
+                  id="reg-apt"
+                  name="registeredApartment"
+                  type="text"
+                  value={registeredApartment}
+                  onChange={(ev) => setRegisteredApartment(ev.target.value)}
+                  placeholder="opcjonalnie"
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="reg-postal"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Kod pocztowy
+                </label>
+                <input
+                  id="reg-postal"
+                  name="registeredPostalCode"
+                  inputMode="numeric"
+                  autoComplete="postal-code"
+                  value={registeredPostalCode}
+                  onChange={(ev) => {
+                    setRegisteredPostalCode(ev.target.value);
+                    if (errors.registeredPostalCode)
+                      setErrors((s) => ({ ...s, registeredPostalCode: undefined }));
+                  }}
+                  placeholder="00-950"
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                  aria-invalid={!!errors.registeredPostalCode}
+                />
+                {errors.registeredPostalCode && (
+                  <p className="mt-1.5 text-sm font-medium text-red-600" role="alert">
+                    {errors.registeredPostalCode}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="reg-city"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Miejscowość
+                </label>
+                <input
+                  id="reg-city"
+                  name="registeredCity"
+                  type="text"
+                  autoComplete="address-level2"
+                  value={registeredCity}
+                  onChange={(ev) => {
+                    setRegisteredCity(ev.target.value);
+                    if (errors.registeredCity) setErrors((s) => ({ ...s, registeredCity: undefined }));
+                  }}
+                  placeholder="np. Warszawa"
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                  aria-invalid={!!errors.registeredCity}
+                />
+                {errors.registeredCity && (
+                  <p className="mt-1.5 text-sm font-medium text-red-600" role="alert">
+                    {errors.registeredCity}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="reg-voiv"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Województwo (opcjonalnie)
+                </label>
+                <input
+                  id="reg-voiv"
+                  name="registeredVoivodeship"
+                  type="text"
+                  value={registeredVoivodeship}
+                  onChange={(ev) => setRegisteredVoivodeship(ev.target.value)}
+                  placeholder="np. mazowieckie"
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="reg-country"
+                  className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Kraj
+                </label>
+                <input
+                  id="reg-country"
+                  name="registeredCountry"
+                  type="text"
+                  autoComplete="country-name"
+                  value={registeredCountry}
+                  onChange={(ev) => setRegisteredCountry(ev.target.value)}
+                  className="w-full rounded-lg border-0 bg-white px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                />
+              </div>
+            </div>
+          </div>
         )}
 
         <div>
