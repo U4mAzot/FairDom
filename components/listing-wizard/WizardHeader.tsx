@@ -10,25 +10,25 @@ export function WizardHeader() {
         >
           FAIRDOM
         </Link>
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="flex max-w-[min(100%,24rem)] flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:max-w-none sm:gap-x-6 md:gap-x-8">
           <Link
             href="/search"
-            className="font-headline text-sm font-medium text-slate-500 transition hover:text-slate-900"
+            className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
           >
             Search
           </Link>
-          <span className="border-b-2 border-emerald-500 pb-1 font-headline text-sm font-bold text-slate-900">
+          <span className="border-b-2 border-emerald-500 pb-0.5 font-headline text-xs font-bold text-slate-900 sm:text-sm">
             Add Listing
           </span>
           <Link
             href="/login"
-            className="font-headline text-sm font-medium text-slate-500 transition hover:text-slate-900"
+            className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
           >
             Login
           </Link>
           <Link
             href="/register"
-            className="rounded-md bg-gradient-to-br from-primary to-primary-container px-6 py-2 font-headline text-sm font-bold text-white transition hover:opacity-90"
+            className="rounded-md bg-gradient-to-br from-primary to-primary-container px-3 py-1.5 font-headline text-xs font-bold text-white transition hover:opacity-90 sm:px-6 sm:py-2 sm:text-sm"
           >
             Register
           </Link>

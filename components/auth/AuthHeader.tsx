@@ -22,15 +22,15 @@ export function AuthHeader({ activeHref }: AuthHeaderProps) {
         >
           FAIRDOM
         </Link>
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="flex max-w-[min(100%,22rem)] flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:max-w-none sm:gap-x-6 md:gap-x-8">
           {links.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={
                 activeHref === item.href
-                  ? "border-b-2 border-emerald-500 pb-1 font-semibold text-gray-900"
-                  : "font-medium text-gray-500 transition hover:text-gray-900"
+                  ? "border-b-2 border-emerald-500 pb-0.5 text-sm font-semibold text-gray-900 sm:text-base"
+                  : "text-sm font-medium text-gray-500 transition hover:text-gray-900 sm:text-base"
               }
             >
               {item.label}
