@@ -9,11 +9,13 @@ describe("PropertyGallery", () => {
     expect(screen.getByRole("button", { name: /Zobacz wszystkie zdjęcia/i })).toBeInTheDocument();
   });
 
-  it("opens lightbox with keyboard hint and thumbnails", async () => {
+  it("opens lightbox and shows navigation controls", async () => {
     const user = userEvent.setup();
     render(<PropertyGallery />);
     await user.click(screen.getByRole("button", { name: /Zobacz wszystkie zdjęcia/i }));
     expect(screen.getByRole("dialog", { name: /Galeria zdjęć/i })).toBeInTheDocument();
     expect(screen.getByText(/24 zdjęć/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Poprzednie zdjęcie/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Następne zdjęcie/i })).toBeInTheDocument();
   });
 });

@@ -2,28 +2,32 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { Grid3X3, X } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, Grid3X3, X } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GALLERY_IMAGES, LIGHTBOX_IMAGES } from "@/components/property-detail/mockProperty";
 
 export function PropertyGallery() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const touchStartXRef = useRef<number | null>(null);
 
   const close = useCallback(() => setLightboxOpen(false), []);
+  const goNext = useCallback(() => setActiveIndex((i) => (i + 1) % LIGHTBOX_IMAGES.length), []);
+  const goPrev = useCallback(
+    () => setActiveIndex((i) => (i - 1 + LIGHTBOX_IMAGES.length) % LIGHTBOX_IMAGES.length),
+    [],
+  );
 
   useEffect(() => {
     if (!lightboxOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
-      if (e.key === "ArrowRight")
-        setActiveIndex((i) => (i + 1) % LIGHTBOX_IMAGES.length);
-      if (e.key === "ArrowLeft")
-        setActiveIndex((i) => (i - 1 + LIGHTBOX_IMAGES.length) % LIGHTBOX_IMAGES.length);
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [lightboxOpen, close]);
+  }, [lightboxOpen, close, goNext, goPrev]);
 
   const openGallery = () => {
     setActiveIndex(0);
@@ -105,7 +109,38 @@ export function PropertyGallery() {
                 <X className="h-6 w-6" />
               </button>
             </div>
-            <div className="relative min-h-0 flex-1 p-4 md:p-6">
+            <div
+              className="relative min-h-0 flex-1 p-4 md:p-6"
+              onTouchStart={(e) => {
+                touchStartXRef.current = e.changedTouches[0]?.clientX ?? null;
+              }}
+              onTouchEnd={(e) => {
+                const startX = touchStartXRef.current;
+                const endX = e.changedTouches[0]?.clientX ?? null;
+                if (startX == null || endX == null) return;
+                const deltaX = endX - startX;
+                if (Math.abs(deltaX) < 40) return;
+                if (deltaX < 0) goNext();
+                else goPrev();
+                touchStartXRef.current = null;
+              }}
+            >
+              <button
+                type="button"
+                onClick={goPrev}
+                aria-label="Poprzednie zdjęcie"
+                className="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/45 p-2 text-white transition hover:bg-black/65 md:left-4"
+              >
+                <ChevronLeft className="h-5 w-5" aria-hidden />
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                aria-label="Następne zdjęcie"
+                className="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/45 p-2 text-white transition hover:bg-black/65 md:right-4"
+              >
+                <ChevronRight className="h-5 w-5" aria-hidden />
+              </button>
               <motion.div
                 key={activeIndex}
                 initial={{ opacity: 0.5 }}
