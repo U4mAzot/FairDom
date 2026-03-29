@@ -1,3 +1,5 @@
+import { getDemoSellerUserId } from "@/lib/demoListingSeller";
+
 /** Szczegóły flagowej — Penthouse Obsydian (pl-001), zgodne z pierwszym wpisem w `MOCK_LISTINGS`. */
 
 export const PROPERTY = {
@@ -32,6 +34,8 @@ export const PROPERTY = {
   },
   messageDefault:
     "Chętnie umówię się na prywatną prezentację Penthouse Obsydian przy ul. Złotej 44 w Warszawie.",
+  /** UUID sprzedawcy w Supabase — opcjonalnie przez NEXT_PUBLIC_DEMO_SELLER_USER_ID */
+  sellerUserId: getDemoSellerUserId() ?? null,
 } as const;
 
 export const GALLERY_IMAGES = [

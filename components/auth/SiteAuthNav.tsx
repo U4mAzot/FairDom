@@ -51,6 +51,13 @@ export function SiteAuthNav({ variant = "search", onNavigate, className }: SiteA
         ? "font-headline text-sm font-medium text-on-surface-variant hover:text-on-surface"
         : "font-headline text-sm font-medium text-slate-500 hover:text-slate-900";
 
+  const messagesLinkClass =
+    variant === "detail"
+      ? "shrink-0 font-headline text-xs font-semibold text-slate-600 transition hover:text-slate-900 sm:text-sm"
+      : variant === "home"
+        ? "shrink-0 font-headline text-sm font-semibold text-on-surface-variant transition hover:text-primary"
+        : "shrink-0 font-headline text-sm font-semibold text-slate-600 transition hover:text-slate-900";
+
   if (!ready) {
     return (
       <div className="flex items-center gap-3" aria-busy="true" aria-label="Ładowanie konta">
@@ -63,6 +70,13 @@ export function SiteAuthNav({ variant = "search", onNavigate, className }: SiteA
   if (session) {
     return (
       <div className={`${loggedInWrap} ${className ?? ""}`.trim()}>
+        <Link
+          href="/dashboard?section=messages"
+          className={messagesLinkClass}
+          onClick={navAfter}
+        >
+          Wiadomości
+        </Link>
         <span className={emailClass} title={session.email}>
           {session.email}
         </span>

@@ -28,4 +28,12 @@ describe("AgentDashboardClient", () => {
     expect(screen.getByText(/Apartament loft/i)).toBeInTheDocument();
     expect(screen.queryByText(/Rezydencja Szklana/i)).not.toBeInTheDocument();
   });
+
+  it("shows messages panel when Wiadomości is selected", async () => {
+    const user = userEvent.setup();
+    render(<AgentDashboardClient />);
+    await user.click(screen.getByRole("button", { name: /^Wiadomości$/i }));
+    expect(screen.getByText(/Zaloguj się, aby zobaczyć konwersacje/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Twoje ogłoszenia/i)).not.toBeInTheDocument();
+  });
 });

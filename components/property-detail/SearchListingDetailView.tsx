@@ -181,6 +181,9 @@ export function SearchListingDetailView({ listing, initialViewCount }: Props) {
           <ContactSidebar
             key={listing.id}
             seller={DEFAULT_SELLER}
+            listingSlug={listing.id}
+            listingTitle={listing.title}
+            sellerUserId={listing.sellerUserId ?? undefined}
             messageDefault={`Interesuje mnie ${listing.title}. Proszę o kontakt z dodatkowymi informacjami.`}
             investment={{ yield: "5,2% w skali roku (szac.)", tax: "wg ustalenia" }}
           />

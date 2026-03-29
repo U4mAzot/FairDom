@@ -2,7 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useClientSession } from "@/hooks/useClientSession";
+import { DashboardMessagesPanel } from "@/components/dashboard/DashboardMessagesPanel";
 import {
   BarChart3,
   Bath,
@@ -135,8 +138,16 @@ function ListingCard({ listing }: { listing: AgentListing }) {
 }
 
 export function AgentDashboardClient() {
+  const searchParams = useSearchParams();
+  const { logout } = useClientSession();
   const [sidebarActive, setSidebarActive] = useState<SidebarKey>("overview");
   const [listingTab, setListingTab] = useState<ListingTab>("active");
+
+  useEffect(() => {
+    if (searchParams.get("section") === "messages") {
+      setSidebarActive("messages");
+    }
+  }, [searchParams]);
 
   const listings: AgentListing[] =
     listingTab === "active" ? ACTIVE_LISTINGS : ARCHIVED_LISTINGS;
@@ -225,13 +236,14 @@ export function AgentDashboardClient() {
                 })}
               </nav>
               <div className="border-t border-outline-variant/20 pt-6">
-                <Link
-                  href="/login"
+                <button
+                  type="button"
+                  onClick={() => void logout()}
                   className="flex w-full items-center justify-center gap-2 rounded-lg border border-red-200 bg-white py-3 font-semibold text-error transition hover:bg-error-container/30"
                 >
                   <LogOut className="h-4 w-4" aria-hidden />
                   Wyloguj
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -257,79 +269,94 @@ export function AgentDashboardClient() {
           </aside>
 
           <div className="space-y-8 lg:col-span-9">
-            <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {KPI_STATS.map((kpi) => (
-                <div
-                  key={kpi.label}
-                  className="flex flex-col justify-between rounded-xl bg-surface-low p-6"
-                >
-                  <span className="text-sm font-semibold text-on-surface-variant">{kpi.label}</span>
-                  <div className="mt-4 flex items-end justify-between">
-                    <span className="font-headline text-3xl font-black text-primary">{kpi.value}</span>
-                    <span
-                      className={`rounded px-2 py-1 text-xs font-bold ${
-                        kpi.variant === "positive"
-                          ? "bg-tertiary-fixed/20 text-on-tertiary-container"
-                          : "bg-error-container/40 text-error"
-                      }`}
+            {sidebarActive === "messages" ? (
+              <DashboardMessagesPanel />
+            ) : sidebarActive === "overview" ? (
+              <>
+                <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  {KPI_STATS.map((kpi) => (
+                    <div
+                      key={kpi.label}
+                      className="flex flex-col justify-between rounded-xl bg-surface-low p-6"
                     >
-                      {kpi.delta}
-                    </span>
+                      <span className="text-sm font-semibold text-on-surface-variant">{kpi.label}</span>
+                      <div className="mt-4 flex items-end justify-between">
+                        <span className="font-headline text-3xl font-black text-primary">{kpi.value}</span>
+                        <span
+                          className={`rounded px-2 py-1 text-xs font-bold ${
+                            kpi.variant === "positive"
+                              ? "bg-tertiary-fixed/20 text-on-tertiary-container"
+                              : "bg-error-container/40 text-error"
+                          }`}
+                        >
+                          {kpi.delta}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </section>
+
+                <section className="space-y-6">
+                  <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+                    <div>
+                      <h1 className="font-headline text-3xl font-black tracking-tight text-primary">
+                        Twoje ogłoszenia
+                      </h1>
+                      <p className="text-on-surface-variant">
+                        Zarządzaj ofertami i śledź zainteresowanie klientów.
+                      </p>
+                    </div>
+                    <div
+                      className="flex gap-1 rounded-full bg-surface-low p-1"
+                      role="tablist"
+                      aria-label="Filtr ogłoszeń"
+                    >
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={listingTab === "active"}
+                        onClick={() => setListingTab("active")}
+                        className={`rounded-full px-6 py-2 text-sm font-bold transition ${
+                          listingTab === "active"
+                            ? "bg-primary text-white shadow-sm"
+                            : "font-medium text-on-surface-variant hover:text-primary"
+                        }`}
+                      >
+                        Aktywne ({LISTING_COUNTS.active})
+                      </button>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={listingTab === "archived"}
+                        onClick={() => setListingTab("archived")}
+                        className={`rounded-full px-6 py-2 text-sm transition ${
+                          listingTab === "archived"
+                            ? "bg-primary text-white shadow-sm"
+                            : "font-medium text-on-surface-variant hover:text-primary"
+                        }`}
+                      >
+                        Archiwum ({LISTING_COUNTS.archived})
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </section>
 
-            <section className="space-y-6">
-              <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-                <div>
-                  <h1 className="font-headline text-3xl font-black tracking-tight text-primary">
-                    Twoje ogłoszenia
-                  </h1>
-                  <p className="text-on-surface-variant">
-                    Zarządzaj ofertami i śledź zainteresowanie klientów.
-                  </p>
-                </div>
-                <div
-                  className="flex gap-1 rounded-full bg-surface-low p-1"
-                  role="tablist"
-                  aria-label="Filtr ogłoszeń"
-                >
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={listingTab === "active"}
-                    onClick={() => setListingTab("active")}
-                    className={`rounded-full px-6 py-2 text-sm font-bold transition ${
-                      listingTab === "active"
-                        ? "bg-primary text-white shadow-sm"
-                        : "font-medium text-on-surface-variant hover:text-primary"
-                    }`}
-                  >
-                    Aktywne ({LISTING_COUNTS.active})
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={listingTab === "archived"}
-                    onClick={() => setListingTab("archived")}
-                    className={`rounded-full px-6 py-2 text-sm transition ${
-                      listingTab === "archived"
-                        ? "bg-primary text-white shadow-sm"
-                        : "font-medium text-on-surface-variant hover:text-primary"
-                    }`}
-                  >
-                    Archiwum ({LISTING_COUNTS.archived})
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                {listings.map((listing) => (
-                  <ListingCard key={listing.id} listing={listing} />
-                ))}
-              </div>
-            </section>
+                  <div className="space-y-4">
+                    {listings.map((listing) => (
+                      <ListingCard key={listing.id} listing={listing} />
+                    ))}
+                  </div>
+                </section>
+              </>
+            ) : (
+              <section className="rounded-xl bg-white p-8 shadow-md shadow-on-surface/[0.06]">
+                <h1 className="font-headline text-2xl font-black text-primary">
+                  {sidebarActive === "performance" ? "Wyniki" : "Ustawienia"}
+                </h1>
+                <p className="mt-2 text-on-surface-variant">
+                  Ta sekcja będzie dostępna wkrótce.
+                </p>
+              </section>
+            )}
           </div>
         </div>
       </main>

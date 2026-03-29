@@ -7,6 +7,9 @@ import { useEffect, useState } from "react";
 import { LineChart, Lock, Phone, Send } from "lucide-react";
 import { useClientSession } from "@/hooks/useClientSession";
 import { PROPERTY } from "@/components/property-detail/mockProperty";
+import { createClient } from "@/lib/supabase/client";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { upsertConversationAndSendFirstMessage } from "@/lib/listingMessages";
 
 export type ContactSidebarProps = {
   seller?: {
@@ -17,12 +20,20 @@ export type ContactSidebarProps = {
   };
   messageDefault?: string;
   investment?: { yield: string; tax: string };
+  /** Identyfikator oferty w URL (np. pl-001). */
+  listingSlug?: string;
+  listingTitle?: string;
+  /** UUID sprzedawcy w Supabase — bez tego czat nie zapisze wątku. */
+  sellerUserId?: string | null;
 };
 
 export function ContactSidebar({
   seller = PROPERTY.seller,
   messageDefault = PROPERTY.messageDefault,
   investment = PROPERTY.investment,
+  listingSlug = PROPERTY.slug,
+  listingTitle = PROPERTY.title,
+  sellerUserId = PROPERTY.sellerUserId,
 }: ContactSidebarProps = {}) {
   const pathname = usePathname();
   const { session, ready } = useClientSession();
@@ -33,6 +44,8 @@ export function ContactSidebar({
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState<string>(messageDefault);
   const [status, setStatus] = useState<"idle" | "sent">("idle");
+  const [submitting, setSubmitting] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
 
   const loginHref = `/login?returnUrl=${encodeURIComponent(pathname || "/")}`;
 
@@ -48,10 +61,44 @@ export function ContactSidebar({
     setMessage(messageDefault);
   }, [messageDefault]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSendError(null);
+    if (!session?.userId) return;
+    if (!sellerUserId) {
+      setSendError(
+        "Ta oferta nie ma przypisanego konta sprzedawcy w systemie — czat jest niedostępny. Skontaktuj się telefonicznie.",
+      );
+      return;
+    }
+    if (session.userId === sellerUserId) {
+      setSendError("To jest Twoja oferta — użyj panelu Wiadomości, aby odpowiadać kupującym.");
+      return;
+    }
+    if (!message.trim()) {
+      setSendError("Wpisz treść wiadomości.");
+      return;
+    }
+    if (!isSupabaseConfigured()) {
+      setSendError("Brak konfiguracji Supabase — wiadomość nie została zapisana.");
+      return;
+    }
+    setSubmitting(true);
+    const supabase = createClient();
+    const { error } = await upsertConversationAndSendFirstMessage(supabase, {
+      listingSlug,
+      listingTitle,
+      sellerId: sellerUserId,
+      buyerId: session.userId,
+      body: message.trim(),
+    });
+    setSubmitting(false);
+    if (error) {
+      setSendError(error.message);
+      return;
+    }
     setStatus("sent");
-    window.setTimeout(() => setStatus("idle"), 4000);
+    window.setTimeout(() => setStatus("idle"), 8000);
   };
 
   return (
@@ -112,6 +159,11 @@ export function ContactSidebar({
 
             {loggedIn ? (
               <form className="space-y-4 border-t border-surface-low pt-4" onSubmit={handleSubmit}>
+                {sendError && (
+                  <p className="rounded-lg bg-red-50 px-3 py-2 text-sm font-medium text-red-700" role="alert">
+                    {sendError}
+                  </p>
+                )}
                 <div>
                   <label
                     htmlFor="pd-name"
@@ -160,15 +212,20 @@ export function ContactSidebar({
                 </div>
                 {status === "sent" && (
                   <p className="text-sm font-semibold text-on-tertiary-container" role="status">
-                    Dziękujemy — wiadomość została wysłana (demo).
+                    Wiadomość wysłana. Odpowiedzi znajdziesz w{" "}
+                    <Link href="/dashboard?section=messages" className="font-bold underline">
+                      Panelu → Wiadomości
+                    </Link>{" "}
+                    (zakładka Kupuję).
                   </p>
                 )}
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-br from-primary to-primary-container py-4 font-bold text-white shadow-sm transition hover:opacity-90"
+                  disabled={submitting}
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-br from-primary to-primary-container py-4 font-bold text-white shadow-sm transition hover:opacity-90 disabled:opacity-70"
                 >
                   <Send className="h-5 w-5" aria-hidden />
-                  Wyślij wiadomość
+                  {submitting ? "Wysyłanie…" : "Wyślij wiadomość"}
                 </button>
               </form>
             ) : (

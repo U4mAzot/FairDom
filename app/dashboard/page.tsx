@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { AgentDashboardClient } from "@/components/dashboard/AgentDashboardClient";
 
 export const metadata: Metadata = {
@@ -7,5 +8,15 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage() {
-  return <AgentDashboardClient />;
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-surface text-on-surface-variant">
+          Ładowanie panelu…
+        </div>
+      }
+    >
+      <AgentDashboardClient />
+    </Suspense>
+  );
 }

@@ -1,4 +1,5 @@
 import { buildPolishLuxuryListings } from "@/components/search/buildPolishListings";
+import { getDemoSellerUserId } from "@/lib/demoListingSeller";
 import { formatPricePln, formatPriceShortPln } from "@/lib/formatPln";
 
 export type MarkerVariant = "navy" | "white" | "mint";
@@ -6,6 +7,8 @@ export type MarkerVariant = "navy" | "white" | "mint";
 export type SearchListing = {
   id: string;
   title: string;
+  /** UUID sprzedawcy w Supabase — tylko gdy oferta jest powiązana z kontem (np. demo przez NEXT_PUBLIC_DEMO_SELLER_USER_ID). */
+  sellerUserId?: string | null;
   price: number;
   priceDisplay: string;
   priceShort: string;
@@ -47,6 +50,7 @@ function withHeroListing(listings: SearchListing[]): SearchListing[] {
     baths: 4,
     areaSqm: 342,
     viewCount: 0,
+    sellerUserId: getDemoSellerUserId() ?? null,
   };
   return [hero, ...listings];
 }
