@@ -149,11 +149,6 @@ export function SearchResultsView({ viewCounts = {} }: { viewCounts?: Record<str
     return `${filtered.length} ${filtered.length === 1 ? "wynik" : "wyników"} w Polsce`;
   }, [searchQuery, priceFilter, bedsFilter, sortBy, filtered.length]);
 
-  const searchThisArea = () => {
-    setAreaToast(true);
-    window.setTimeout(() => setAreaToast(false), 2200);
-  };
-
   return (
     <div className="flex min-h-screen flex-col overflow-hidden bg-surface-low">
       <SearchShellHeader />
