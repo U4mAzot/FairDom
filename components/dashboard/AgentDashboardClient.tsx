@@ -66,7 +66,7 @@ function ListingCard({ listing }: { listing: AgentListing }) {
         />
         {listing.featured && (
           <span className="absolute left-4 top-4 rounded px-2 py-1 text-[10px] font-black uppercase tracking-widest text-tertiary shadow-sm bg-tertiary-fixed">
-            Featured
+            Wyróżnione
           </span>
         )}
       </div>
@@ -108,7 +108,7 @@ function ListingCard({ listing }: { listing: AgentListing }) {
             className="flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-bold text-white transition hover:opacity-90"
           >
             <Pencil className="h-4 w-4" aria-hidden />
-            Edit
+            Edytuj
           </button>
           <button
             type="button"
@@ -203,7 +203,7 @@ export function AgentDashboardClient() {
                 </h2>
                 <p className="text-sm text-on-surface-variant">{AGENT_PROFILE.title}</p>
               </div>
-              <nav className="space-y-1" aria-label="Dashboard sidebar">
+              <nav className="space-y-1" aria-label="Menu boczne panelu">
                 {sidebarItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = sidebarActive === item.key;
@@ -239,19 +239,19 @@ export function AgentDashboardClient() {
               <div className="mb-4 flex items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-tertiary-fixed" aria-hidden />
                 <span className="text-xs font-bold uppercase tracking-widest text-tertiary-fixed">
-                  Growth Tip
+                  Wskazówka rozwoju
                 </span>
               </div>
               <p className="mb-4 text-sm leading-relaxed text-white/90">
-                Properties with 3D virtual tours receive{" "}
-                <span className="font-bold text-tertiary-fixed">45% more leads</span> in their first
-                week.
+                Oferty z wirtualnym spacerem 3D otrzymują{" "}
+                <span className="font-bold text-tertiary-fixed">o 45% więcej zapytań</span> w
+                pierwszym tygodniu.
               </p>
               <button
                 type="button"
                 className="w-full rounded-md bg-tertiary-fixed py-2.5 text-sm font-bold text-tertiary transition hover:bg-tertiary-fixed-dim"
               >
-                Update Listings
+                Zaktualizuj ogłoszenia
               </button>
             </div>
           </aside>
@@ -341,66 +341,66 @@ export function AgentDashboardClient() {
               FAIRDOM
             </div>
             <p className="text-sm text-gray-500">
-              Architecting the future of real estate through transparency and institutional-grade
-              tools.
+              Budujemy przyszłość nieruchomości dzięki transparentności i narzędziom klasy
+              profesjonalnej.
             </p>
           </div>
           <div>
-            <h4 className="mb-4 font-bold text-primary">Platform</h4>
+            <h4 className="mb-4 font-bold text-primary">Platforma</h4>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
                 <Link href="/search" className="hover:text-emerald-500">
-                  Search Houses
+                  Szukaj nieruchomości
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:text-emerald-500">
-                  Market Insights
+                  Analizy rynku
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:text-emerald-500">
-                  Mortgage Tool
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="mb-4 font-bold text-primary">Company</h4>
-            <ul className="space-y-2 text-sm text-gray-500">
-              <li>
-                <Link href="#" className="hover:text-emerald-500">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-emerald-500">
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-emerald-500">
-                  Privacy Policy
+                  Kalkulator kredytu
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h4 className="mb-4 font-bold text-primary">Support</h4>
+            <h4 className="mb-4 font-bold text-primary">Firma</h4>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
                 <Link href="#" className="hover:text-emerald-500">
-                  Contact Support
+                  O nas
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:text-emerald-500">
-                  Help Center
+                  Kariera
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:text-emerald-500">
-                  API Docs
+                  Polityka prywatności
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="mb-4 font-bold text-primary">Wsparcie</h4>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li>
+                <Link href="#" className="hover:text-emerald-500">
+                  Skontaktuj się ze wsparciem
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-emerald-500">
+                  Centrum pomocy
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-emerald-500">
+                  Dokumentacja API
                 </Link>
               </li>
             </ul>

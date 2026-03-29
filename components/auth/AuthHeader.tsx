@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const links: { href: string; label: string }[] = [
-  { href: "/search", label: "Search" },
-  { href: "/add-listing", label: "Add Listing" },
-  { href: "/login", label: "Login" },
-  { href: "/register", label: "Register" },
+  { href: "/search", label: "Szukaj" },
+  { href: "/add-listing", label: "Dodaj ogłoszenie" },
+  { href: "/login", label: "Logowanie" },
+  { href: "/register", label: "Rejestracja" },
 ];
 
 type AuthHeaderProps = {

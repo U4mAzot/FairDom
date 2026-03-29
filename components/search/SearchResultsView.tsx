@@ -5,7 +5,6 @@ import { AnimatePresence } from "framer-motion";
 import {
   BedDouble,
   ChevronDown,
-  RefreshCw,
   Search,
   SlidersHorizontal,
   Wallet,
@@ -101,7 +100,6 @@ export function SearchResultsView({ viewCounts = {} }: { viewCounts?: Record<str
   const [priceOpen, setPriceOpen] = useState(false);
   const [bedsOpen, setBedsOpen] = useState(false);
   const [filtersModalOpen, setFiltersModalOpen] = useState(false);
-  const [areaToast, setAreaToast] = useState(false);
 
   const priceRef = useRef<HTMLDivElement>(null);
   const bedsRef = useRef<HTMLDivElement>(null);
@@ -338,7 +336,7 @@ export function SearchResultsView({ viewCounts = {} }: { viewCounts?: Record<str
                   </div>
                   <div>
                     <p className="mb-3 text-xs font-bold uppercase tracking-widest text-on-surface-variant">
-                      Beds
+                      Sypialnie
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {BEDS_OPTIONS.map((opt) => (
@@ -408,21 +406,6 @@ export function SearchResultsView({ viewCounts = {} }: { viewCounts?: Record<str
               setHoveredId={setHoveredId}
             />
           </div>
-          <div className="pointer-events-none absolute inset-0 z-[600] flex justify-center pt-4">
-            <button
-              type="button"
-              onClick={searchThisArea}
-              className="pointer-events-auto flex items-center gap-2 rounded-full border border-white/80 bg-white/85 px-6 py-2.5 font-bold text-primary shadow-lg backdrop-blur-md transition hover:bg-white"
-            >
-              <RefreshCw className="h-5 w-5" aria-hidden />
-              Szukaj w tym obszarze
-            </button>
-          </div>
-          {areaToast && (
-            <div className="pointer-events-none absolute bottom-24 left-1/2 z-[700] -translate-x-1/2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-lg">
-              Dopasowuję wyniki do widocznej mapy…
-            </div>
-          )}
         </section>
       </div>
     </div>

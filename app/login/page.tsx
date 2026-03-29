@@ -9,8 +9,8 @@ import { LoginForm } from "@/components/auth/LoginForm";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Login | FairDom",
-  description: "Sign in to your FairDom account.",
+  title: "Logowanie | FairDom",
+  description: "Zaloguj się do swojego konta FairDom.",
 };
 
 export default function LoginPage() {

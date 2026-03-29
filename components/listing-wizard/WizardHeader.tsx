@@ -15,22 +15,22 @@ export function WizardHeader() {
             href="/search"
             className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
           >
-            Search
+            Szukaj
           </Link>
           <span className="border-b-2 border-emerald-500 pb-0.5 font-headline text-xs font-bold text-slate-900 sm:text-sm">
-            Add Listing
+            Dodaj ogłoszenie
           </span>
           <Link
             href="/login"
             className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
           >
-            Login
+            Logowanie
           </Link>
           <Link
             href="/register"
             className="rounded-md bg-gradient-to-br from-primary to-primary-container px-3 py-1.5 font-headline text-xs font-bold text-white transition hover:opacity-90 sm:px-6 sm:py-2 sm:text-sm"
           >
-            Register
+            Rejestracja
           </Link>
         </nav>
       </div>

@@ -6,6 +6,8 @@ import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import type { Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Crosshair, Minus, Plus } from "lucide-react";
+import { LeafletInvalidateSize } from "@/components/map/LeafletInvalidateSize";
+import { isLatLngInPoland, POLAND_MAP_BOUNDS } from "@/lib/polandMap";
 import { POLAND_MAP_CENTER, type SearchListing } from "@/components/search/mockListings";
 import { createPricePillIcon } from "@/components/search/pricePillIcon";
 
@@ -20,7 +22,16 @@ function MapChrome({ mapRef }: { mapRef: RefObject<LeafletMap | null> }) {
     const m = mapRef.current;
     if (!m || !navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(
-      (pos) => m.setView([pos.coords.latitude, pos.coords.longitude], 14),
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        // VPN / emulator / błąd GPS potrafi zwrócić pozycję poza PL — wtedy mapa „ucieka” (np. Arktyka) i zniki znikają z kadru.
+        if (isLatLngInPoland(lat, lng)) {
+          m.setView([lat, lng], 14);
+        } else {
+          m.setView(POLAND_MAP_CENTER, 6);
+        }
+      },
       () => {},
     );
   };
@@ -78,13 +89,20 @@ export function SearchMap({ listings, hoveredId, setHoveredId }: SearchMapProps)
         ref={mapRef}
         center={POLAND_MAP_CENTER}
         zoom={6}
+        maxBounds={POLAND_MAP_BOUNDS}
+        maxBoundsViscosity={0.85}
         className="absolute inset-0 z-0 h-full w-full rounded-none"
         style={{ height: "100%", width: "100%" }}
         scrollWheelZoom
+        zoomControl={false}
       >
+        {/*
+          OSM kafelki. maxBounds trzyma widok przy Polsce (po błędnej geolokalizacji / przypadkowym przesunięciu).
+        */}
+        <LeafletInvalidateSize />
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {listings.map((p) => (
           <Marker

@@ -92,7 +92,7 @@ export function PropertyDetailView({ initialViewCount }: Props) {
               <div className="flex flex-col items-center justify-center p-4 text-center">
                 <BedDouble className="mb-3 h-8 w-8 text-primary" aria-hidden />
                 <span className="mb-1 text-sm font-semibold uppercase tracking-wider text-on-surface-variant">
-                  Rooms
+                  Pokoje
                 </span>
                 <span className="font-headline text-xl font-bold text-primary">{PROPERTY.rooms}</span>
               </div>

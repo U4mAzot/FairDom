@@ -5,6 +5,7 @@ import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import type { Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Minus, Plus } from "lucide-react";
+import { LeafletInvalidateSize } from "@/components/map/LeafletInvalidateSize";
 import { createPropertyLocationIcon } from "@/components/property-detail/propertyMapMarker";
 
 type Props = {
@@ -50,9 +51,10 @@ export function PropertyLocationMap({ center, zoom = 14 }: Props) {
         scrollWheelZoom
         zoomControl={false}
       >
+        <LeafletInvalidateSize />
         <TileLayer
-          attribution='&copy; OpenStreetMap &copy; CARTO'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Marker position={center} icon={icon} />
       </MapContainer>

@@ -9,14 +9,14 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 function validateEmail(value: string): string | undefined {
   const v = value.trim();
-  if (!v) return "Email is required.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return "Enter a valid email address.";
+  if (!v) return "Podaj adres e-mail.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return "Nieprawidłowy adres e-mail.";
   return undefined;
 }
 
 function validatePassword(value: string): string | undefined {
-  if (!value) return "Password is required.";
-  if (value.length < 8) return "Password must be at least 8 characters.";
+  if (!value) return "Hasło jest wymagane.";
+  if (value.length < 8) return "Hasło musi mieć co najmniej 8 znaków.";
   return undefined;
 }
 
@@ -61,6 +61,8 @@ export function LoginForm() {
         return;
       }
 
+      await supabase.auth.getSession();
+
       const params = new URLSearchParams(
         typeof window !== "undefined" ? window.location.search : "",
       );
@@ -77,7 +79,7 @@ export function LoginForm() {
   return (
     <div className="flex flex-col justify-center p-8 md:p-12">
       <div className="mb-8">
-        <h2 className="font-headline text-2xl font-bold text-primary">Welcome Back</h2>
+        <h2 className="font-headline text-2xl font-bold text-primary">Witaj ponownie</h2>
         <p className="mt-2 text-on-surface-variant">
           Zaloguj się, aby pisać do sprzedających i zarządzać ogłoszeniami. Przeglądanie ofert jest
           dostępne bez konta.
@@ -96,7 +98,7 @@ export function LoginForm() {
             htmlFor="login-email"
             className="mb-2 block font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
           >
-            Email Address
+            E-mail
           </label>
           <input
             id="login-email"
@@ -114,7 +116,7 @@ export function LoginForm() {
                 return { ...s, ...(e ? { email: e } : { email: undefined }) };
               })
             }
-            placeholder="name@company.com"
+            placeholder="twoj@email.pl"
             className="w-full rounded-lg border-0 bg-surface-low px-4 py-3 text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "login-email-error" : undefined}
@@ -132,13 +134,13 @@ export function LoginForm() {
               htmlFor="login-password"
               className="font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant"
             >
-              Password
+              Hasło
             </label>
             <Link
               href="#forgot"
               className="text-xs font-semibold text-primary transition hover:text-on-tertiary-container"
             >
-              Forgot password?
+              Nie pamiętasz hasła?
             </Link>
           </div>
           <input
@@ -182,7 +184,7 @@ export function LoginForm() {
             className="h-4 w-4 rounded border-outline-variant text-primary focus:ring-tertiary-fixed"
           />
           <label htmlFor="keep-logged-in" className="text-sm text-on-surface-variant">
-            Keep me logged in for 30 days
+            Pozostań zalogowany przez 30 dni
           </label>
         </div>
 

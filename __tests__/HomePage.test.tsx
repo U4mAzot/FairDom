@@ -13,10 +13,10 @@ describe("Home page (landing)", () => {
     render(ui);
     const brands = screen.getAllByText(/FAIRDOM/i);
     expect(brands.length).toBeGreaterThan(0);
-    expect(screen.getByText(/Fairly/i)).toBeInTheDocument();
+    expect(screen.getByText(/uczciwie/i)).toBeInTheDocument();
     expect(screen.getByText(/Wybrane rezydencje/i)).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /Ready to sell for more and pay less/i }),
+      screen.getByRole("heading", { name: /Chcesz sprzedać drożej i zapłacić mniej/i }),
     ).toBeInTheDocument();
   });
 

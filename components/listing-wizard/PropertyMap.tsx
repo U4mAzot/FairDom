@@ -3,6 +3,7 @@
 import { useEffect, useMemo } from "react";
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { LeafletInvalidateSize } from "@/components/map/LeafletInvalidateSize";
 import { createFairDomDivIcon } from "@/components/listing-wizard/fairdomMapMarker";
 
 export type LatLng = [number, number];
@@ -48,9 +49,10 @@ export function PropertyMap({ position, picking, onPick, className }: PropertyMa
       style={{ height: "100%", width: "100%", minHeight: 280 }}
       scrollWheelZoom
     >
+      <LeafletInvalidateSize />
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <RecenterOnPosition position={position} />
       <MapPickHandler picking={picking} onPick={onPick} />

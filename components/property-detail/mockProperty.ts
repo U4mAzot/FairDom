@@ -11,7 +11,7 @@ export const PROPERTY = {
   rooms: "4,5",
   floor: "28 / 32",
   year: "2023",
-  walkScore: "94 Walk Score",
+  walkScore: "94/100 – użyteczność piesza",
   transit: "Komunikacja A+",
   mapCenter: [52.2302, 21.0116] as [number, number],
   mapZoom: 14,

@@ -41,6 +41,10 @@ export function ContactSidebar({
   }, [session?.email]);
 
   useEffect(() => {
+    if (session?.fullName) setName((n) => n || session.fullName);
+  }, [session?.fullName]);
+
+  useEffect(() => {
     setMessage(messageDefault);
   }, [messageDefault]);
 
@@ -134,9 +138,9 @@ export function ContactSidebar({
                     id="pd-email"
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    readOnly
                     placeholder="jan@example.com"
-                    className="w-full rounded-md border-0 bg-surface-low px-4 py-3 text-on-surface placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
+                    className="w-full cursor-not-allowed rounded-md border-0 bg-surface-low px-4 py-3 text-on-surface placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
                   />
                 </div>
                 <div>
@@ -194,15 +198,15 @@ export function ContactSidebar({
         <div className="rounded-xl bg-gradient-to-br from-emerald-800 via-emerald-900 to-primary p-6 text-white shadow-lg">
           <div className="mb-4 flex items-center gap-2">
             <LineChart className="h-5 w-5 text-tertiary-fixed" aria-hidden />
-            <span className="font-headline font-bold">Investment Summary</span>
+            <span className="font-headline font-bold">Podsumowanie inwestycji</span>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <div className="text-xs font-bold uppercase tracking-tighter opacity-70">Yield Potential</div>
+              <div className="text-xs font-bold uppercase tracking-tighter opacity-70">Potencjalny zwrot</div>
               <div className="text-lg font-bold">{investment.yield}</div>
             </div>
             <div>
-              <div className="text-xs font-bold uppercase tracking-tighter opacity-70">Tax Est.</div>
+              <div className="text-xs font-bold uppercase tracking-tighter opacity-70">Podatek (szac.)</div>
               <div className="text-lg font-bold">{investment.tax}</div>
             </div>
           </div>

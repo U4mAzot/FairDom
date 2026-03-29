@@ -6,7 +6,7 @@ export function LoginBrandingPanel() {
     <div className="relative hidden min-h-[520px] flex-col justify-between overflow-hidden bg-primary p-10 text-white md:flex lg:p-12">
       <div className="absolute inset-0">
         <Image
-          src="/login-hero.png"
+          src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1800&q=80"
           alt=""
           fill
           className="object-cover"
@@ -21,12 +21,12 @@ export function LoginBrandingPanel() {
 
       <div className="relative z-10">
         <h1 className="font-headline text-3xl font-extrabold leading-tight tracking-tight lg:text-4xl">
-          Unlock the Door to Your{" "}
-          <span className="text-emerald-400">Dream Home.</span>
+          Otwórz drzwi do{" "}
+          <span className="text-emerald-400">wymarzonego domu.</span>
         </h1>
         <p className="mt-6 max-w-md text-lg leading-relaxed text-white/80">
-          Experience a transparent real estate ecosystem designed for clarity, speed, and absolute
-          trust.
+          Korzystaj z transparentnego ekosystemu nieruchomości, stworzonego z myślą o
+          przejrzystości, szybkości i pełnym zaufaniu.
         </p>
       </div>
 
@@ -36,9 +36,9 @@ export function LoginBrandingPanel() {
             <ShieldCheck className="h-5 w-5 text-emerald-400" strokeWidth={2} aria-hidden />
           </div>
           <div>
-            <h3 className="font-bold text-white">Verified Listings</h3>
+            <h3 className="font-bold text-white">Zweryfikowane ogłoszenia</h3>
             <p className="mt-1 text-sm text-white/75">
-              Every property is vetted by our architectural integrity team.
+              Każda nieruchomość jest sprawdzana przez nasz zespół weryfikacji.
             </p>
           </div>
         </div>
@@ -47,9 +47,9 @@ export function LoginBrandingPanel() {
             <LineChart className="h-5 w-5 text-emerald-400" strokeWidth={2} aria-hidden />
           </div>
           <div>
-            <h3 className="font-bold text-white">Market Intelligence</h3>
+            <h3 className="font-bold text-white">Analityka rynku</h3>
             <p className="mt-1 text-sm text-white/75">
-              Data-driven insights to ensure your investment is sound.
+              Dane i analizy pomagają podejmować trafne decyzje inwestycyjne.
             </p>
           </div>
         </div>

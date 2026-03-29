@@ -21,8 +21,8 @@ export function AuthFooter() {
             FAIRDOM
           </div>
           <p className="text-sm leading-relaxed text-gray-500">
-            Elevating the real estate experience through architectural passion and digital
-            innovation.
+            Podnosimy jakość doświadczenia na rynku nieruchomości dzięki pasji do architektury i
+            cyfrowym innowacjom.
           </p>
         </div>
         <div>
@@ -53,7 +53,7 @@ export function AuthFooter() {
         </div>
         <div>
           <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-900">
-            Newsletter
+            Biuletyn
           </h4>
           <div className="flex items-center gap-2 rounded-lg border border-outline-variant/30 bg-white p-1">
             <label htmlFor="auth-footer-email" className="sr-only">
@@ -76,7 +76,7 @@ export function AuthFooter() {
       </div>
       <div className="mx-auto mt-12 max-w-7xl border-t border-gray-200 pt-8 text-center">
         <p className="text-xs text-gray-500">
-          © {new Date().getFullYear()} FairDom Real Estate. All rights reserved.
+          © {new Date().getFullYear()} FairDom Real Estate. Wszelkie prawa zastrzeżone.
         </p>
       </div>
     </footer>

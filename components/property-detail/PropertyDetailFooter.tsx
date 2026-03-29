@@ -10,61 +10,61 @@ export function PropertyDetailFooter() {
             FairDom
           </div>
           <p className="text-sm leading-relaxed text-slate-500">
-            Defining the next generation of architectural real estate through transparency and curated
-            design.
+            Definiujemy nową generację rynku nieruchomości dzięki transparentności i starannie
+            dobranym ofertom.
           </p>
         </div>
         <div>
-          <h4 className="mb-4 font-bold text-primary">Properties</h4>
+          <h4 className="mb-4 font-bold text-primary">Nieruchomości</h4>
           <ul className="space-y-2 text-sm text-slate-500">
             <li>
               <Link href="#" className="transition hover:text-emerald-500">
-                Penthouse Collection
+                Kolekcja penthouse
               </Link>
             </li>
             <li>
               <Link href="#" className="transition hover:text-emerald-500">
-                Modern Estates
+                Nowoczesne rezydencje
               </Link>
             </li>
             <li>
               <Link href="#" className="transition hover:text-emerald-500">
-                Urban Lofts
+                Miejskie lofty
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <h4 className="mb-4 font-bold text-primary">Company</h4>
+          <h4 className="mb-4 font-bold text-primary">Firma</h4>
           <ul className="space-y-2 text-sm text-slate-500">
             <li>
               <Link href="#" className="transition hover:text-emerald-500">
-                About Us
+                O nas
               </Link>
             </li>
             <li>
               <Link href="#" className="transition hover:text-emerald-500">
-                Privacy Policy
+                Polityka prywatności
               </Link>
             </li>
             <li>
               <Link href="#" className="transition hover:text-emerald-500">
-                Terms of Service
+                Regulamin
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <h4 className="mb-4 font-bold text-primary">Support</h4>
+          <h4 className="mb-4 font-bold text-primary">Wsparcie</h4>
           <ul className="space-y-2 text-sm text-slate-500">
             <li>
               <Link href="#" className="transition hover:text-emerald-500">
-                Contact Support
+                Skontaktuj się ze wsparciem
               </Link>
             </li>
             <li>
               <Link href="#" className="transition hover:text-emerald-500">
-                Careers
+                Kariera
               </Link>
             </li>
           </ul>
@@ -72,7 +72,7 @@ export function PropertyDetailFooter() {
       </div>
       <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 md:flex-row">
         <p className="text-sm text-slate-500">
-          © {new Date().getFullYear()} FairDom Real Estate. All rights reserved.
+          © {new Date().getFullYear()} FairDom Real Estate. Wszelkie prawa zastrzeżone.
         </p>
         <div className="flex gap-6 text-slate-400">
           <Globe className="h-5 w-5 cursor-pointer transition hover:text-primary" aria-hidden />

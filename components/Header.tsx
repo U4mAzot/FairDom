@@ -4,11 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
+import { SiteAuthNav } from "@/components/auth/SiteAuthNav";
 
-const nav = [
+const mainNav = [
   { href: "/search", label: "Szukaj" },
   { href: "/add-listing", label: "Dodaj ogłoszenie" },
-  { href: "/login", label: "Logowanie" },
 ];
 
 export function Header() {
@@ -29,8 +29,8 @@ export function Header() {
           FAIRDOM
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {nav.map((item) => (
+        <div className="hidden min-w-0 items-center gap-8 md:flex">
+          {mainNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -39,12 +39,7 @@ export function Header() {
               {item.label}
             </Link>
           ))}
-          <Link
-            href="/register"
-            className="rounded-xl bg-gradient-to-br from-primary to-primary-container px-6 py-2.5 font-headline text-sm font-bold text-white shadow-sm transition hover:opacity-90"
-          >
-            Zarejestruj
-          </Link>
+          <SiteAuthNav variant="home" />
         </div>
 
         <button
@@ -65,7 +60,7 @@ export function Header() {
           className="border-t border-surface-low bg-white px-6 py-4 md:hidden"
         >
           <div className="flex flex-col gap-4">
-            {nav.map((item) => (
+            {mainNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -75,13 +70,13 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/register"
-              onClick={() => setOpen(false)}
-              className="rounded-xl bg-primary py-3 text-center font-headline font-bold text-white"
-            >
-              Zarejestruj
-            </Link>
+            <div className="border-t border-surface-low pt-4">
+              <SiteAuthNav
+                variant="home"
+                onNavigate={() => setOpen(false)}
+                className="flex-col items-stretch gap-3"
+              />
+            </div>
           </div>
         </motion.div>
       )}

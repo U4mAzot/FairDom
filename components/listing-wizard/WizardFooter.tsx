@@ -21,7 +21,8 @@ export function WizardFooter() {
             FairDom
           </div>
           <p className="text-slate-500">
-            Revolutionizing real estate through transparency and architectural excellence.
+            Rewolucjonizujemy rynek nieruchomości dzięki transparentności i doskonałości
+            architektonicznej.
           </p>
         </div>
         <div>
@@ -63,7 +64,7 @@ export function WizardFooter() {
       </div>
       <div className="mx-auto mt-12 max-w-7xl border-t border-slate-200 pt-8 text-center">
         <p className="text-sm text-slate-500">
-          © {new Date().getFullYear()} FairDom Real Estate. All rights reserved.
+          © {new Date().getFullYear()} FairDom Real Estate. Wszelkie prawa zastrzeżone.
         </p>
       </div>
     </footer>

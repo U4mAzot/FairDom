@@ -22,11 +22,11 @@ export function CTASection() {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2 className="mb-6 font-headline text-3xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
-            Ready to sell for more and pay less?
+            Chcesz sprzedać drożej i zapłacić mniej?
           </h2>
           <p className="mb-10 max-w-xl text-lg text-primary-fixed-dim md:text-xl">
-            Join over 12,000 homeowners who saved an average of 4.5% on their closing costs last
-            year.
+            Dołącz do ponad 12 000 właścicieli, którzy w zeszłym roku obniżyli średnie koszty
+            finalizacji transakcji o 4,5%.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
             <motion.button
@@ -35,7 +35,7 @@ export function CTASection() {
               whileTap={{ scale: 0.98 }}
               className="rounded-xl bg-tertiary-fixed-dim px-10 py-5 font-headline text-lg font-bold text-on-tertiary-fixed transition hover:bg-tertiary-fixed"
             >
-              Start Your Listing
+              Dodaj ogłoszenie
             </motion.button>
             <motion.button
               type="button"
@@ -44,7 +44,7 @@ export function CTASection() {
               className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-primary-container px-10 py-5 font-headline text-lg font-bold text-white transition hover:bg-primary-container/80"
             >
               <Calendar className="h-5 w-5" aria-hidden />
-              Book a Consultation
+              Umów konsultację
             </motion.button>
           </div>
         </motion.div>

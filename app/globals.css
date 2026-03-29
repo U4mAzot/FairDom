@@ -12,6 +12,19 @@ body {
   background: var(--background);
 }
 
+/*
+  Tailwind Preflight: `img { max-width: 100%; height: auto; }` psuje kafelki Leafleta
+  (pusta mapa, artefakty, „pigułki”). Wystarczy zdjąć max-width na obrazach w mapie.
+  @see https://github.com/Leaflet/Leaflet/issues/4794
+*/
+.leaflet-container img {
+  max-width: none !important;
+}
+
+.leaflet-container svg {
+  max-width: none !important;
+}
+
 /* Leaflet custom div icon */
 .fairdom-map-marker {
   background: transparent !important;

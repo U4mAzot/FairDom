@@ -15,9 +15,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "FairDom | Modern Real Estate Redefined",
+  title: "FairDom | Nowoczesne nieruchomości po nowemu",
   description:
-    "Editorial-grade listings with transparency and low fees. Real estate fairly priced.",
+    "Starannie przygotowane oferty, pełna transparentność i niskie opłaty. Nieruchomości wycenione uczciwie.",
 };
 
 export default function RootLayout({

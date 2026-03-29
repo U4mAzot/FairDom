@@ -18,11 +18,11 @@ import { WizardProgress } from "@/components/listing-wizard/WizardProgress";
 const POTSDAMER_DEFAULT: LatLng = [52.509669, 13.376294];
 
 const FLOOR_OPTIONS = [
-  "Ground Floor",
-  "1st Floor",
-  "2nd Floor",
-  "3rd Floor",
-  "Top Floor / Penthouse",
+  "Parter",
+  "1. piętro",
+  "2. piętro",
+  "3. piętro",
+  "Ostatnie piętro / Penthouse",
 ] as const;
 
 const ROOM_OPTIONS = ["1", "2", "3", "4+"] as const;
@@ -33,7 +33,7 @@ const PropertyMap = dynamic(
     ssr: false,
     loading: () => (
       <div className="flex min-h-[280px] w-full items-center justify-center rounded-xl bg-slate-200/80 text-sm text-slate-500">
-        Loading map…
+        Ładowanie mapy…
       </div>
     ),
   },
@@ -44,12 +44,12 @@ export function PropertyDetailsStep() {
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [totalArea, setTotalArea] = useState("0.00");
   const [rooms, setRooms] = useState<(typeof ROOM_OPTIONS)[number]>("1");
-  const [floorLevel, setFloorLevel] = useState<string>("Ground Floor");
+  const [floorLevel, setFloorLevel] = useState<string>("Parter");
   const [yearBuilt, setYearBuilt] = useState("");
   const [mapPosition, setMapPosition] = useState<LatLng>(POTSDAMER_DEFAULT);
   const [locationPicking, setLocationPicking] = useState(false);
   const [addressPrimary, setAddressPrimary] = useState("Potsdamer Platz 1");
-  const [addressSecondary, setAddressSecondary] = useState("10117 Berlin, Germany");
+  const [addressSecondary, setAddressSecondary] = useState("10117 Berlin, Niemcy");
 
   useEffect(() => {
     if (!ready || !session?.userId) {
@@ -112,7 +112,7 @@ export function PropertyDetailsStep() {
 
   const handleMapPick = (lat: number, lng: number) => {
     setMapPosition([lat, lng]);
-    setAddressPrimary("Selected pin location");
+    setAddressPrimary("Wybrana lokalizacja pinezki");
     setAddressSecondary(`${lat.toFixed(5)}, ${lng.toFixed(5)}`);
     setLocationPicking(false);
   };
@@ -125,17 +125,16 @@ export function PropertyDetailsStep() {
     <div className="min-h-screen bg-slate-50 text-on-surface">
       <WizardHeader />
       <main className="mx-auto max-w-5xl px-4 pb-20 pt-24 md:px-6 lg:max-w-6xl">
-        <WizardProgress step={3} title="Property Details" />
+        <WizardProgress step={3} title="Szczegóły nieruchomości" />
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
           <div className="space-y-8 lg:col-span-8">
             <div className="space-y-2">
               <h1 className="font-headline text-3xl font-extrabold tracking-tight text-primary md:text-4xl">
-                Enter property details
+                Uzupełnij szczegóły nieruchomości
               </h1>
               <p className="text-lg text-on-surface-variant">
-                Provide precise information to help potential buyers find your listing through
-                filters.
+                Podaj precyzyjne dane, aby kupujący łatwiej znaleźli Twoje ogłoszenie przez filtry.
               </p>
               <p className="text-sm text-on-tertiary-container">
                 Szkic tego kroku jest zapisywany tylko w Twojej przeglądarce (localStorage), nie w
@@ -146,7 +145,7 @@ export function PropertyDetailsStep() {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="rounded-xl bg-white p-6 shadow-sm transition-transform duration-300 hover:-translate-y-0.5">
                 <label className="mb-2 block text-sm font-semibold uppercase tracking-tight text-on-surface-variant">
-                  Total Area
+                  Powierzchnia całkowita
                 </label>
                 <div className="relative">
                   <input
@@ -158,14 +157,14 @@ export function PropertyDetailsStep() {
                     className="w-full rounded-md border-0 bg-surface-low py-3 pl-4 pr-14 text-lg font-bold text-primary focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
                   />
                   <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-medium text-on-surface-variant">
-                    sqm
+                    m²
                   </span>
                 </div>
               </div>
 
               <div className="rounded-xl bg-white p-6 shadow-sm transition-transform duration-300 hover:-translate-y-0.5">
                 <label className="mb-2 block text-sm font-semibold uppercase tracking-tight text-on-surface-variant">
-                  Number of Rooms
+                  Liczba pokoi
                 </label>
                 <div className="flex gap-2">
                   {ROOM_OPTIONS.map((r) => (
@@ -190,7 +189,7 @@ export function PropertyDetailsStep() {
                   htmlFor="floor-level"
                   className="mb-2 block text-sm font-semibold uppercase tracking-tight text-on-surface-variant"
                 >
-                  Floor Level
+                  Piętro
                 </label>
                 <div className="relative">
                   <select
@@ -216,14 +215,14 @@ export function PropertyDetailsStep() {
                   htmlFor="year-built"
                   className="mb-2 block text-sm font-semibold uppercase tracking-tight text-on-surface-variant"
                 >
-                  Year Built
+                  Rok budowy
                 </label>
                 <input
                   id="year-built"
                   type="text"
                   value={yearBuilt}
                   onChange={(e) => setYearBuilt(e.target.value)}
-                  placeholder="e.g. 2024"
+                  placeholder="np. 2024"
                   className="w-full rounded-md border-0 bg-surface-low px-4 py-3 font-medium text-primary focus:outline-none focus:ring-2 focus:ring-tertiary-fixed"
                 />
               </div>
@@ -255,12 +254,13 @@ export function PropertyDetailsStep() {
                   onClick={toggleEditLocation}
                   className={`shrink-0 border-b border-primary text-xs font-bold uppercase tracking-widest text-primary transition hover:opacity-80 ${locationPicking ? "text-on-tertiary-container border-on-tertiary-container" : ""}`}
                 >
-                  {locationPicking ? "Click map…" : "Edit Location"}
+                  {locationPicking ? "Kliknij mapę…" : "Edytuj lokalizację"}
                 </button>
               </div>
               {locationPicking && (
                 <p className="mt-2 text-center text-xs font-medium text-on-tertiary-container">
-                  Click anywhere on the map to place the pin, or press Edit again to cancel.
+                  Kliknij dowolne miejsce na mapie, aby ustawić pinezkę, albo ponownie kliknij
+                  „Edytuj”, aby anulować.
                 </p>
               )}
             </div>
@@ -271,13 +271,13 @@ export function PropertyDetailsStep() {
                 className="flex items-center justify-center gap-2 rounded-md px-6 py-3 font-bold text-primary transition hover:bg-surface-low sm:justify-start"
               >
                 <ArrowLeft className="h-5 w-5" aria-hidden />
-                Back
+                Wstecz
               </Link>
               <Link
                 href="/add-listing/step-4"
                 className="flex items-center justify-center gap-3 rounded-md bg-gradient-to-br from-primary to-primary-container px-10 py-4 font-bold text-white shadow-sm transition hover:opacity-90 active:scale-[0.99]"
               >
-                Continue to Media
+                Przejdź do multimediów
                 <ArrowRight className="h-5 w-5" aria-hidden />
               </Link>
             </div>
@@ -287,20 +287,22 @@ export function PropertyDetailsStep() {
             <div className="relative overflow-hidden rounded-xl bg-primary p-8 text-white">
               <div className="relative z-10">
                 <span className="mb-4 inline-block rounded-full bg-tertiary-fixed px-3 py-1 text-[10px] font-black uppercase tracking-widest text-tertiary">
-                  Pro Tip
+                  Wskazówka
                 </span>
-                <h3 className="mb-4 font-headline text-xl font-bold">Why choose FairDom?</h3>
+                <h3 className="mb-4 font-headline text-xl font-bold">Dlaczego FairDom?</h3>
                 <p className="mb-6 text-sm leading-relaxed text-primary-fixed-dim">
-                  Our algorithm estimates that accurate details increase listing visibility by 45%.
+                  Nasz algorytm szacuje, że dokładne dane zwiększają widoczność ogłoszenia o 45%.
                 </p>
                 <div className="space-y-4 border-t border-primary-container pt-6">
                   <div className="flex items-end justify-between gap-2">
-                    <span className="text-xs uppercase tracking-tighter opacity-70">Listing Fee</span>
+                    <span className="text-xs uppercase tracking-tighter opacity-70">Opłata za ogłoszenie</span>
                     <div className="text-right">
                       <span className="font-headline text-2xl font-black text-tertiary-fixed">
                         €{fairdomListingFee.toFixed(2)}
                       </span>
-                      <p className="text-[10px] opacity-60">Competitor avg: €{DEFAULT_COMPETITOR_AVG_EUR.toFixed(2)}</p>
+                      <p className="text-[10px] opacity-60">
+                        Średnia konkurencji: €{DEFAULT_COMPETITOR_AVG_EUR.toFixed(2)}
+                      </p>
                     </div>
                   </div>
                   <div className="h-1 overflow-hidden rounded-full bg-primary-container">
@@ -320,7 +322,7 @@ export function PropertyDetailsStep() {
             <div className="rounded-xl bg-surface-low p-6">
               <h4 className="mb-3 flex items-center gap-2 font-bold text-primary">
                 <Headphones className="h-4 w-4" aria-hidden />
-                Need assistance?
+                Potrzebujesz pomocy?
               </h4>
               <p className="mb-4 text-sm text-on-surface-variant">
                 W razie pytań pomoże zespół wsparcia portalu — każdy użytkownik może wystawić
@@ -330,7 +332,7 @@ export function PropertyDetailsStep() {
                 type="button"
                 className="w-full rounded-md border border-outline-variant/40 py-3 text-sm font-bold text-primary transition hover:bg-white"
               >
-                Open Live Chat
+                Otwórz czat na żywo
               </button>
             </div>
           </aside>

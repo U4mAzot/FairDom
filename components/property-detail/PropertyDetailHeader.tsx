@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SiteAuthNav } from "@/components/auth/SiteAuthNav";
 
 export function PropertyDetailHeader() {
   return (
@@ -10,7 +11,7 @@ export function PropertyDetailHeader() {
         >
           FAIRDOM
         </Link>
-        <div className="flex max-w-[min(100%,24rem)] flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:max-w-none sm:gap-x-6 md:gap-x-8">
+        <div className="flex min-w-0 max-w-[min(100%,24rem)] flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:max-w-none sm:gap-x-6 md:gap-x-8">
           <Link
             href="/search"
             className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
@@ -23,18 +24,7 @@ export function PropertyDetailHeader() {
           >
             Dodaj ogłoszenie
           </Link>
-          <Link
-            href="/login"
-            className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
-          >
-            Zaloguj
-          </Link>
-          <Link
-            href="/register"
-            className="font-headline text-xs font-medium text-slate-500 transition hover:text-slate-900 sm:text-sm"
-          >
-            Rejestracja
-          </Link>
+          <SiteAuthNav variant="detail" />
         </div>
       </nav>
     </header>

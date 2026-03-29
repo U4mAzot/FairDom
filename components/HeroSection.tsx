@@ -15,8 +15,8 @@ export function HeroSection() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           <h1 className="mb-6 font-headline text-4xl font-extrabold leading-[1.05] tracking-tight text-primary sm:text-5xl md:text-6xl lg:text-7xl">
-            Real Estate <br />
-            <span className="text-on-tertiary-container">Fairly</span> Priced.
+            Nieruchomości <br />
+            <span className="text-on-tertiary-container">uczciwie</span> wycenione.
           </h1>
           <p className="mb-10 max-w-xl text-lg text-on-surface-variant md:text-xl">
             Przeglądaj oferty bez logowania — jak na dużych portalach. Załóż konto, aby pisać do
@@ -34,7 +34,7 @@ export function HeroSection() {
         >
           <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2rem] shadow-2xl shadow-primary/10 lg:max-w-none">
             <Image
-              src="/screen.png"
+              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=80"
               alt="Nowoczesny dom o zmierzchu z ciepłym światłem w oknach"
               fill
               className="object-cover"

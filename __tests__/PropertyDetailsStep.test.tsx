@@ -6,8 +6,8 @@ import { PropertyDetailsStep } from "@/components/listing-wizard/PropertyDetails
 describe("PropertyDetailsStep (wizard step 3)", () => {
   it("shows step progress and main heading", () => {
     render(<PropertyDetailsStep />);
-    expect(screen.getByText(/Step 3 of 5: Property Details/i)).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /Enter property details/i })).toBeInTheDocument();
+    expect(screen.getByText(/Krok 3 z 5: Szczegóły nieruchomości/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Uzupełnij szczegóły nieruchomości/i })).toBeInTheDocument();
   });
 
   it("changes room segment on click", async () => {
@@ -21,14 +21,14 @@ describe("PropertyDetailsStep (wizard step 3)", () => {
   it("toggles map location edit mode", async () => {
     const user = userEvent.setup();
     render(<PropertyDetailsStep />);
-    const btn = screen.getByRole("button", { name: /Edit Location/i });
+    const btn = screen.getByRole("button", { name: /Edytuj lokalizację/i });
     await user.click(btn);
-    expect(screen.getByRole("button", { name: /Click map/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Kliknij mapę/i })).toBeInTheDocument();
   });
 
   it("shows listing fee block", () => {
     render(<PropertyDetailsStep />);
-    expect(screen.getByText(/Listing Fee/i)).toBeInTheDocument();
+    expect(screen.getByText(/Opłata za ogłoszenie/i)).toBeInTheDocument();
     expect(screen.getByText(/€0\.00/i)).toBeInTheDocument();
   });
 });

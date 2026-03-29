@@ -70,12 +70,12 @@ export function PropertyGallery() {
           type="button"
           onClick={openGallery}
           className="relative min-h-[200px] overflow-hidden md:min-h-0"
-          aria-label="View all photos"
+          aria-label="Zobacz wszystkie zdjęcia"
         >
           <Image src={arch.src} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 25vw" />
           <div className="absolute inset-0 z-10 flex cursor-pointer flex-col items-center justify-center bg-primary/60 text-white transition-colors hover:bg-primary/70">
             <Grid3X3 className="mb-2 h-10 w-10" aria-hidden />
-            <span className="font-bold">View 24+ Photos</span>
+            <span className="font-bold">Zobacz 24+ zdjęcia</span>
           </div>
         </button>
       </section>
@@ -90,17 +90,17 @@ export function PropertyGallery() {
             className="fixed inset-0 z-[200] flex flex-col bg-black/85 backdrop-blur-sm"
             role="dialog"
             aria-modal="true"
-            aria-label="Photo gallery"
+            aria-label="Galeria zdjęć"
           >
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 text-white md:px-6">
               <p className="font-headline text-sm font-bold md:text-base">
-                The Obsidian Penthouse — {LIGHTBOX_IMAGES.length} photos
+                Penthouse Obsydian — {LIGHTBOX_IMAGES.length} zdjęć
               </p>
               <button
                 type="button"
                 onClick={close}
                 className="rounded-full p-2 transition hover:bg-white/10"
-                aria-label="Close gallery"
+                aria-label="Zamknij galerię"
               >
                 <X className="h-6 w-6" />
               </button>

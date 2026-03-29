@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SiteAuthNav } from "@/components/auth/SiteAuthNav";
 
 export function SearchShellHeader() {
   return (
@@ -23,19 +24,8 @@ export function SearchShellHeader() {
             </Link>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <Link
-            href="/login"
-            className="hidden font-headline text-sm font-medium text-slate-500 transition hover:text-slate-900 md:block"
-          >
-            Zaloguj
-          </Link>
-          <Link
-            href="/register"
-            className="rounded-md bg-gradient-to-br from-primary to-primary-container px-5 py-2 font-headline text-sm font-bold text-white transition hover:opacity-90"
-          >
-            Rejestracja
-          </Link>
+        <div className="flex min-w-0 items-center gap-4">
+          <SiteAuthNav variant="search" />
         </div>
       </nav>
     </header>

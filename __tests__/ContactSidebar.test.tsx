@@ -7,6 +7,7 @@ vi.mock("@/hooks/useClientSession", () => ({
   useClientSession: () => ({
     session: {
       email: "buyer@example.com",
+      fullName: "Jan Kowalski",
       accountType: "private" as const,
       userId: "test-user-id",
     },
@@ -21,7 +22,7 @@ describe("ContactSidebar", () => {
   it("renders agent and investment summary", () => {
     render(<ContactSidebar />);
     expect(screen.getByText(/Julian Kowalski/i)).toBeInTheDocument();
-    expect(screen.getByText(/Investment Summary/i)).toBeInTheDocument();
+    expect(screen.getByText(/Podsumowanie inwestycji/i)).toBeInTheDocument();
     expect(screen.getByText(/5,8% w skali roku/i)).toBeInTheDocument();
   });
 
@@ -35,6 +36,9 @@ describe("ContactSidebar", () => {
   it("submits inquiry form with mock confirmation", async () => {
     const user = userEvent.setup();
     render(<ContactSidebar />);
+    expect(screen.getByLabelText(/Imię i nazwisko/i)).toHaveValue("Jan Kowalski");
+    expect(screen.getByLabelText(/E-mail/i)).toHaveValue("buyer@example.com");
+    expect(screen.getByLabelText(/E-mail/i)).toHaveAttribute("readonly");
     await user.click(screen.getByRole("button", { name: /Wyślij wiadomość/i }));
     expect(
       await screen.findByText(/Dziękujemy — wiadomość została wysłana \(demo\)\./i),

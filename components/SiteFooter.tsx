@@ -36,7 +36,8 @@ export function SiteFooter() {
         <div className="sm:col-span-2 lg:col-span-1">
           <div className="mb-4 font-headline text-xl font-bold text-on-surface">FairDom</div>
           <p className="mb-6 text-sm leading-relaxed text-on-surface-variant">
-            Redefining real estate through transparency, modern technology, and editorial design.
+            Zmieniamy rynek nieruchomości dzięki transparentności, nowoczesnej technologii i
+            dopracowanej prezentacji ofert.
           </p>
           <div className="flex gap-4 text-on-surface-variant">
             <Globe className="h-5 w-5 cursor-pointer transition hover:text-on-tertiary-container" aria-hidden />
@@ -94,21 +95,21 @@ export function SiteFooter() {
         </div>
 
         <div className="sm:col-span-2 lg:col-span-1">
-          <h4 className="mb-6 font-headline font-bold text-on-surface">Newsletter</h4>
+          <h4 className="mb-6 font-headline font-bold text-on-surface">Biuletyn</h4>
           <p className="mb-4 text-sm text-on-surface-variant">
-            Get property insights and weekly market updates.
+            Otrzymuj analizy nieruchomości i cotygodniowe informacje z rynku.
           </p>
           <form
             className="flex overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/5"
             onSubmit={(e) => e.preventDefault()}
           >
             <label htmlFor="footer-email" className="sr-only">
-              Email
+              E-mail
             </label>
             <input
               id="footer-email"
               type="email"
-              placeholder="Email address"
+              placeholder="Adres e-mail"
               className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-tertiary-fixed-dim/50"
             />
             <button
@@ -124,7 +125,7 @@ export function SiteFooter() {
 
       <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-outline-variant/30 pt-8 md:flex-row">
         <p className="text-sm text-on-surface-variant">
-          © {new Date().getFullYear()} FairDom Real Estate. All rights reserved.
+          © {new Date().getFullYear()} FairDom Real Estate. Wszelkie prawa zastrzeżone.
         </p>
         <div className="flex items-center gap-4 text-sm text-on-surface-variant">
           <span>Polski (PL)</span>
